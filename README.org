@@ -1,6 +1,7 @@
 #+TITLE: *Iron Brush Tattoo* /Case Jewelry/
 #+DATE: Tue May  3 10:45:24 CDT 2016
 #+AUTHOR: AnderSon
+#+OPTIONS: tags:nil
 
 /Rails 4.2.6/
 

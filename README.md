@@ -8,7 +8,7 @@
 <li><a href="#sec-1-2">1.2. database.yml</a></li>
 </ul>
 </li>
-<li><a href="#sec-2">2. First steps&#xa0;&#xa0;&#xa0;<span class="tag"><span class="rails_template">rails_template</span>&#xa0;<span class="rails">rails</span>&#xa0;<span class="rake">rake</span></span></a></li>
+<li><a href="#sec-2">2. First steps</a></li>
 <li><a href="#sec-3">3. Project</a>
 <ul>
 <li><a href="#sec-3-1">3.1. User Story</a></li>
@@ -54,7 +54,7 @@
 
 <./config/database.yml>
 
-# First steps     :rails_template:rails:rake:<a id="sec-2" name="sec-2"></a>
+# First steps<a id="sec-2" name="sec-2"></a>
 
     rake db:migrate
     rake db:setup
