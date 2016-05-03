@@ -12,7 +12,18 @@
 <li><a href="#sec-3">3. Project</a>
 <ul>
 <li><a href="#sec-3-1">3.1. User Story</a></li>
-<li><a href="#sec-3-2">3.2. <span class="todo TODO">TODO</span> </a></li>
+<li><a href="#sec-3-2">3.2. Views</a>
+<ul>
+<li><a href="#sec-3-2-1">3.2.1. Routes</a></li>
+<li><a href="#sec-3-2-2">3.2.2. Static Pages</a></li>
+</ul>
+</li>
+<li><a href="#sec-3-3">3.3. Controllers</a>
+<ul>
+<li><a href="#sec-3-3-1">3.3.1. Pages</a></li>
+</ul>
+</li>
+<li><a href="#sec-3-4">3.4. <span class="todo TODO">TODO</span> </a></li>
 </ul>
 </li>
 </ul>
@@ -76,7 +87,90 @@ application.
             -   [ ] rewrite in rails?
 -   downloads sheets(pdf files)
 
-## TODO <a id="sec-3-2" name="sec-3-2"></a>
+## Views<a id="sec-3-2" name="sec-3-2"></a>
+
+### Routes<a id="sec-3-2-1" name="sec-3-2-1"></a>
+
+<./config/routes.rb>
+
+    Rails.application.routes.draw do
+      root 'pages#home'
+    
+      # The priority is based upon order of creation: first created -> highest priority.
+      # See how all your routes lay out with "rake routes".
+    
+      # You can have the root of your site routed with "root"
+      # root 'welcome#index'
+    
+      # Example of regular route:
+      #   get 'products/:id' => 'catalog#view'
+    
+      # Example of named route that can be invoked with purchase_url(id: product.id)
+      #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
+    
+      # Example resource route (maps HTTP verbs to controller actions automatically):
+      #   resources :products
+    
+      # Example resource route with options:
+      #   resources :products do
+      #     member do
+      #       get 'short'
+      #       post 'toggle'
+      #     end
+      #
+      #     collection do
+      #       get 'sold'
+      #     end
+      #   end
+    
+      # Example resource route with sub-resources:
+      #   resources :products do
+      #     resources :comments, :sales
+      #     resource :seller
+      #   end
+    
+      # Example resource route with more complex sub-resources:
+      #   resources :products do
+      #     resources :comments
+      #     resources :sales do
+      #       get 'recent', on: :collection
+      #     end
+      #   end
+    
+      # Example resource route with concerns:
+      #   concern :toggleable do
+      #     post 'toggle'
+      #   end
+      #   resources :posts, concerns: :toggleable
+      #   resources :photos, concerns: :toggleable
+    
+      # Example resource route within a namespace:
+      #   namespace :admin do
+      #     # Directs /admin/products/* to Admin::ProductsController
+      #     # (app/controllers/admin/products_controller.rb)
+      #     resources :products
+      #   end
+    end
+
+### Static Pages<a id="sec-3-2-2" name="sec-3-2-2"></a>
+
+    root 'pages#home'
+
+3.3.1
+
+1.  Home
+
+    <./app/views/pages/home.html.erb>
+
+## Controllers<a id="sec-3-3" name="sec-3-3"></a>
+
+### Pages<a id="sec-3-3-1" name="sec-3-3-1"></a>
+
+Static pages controller
+
+    rails g controller pages --skip-assets
+
+## TODO <a id="sec-3-4" name="sec-3-4"></a>
 
 -   [ ] user authentication
 -   [ ] file upload

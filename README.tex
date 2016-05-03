@@ -1,4 +1,4 @@
-% Created 2016-05-03 Tue 11:15
+% Created 2016-05-03 Tue 11:51
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -105,8 +105,105 @@ application.
 \item downloads sheets(pdf files)
 \end{itemize}
 
-\subsection{{\bfseries\sffamily TODO} }
+\subsection{Views}
 \label{sec-3-2}
+
+\subsubsection{Routes}
+\label{sec-3-2-1}
+
+\url{./config/routes.rb}
+
+\begin{verbatim}
+Rails.application.routes.draw do
+  root 'pages#home'
+
+  # The priority is based upon order of creation: first created -> highest priority.
+  # See how all your routes lay out with "rake routes".
+
+  # You can have the root of your site routed with "root"
+  # root 'welcome#index'
+
+  # Example of regular route:
+  #   get 'products/:id' => 'catalog#view'
+
+  # Example of named route that can be invoked with purchase_url(id: product.id)
+  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
+
+  # Example resource route (maps HTTP verbs to controller actions automatically):
+  #   resources :products
+
+  # Example resource route with options:
+  #   resources :products do
+  #     member do
+  #       get 'short'
+  #       post 'toggle'
+  #     end
+  #
+  #     collection do
+  #       get 'sold'
+  #     end
+  #   end
+
+  # Example resource route with sub-resources:
+  #   resources :products do
+  #     resources :comments, :sales
+  #     resource :seller
+  #   end
+
+  # Example resource route with more complex sub-resources:
+  #   resources :products do
+  #     resources :comments
+  #     resources :sales do
+  #       get 'recent', on: :collection
+  #     end
+  #   end
+
+  # Example resource route with concerns:
+  #   concern :toggleable do
+  #     post 'toggle'
+  #   end
+  #   resources :posts, concerns: :toggleable
+  #   resources :photos, concerns: :toggleable
+
+  # Example resource route within a namespace:
+  #   namespace :admin do
+  #     # Directs /admin/products/* to Admin::ProductsController
+  #     # (app/controllers/admin/products_controller.rb)
+  #     resources :products
+  #   end
+end
+\end{verbatim}
+
+\subsubsection{Static Pages}
+\label{sec-3-2-2}
+
+\begin{verbatim}
+root 'pages#home'    
+\end{verbatim}
+
+\ref{sec-3-3-1}
+
+\begin{enumerate}
+\item Home
+\label{sec-3-2-2-1}
+
+\url{./app/views/pages/home.html.erb}
+\end{enumerate}
+
+\subsection{Controllers}
+\label{sec-3-3}
+
+\subsubsection{Pages}
+\label{sec-3-3-1}
+
+Static pages controller
+
+\begin{verbatim}
+rails g controller pages --skip-assets
+\end{verbatim}
+
+\subsection{{\bfseries\sffamily TODO} }
+\label{sec-3-4}
 
 \begin{itemize}
 \item $\square$ user authentication
