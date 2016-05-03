@@ -5,20 +5,23 @@
 <li><a href="#sec-1">1. Files</a>
 <ul>
 <li><a href="#sec-1-1">1.1. Gemfile</a></li>
+<li><a href="#sec-1-2">1.2. database.yml</a></li>
+</ul>
+</li>
+<li><a href="#sec-2">2. First steps&#xa0;&#xa0;&#xa0;<span class="tag"><span class="rails_template">rails_template</span>&#xa0;<span class="rails">rails</span>&#xa0;<span class="rake">rake</span></span></a></li>
+<li><a href="#sec-3">3. Project</a>
+<ul>
+<li><a href="#sec-3-1">3.1. User Story</a></li>
+<li><a href="#sec-3-2">3.2. <span class="todo TODO">TODO</span> </a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div class="center">
-**Iron Brush Tattoo**
-*Case Jewelry*
-Rails Application
-Tue May  3 10:45:24 CDT 2016
-AnderSon
+*Rails 4.2.6*
+
 <https://github.com/IronBrushTattoo/cj_rails.git>
-</div>
 
 # Files<a id="sec-1" name="sec-1"></a>
 
@@ -46,3 +49,38 @@ AnderSon
       gem 'web-console', '~> 2.0'
       gem 'spring'
     end
+
+## database.yml<a id="sec-1-2" name="sec-1-2"></a>
+
+<./config/database.yml>
+
+# First steps     :rails_template:rails:rake:<a id="sec-2" name="sec-2"></a>
+
+    rake db:migrate
+    rake db:setup
+
+# Project<a id="sec-3" name="sec-3"></a>
+
+The purpose of this application is produce several pdf files from an xlsx file,
+as a re-implementation of <https://github.com/IronBrushTattoo/cj> as a web 
+application.
+
+## User Story<a id="sec-3-1" name="sec-3-1"></a>
+
+-   user logs in
+-   chooses xlsx file for upload
+-   selects number of days back to make labels from
+-   submits
+    -   BACKGROUND
+        -   cj-parser.rb does what it does&#x2026;
+            -   [ ] rewrite in rails?
+-   downloads sheets(pdf files)
+
+## TODO <a id="sec-3-2" name="sec-3-2"></a>
+
+-   [ ] user authentication
+-   [ ] file upload
+    -   [ ] only xlsx file?
+-   [ ] file storage
+    -   [ ] archival api?
+-   [ ]

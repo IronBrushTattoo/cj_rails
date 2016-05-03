@@ -1,12 +1,10 @@
+#+TITLE: *Iron Brush Tattoo* /Case Jewelry/
+#+DATE: Tue May  3 10:45:24 CDT 2016
+#+AUTHOR: AnderSon
 
-#+begin_center
-*Iron Brush Tattoo*
-/Case Jewelry/
-Rails Application
-Tue May  3 10:45:24 CDT 2016
-AnderSon
+/Rails 4.2.6/
+
 https://github.com/IronBrushTattoo/cj_rails.git
-#+end_center
 
 * Files
 
@@ -40,4 +38,38 @@ https://github.com/IronBrushTattoo/cj_rails.git
 
 
 
+
+** database.yml
+
+   [[./config/database.yml]]
+
+* First steps :rails_template:rails:rake:
+
+  : rake db:migrate
+  : rake db:setup
+* Project
+
+  The purpose of this application is produce several pdf files from an xlsx file,
+  as a re-implementation of https://github.com/IronBrushTattoo/cj as a web 
+  application.
+
+** User Story
+
+   - user logs in
+   - chooses xlsx file for upload
+   - selects number of days back to make labels from
+   - submits
+     - BACKGROUND
+       - cj-parser.rb does what it does...
+         - [ ] rewrite in rails?
+   - downloads sheets(pdf files)
+
+** TODO
+
+   - [ ] user authentication
+   - [ ] file upload
+     - [ ] only xlsx file?
+   - [ ] file storage
+     - [ ] archival api?
+   - [ ] 
 

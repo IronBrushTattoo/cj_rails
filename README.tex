@@ -1,4 +1,4 @@
-% Created 2016-05-03 Tue 10:49
+% Created 2016-05-03 Tue 11:12
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -16,8 +16,9 @@
 \usepackage{amssymb}
 \usepackage{hyperref}
 \tolerance=1000
-\date{\today}
-\title{README}
+\author{AnderSon}
+\date{Tue May  3 10:45:24 CDT 2016}
+\title{\textbf{Iron Brush Tattoo} \emph{Case Jewelry}}
 \hypersetup{
   pdfkeywords={},
   pdfsubject={},
@@ -27,14 +28,9 @@
 \maketitle
 \tableofcontents
 
-\begin{center}
-\textbf{Iron Brush Tattoo}
-\emph{Case Jewelry}
-Rails Application
-Tue May  3 10:45:24 CDT 2016
-AnderSon
+\emph{Rails 4.2.6}
+
 \url{https://github.com/IronBrushTattoo/cj_rails.git}
-\end{center}
 
 \section{Files}
 \label{sec-1}
@@ -66,5 +62,63 @@ group :development do
   gem 'spring'
 end
 \end{verbatim}
+
+
+
+
+\subsection{database.yml}
+\label{sec-1-2}
+
+\url{./config/database.yml}
+
+\section{First steps\hfill{}\textsc{rails_template:rails:rake}}
+\label{sec-2}
+
+\begin{verbatim}
+rake db:migrate
+rake db:setup
+\end{verbatim}
+\section{Project}
+\label{sec-3}
+
+The purpose of this application is produce several pdf files from an xlsx file,
+as a re-implementation of \url{https://github.com/IronBrushTattoo/cj} as a web 
+application.
+
+\subsection{User Story}
+\label{sec-3-1}
+
+\begin{itemize}
+\item user logs in
+\item chooses xlsx file for upload
+\item selects number of days back to make labels from
+\item submits
+\begin{itemize}
+\item BACKGROUND
+\begin{itemize}
+\item cj-parser.rb does what it does\ldots{}
+\begin{itemize}
+\item $\square$ rewrite in rails?
+\end{itemize}
+\end{itemize}
+\end{itemize}
+\item downloads sheets(pdf files)
+\end{itemize}
+
+\subsection{{\bfseries\sffamily TODO} }
+\label{sec-3-2}
+
+\begin{itemize}
+\item $\square$ user authentication
+\item $\square$ file upload
+\begin{itemize}
+\item $\square$ only xlsx file?
+\end{itemize}
+\item $\square$ file storage
+\begin{itemize}
+\item $\square$ archival api?
+\end{itemize}
+\item $\square$ 
+\end{itemize}
 % Emacs 24.5.1 (Org mode 8.2.10)
 \end{document}
