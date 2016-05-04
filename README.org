@@ -7,7 +7,7 @@
 
 https://github.com/IronBrushTattoo/cj_rails.git
 
-* Files
+* Config
 
 ** Gemfile
 
@@ -26,6 +26,8 @@ https://github.com/IronBrushTattoo/cj_rails.git
      gem 'turbolinks'
      gem 'jbuilder', '~> 2.0'
      gem 'sdoc', '~> 0.4.0', group: :doc
+     gem 'dragonfly', '~> 1.0.12'
+     gem 'rack-cache', :require => 'rack/cache'
 
      group :development, :test do
        gem 'byebug'
@@ -37,33 +39,406 @@ https://github.com/IronBrushTattoo/cj_rails.git
      end
    #+end_src
 
+** Gems
 
+   [[Dragonfly]]
+   
+** Environments
 
+*** Development
+*** Production
+    
+   [[./config/environments/production.rb]]
 
-** database.yml
+   #+NAME: production.rb
+   #+begin_src ruby :tangle config/environments/production.rb :padline no
+     Rails.application.configure do
+       # Settings specified here will take precedence over those in config/application.rb.
 
-   [[./config/database.yml]]
+       # Code is not reloaded between requests.
+       config.cache_classes = true
 
+       # Eager load code on boot. This eager loads most of Rails and
+       # your application in memory, allowing both threaded web servers
+       # and those relying on copy on write to perform better.
+       # Rake tasks automatically ignore this option for performance.
+       config.eager_load = true
+
+       # Full error reports are disabled and caching is turned on.
+       config.consider_all_requests_local       = false
+       config.action_controller.perform_caching = true
+
+       # Enable Rack::Cache to put a simple HTTP cache in front of your application
+       # Add `rack-cache` to your Gemfile before enabling this.
+       # For large-scale production use, consider using a caching reverse proxy like
+       # NGINX, varnish or squid.
+       config.action_dispatch.rack_cache = true
+
+       # Disable serving static files from the `/public` folder by default since
+       # Apache or NGINX already handles this.
+       config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?
+
+       # Compress JavaScripts and CSS.
+       config.assets.js_compressor = :uglifier
+       # config.assets.css_compressor = :sass
+
+       # Do not fallback to assets pipeline if a precompiled asset is missed.
+       config.assets.compile = false
+
+       # Asset digests allow you to set far-future HTTP expiration dates on all assets,
+       # yet still be able to expire them through the digest params.
+       config.assets.digest = true
+
+       # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
+
+       # Specifies the header that your server uses for sending files.
+       # config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for Apache
+       # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
+
+       # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
+       # config.force_ssl = true
+
+       # Use the lowest log level to ensure availability of diagnostic information
+       # when problems arise.
+       config.log_level = :debug
+
+       # Prepend all log lines with the following tags.
+       # config.log_tags = [ :subdomain, :uuid ]
+
+       # Use a different logger for distributed setups.
+       # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
+
+       # Use a different cache store in production.
+       # config.cache_store = :mem_cache_store
+
+       # Enable serving of images, stylesheets, and JavaScripts from an asset server.
+       # config.action_controller.asset_host = 'http://assets.example.com'
+
+       # Ignore bad email addresses and do not raise email delivery errors.
+       # Set this to true and configure the email server for immediate delivery to raise delivery errors.
+       # config.action_mailer.raise_delivery_errors = false
+
+       # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
+       # the I18n.default_locale when a translation cannot be found).
+       config.i18n.fallbacks = true
+
+       # Send deprecation notices to registered listeners.
+       config.active_support.deprecation = :notify
+
+       # Use default logging formatter so that PID and timestamp are not suppressed.
+       config.log_formatter = ::Logger::Formatter.new
+
+       # Do not dump schema after migrations.
+       config.active_record.dump_schema_after_migration = false
+     end
+   #+end_src
+   
 * First steps :rails_template:rails:rake:
 
   : rake db:migrate
   : rake db:setup
 * Project
 
-  The purpose of this application is produce several pdf files from an xlsx file,
+  The purpose of this application is to produce several pdf files from an xlsx file,
   as a re-implementation of https://github.com/IronBrushTattoo/cj as a web 
   application.
 
 ** User Story
 
    - user logs in
+     - users will be piercers
    - chooses xlsx file for upload
+     [[File Upload]]
    - selects number of days back to make labels from
    - submits
      - BACKGROUND
        - cj-parser.rb does what it does...
          - [ ] rewrite in rails?
    - downloads sheets(pdf files)
+
+** File Upload
+
+   - possible gems
+     https://www.ruby-toolbox.com/categories/rails_file_uploads
+     
+     - paperclip
+       - nb
+         - used paperclip before
+         - seemed to be designed specifically for image files
+         - always worked well
+     - carrierwave
+       - nb
+         - used before, but not thoroughly
+           - i kind of remember having issues with it
+     - dragonfly
+       https://github.com/markevans/dragonfly
+       http://markevans.github.io/dragonfly/
+       http://markevans.github.io/dragonfly/rails/
+
+       Dragonfly is a highly customizable ruby gem for handling images and other
+       attachments and is already in use on thousands of websites
+
+       [[Dragonfly]]
+
+       - nb
+         - used briefly before
+           - i remember it being an easy configuration
+     - attachment fu
+       https://github.com/technoweenie/attachment_fu
+       
+       Treat an ActiveRecord model as a file attachment, storing its patch, size,
+       content type, etc. http://weblog.technoweenie.net
+
+       - nb
+         - has not been maintained since Apr 25, 2009
+     - refile
+       - nb
+         - was my next choice when previously working with file uploads
+     - jquery.fileupload-rails
+     - imagery
+     - attached
+     - papermill
+     - fileuploader-rails
+     - filecip
+     - simple-image-uploader
+
+*** Dragonfly
+    
+    http://markevans.github.io/dragonfly/rails/
+
+**** Setup
+     
+     - [X] gem 'dragonfly', '~> 1.0.12'
+
+       - [X] modify [[Gemfile]]
+
+       - [X] bundle install
+
+     - [X] rails g dragonfly
+
+       generates config/initializers/dragonfly.rb
+
+       [[./config/initializers/dragonfly.rb]]
+
+       #+begin_src ruby :tangle config/initializers/dragonfly.rb :padline no
+         require 'dragonfly'
+
+         # Configure
+         Dragonfly.app.configure do
+           plugin :imagemagick
+
+           secret "72245c7371d66ccca6f9356779fa16e3104e6676c1e57af987e9e3f92130dca5"
+
+           url_format "/media/:job/:name"
+
+           datastore :file,
+             root_path: Rails.root.join('public/system/dragonfly', Rails.env),
+             server_root: Rails.root.join('public')
+         end
+
+         # Logger
+         Dragonfly.logger = Rails.logger
+
+         # Mount as middleware
+         Rails.application.middleware.use Dragonfly::Middleware
+
+         # Add model functionality
+         if defined?(ActiveRecord::Base)
+           ActiveRecord::Base.extend Dragonfly::Model
+           ActiveRecord::Base.extend Dragonfly::Model::Validations
+         end
+       #+end_src
+
+**** Handling attachments
+
+     - example (replace Photo model with Spreadsheet)
+       
+       Model: /Photo/
+       
+       - add /image/ attribute to Photo
+
+         : class Photo < ActiveRecord::Base
+         :   dragonfly_accessor :image  # defines a reader/writer for image
+         :   # ...
+         : end
+
+       - needs /image_uid/ column, create migration with
+
+         : rails g migration 
+         
+         : add_column :photos, :image_uid, :string
+         : add_column :photos, :image_name, :string  # Optional - if you want 
+         :                                           # urls to end with the 
+         :                                           # original filename
+
+       - view for uploading
+
+         : app/views/photos/...
+
+         : <% form_for @photo do |f| %>
+         :   ...
+         :   <%= f.file_field :image %>
+         :   ...
+         : <% end %>
+         
+       - allow parameter /image/ to be accepted by the controller
+
+         : app/controllers/photos_controller.rb
+
+         : params.require(:photo).permit(:image)
+
+       - view for displaying
+
+         : <%= image_tag @photo.image.thumb('400x200#').url if @photo.image_stored? %>
+
+       - more can be done with [[http://markevans.github.io/dragonfly/models][models]]
+
+     - Spreadsheet model sketch based on above example
+       
+       Model: /Spreadsheet/
+
+       [[Spreadsheet]]
+       
+       - [X] add /file/ attribute to Spreadsheet
+
+         : class Spreadsheet < ActiveRecord::Base
+         :   dragonfly_accessor :file  # defines a reader/writer for file
+         :   # ...
+         : end
+
+       - [X] needs /file_uid/ column, create migration with
+         
+         : rails g migration AddFileUidToSpreadsheets file_uid:string
+         : rails g migration AddFileNameToSpreadsheets file_name:string
+
+         [[./db/migrate/20160504011342_add_file_uid_to_spreadsheets.rb]]
+         [[./db/migrate/20160504011542_add_file_name_to_spreadsheets.rb]]
+
+         : add_column :spreadsheets, :file_uid, :string
+         : add_column :spreadsheets, :file_name, :string  # Optional - if you want 
+         :                                                # urls to end with the 
+         :                                                # original filename
+
+         : rake db:migrate
+
+       - [X] view for uploading
+
+         [[./app/views/spreadsheets/]]
+
+         : <% form_for @spreadsheet do |f| %>
+         :   ...
+         :   <%= f.file_field :file %>
+         :   ...
+         : <% end %>
+         
+       - [X] allow parameter /file/ to be accepted by the controller
+
+         [[./app/controllers/spreadsheets_controller.rb]]
+
+         : params.require(:spreadsheet).permit(:file)
+
+         #+NAME: spreadsheets controller
+         #+begin_src ruby :tangle app/controllers/spreadsheets_controller.rb :padline no
+           class SpreadsheetsController < ApplicationController
+             before_action :set_spreadsheet, only: [:show, :edit, :update, :destroy]
+
+             def index
+               @spreadsheets = Spreadsheet.all
+             end
+
+             def show
+             end
+
+             def new
+               @spreadsheet = Spreadsheet.new
+             end
+
+             def edit
+             end
+
+             def create
+               @spreadsheet = Spreadsheet.new(spreadsheet_params)
+
+               respond_to do |format|
+                 if @spreadsheet.save
+                   format.html { redirect_to @spreadsheet, notice: 'Spreadsheet was successfully created.' }
+                   format.json { render :show, status: :created, location: @spreadsheet }
+                 else
+                   format.html { render :new }
+                   format.json { render json: @spreadsheet.errors, status: :unprocessable_entity }
+                 end
+               end
+             end
+
+             def update
+               respond_to do |format|
+                 if @spreadsheet.update(spreadsheet_params)
+                   format.html { redirect_to @spreadsheet, notice: 'Spreadsheet was successfully updated.' }
+                   format.json { render :show, status: :ok, location: @spreadsheet }
+                 else
+                   format.html { render :edit }
+                   format.json { render json: @spreadsheet.errors, status: :unprocessable_entity }
+                 end
+               end
+             end
+
+             def destroy
+               @spreadsheet.destroy
+               respond_to do |format|
+                 format.html { redirect_to spreadsheets_url, notice: 'Spreadsheet was successfully destroyed.' }
+                 format.json { head :no_content }
+               end
+             end
+
+             private
+             def set_spreadsheet
+               @spreadsheet = Spreadsheet.find(params[:id])
+             end
+
+             def spreadsheet_params
+               params.require(:spreadsheet).permit(:index, :file)
+             end
+           end
+
+         #+end_src
+
+       - [X] view for displaying
+
+         [[./app/views/spreadsheets/show.html.erb]]
+         [[./app/views/spreadsheets/index.html.erb]]
+
+         : <%= @spreadsheet.file_name if @spreadsheet.file_stored? %>
+
+       - more can be done with [[http://markevans.github.io/dragonfly/models][models]]
+
+**** Caching
+
+     - [X] [[Gemfile]]
+
+       : gem 'rack-cache', :require => 'rack/cache'
+
+       - [X] bundle install
+
+     - [X] uncomment in [[Production]]
+
+       : config.action_dispatch.rack_cache = true
+
+**** Custom Endpoints
+
+     [[Routes]]
+
+     - [ ] text generation example
+       
+       : get "text/:text" => Dragonfly.app.endpoint { |params, app|
+       :   app.generate(:text, params[:text], 'font-size' => 42)
+       : }
+
+     - [ ] endpoint callable from javascript (e.g. /image?file=egg.png&size=30x30)
+
+       : get "image" => Dragonfly.app.endpoint { |params, app|
+       :   app.fetch_file("some/dir/#{params[:file]}").thumb(params[:size])
+       : }
+
 
 ** Views
 
@@ -75,6 +450,10 @@ https://github.com/IronBrushTattoo/cj_rails.git
     #+begin_src ruby :tangle config/routes.rb :padline no
       Rails.application.routes.draw do
         root 'pages#home'
+
+        resources :spreadsheets
+
+        get "spreadsheets" => "spreadsheets#new"
 
         # The priority is based upon order of creation: first created -> highest priority.
         # See how all your routes lay out with "rake routes".
@@ -133,6 +512,8 @@ https://github.com/IronBrushTattoo/cj_rails.git
       end
     #+end_src
 
+    [[Custom Endpoints]]
+
 *** Static Pages
 
     : root 'pages#home'    
@@ -163,13 +544,37 @@ https://github.com/IronBrushTattoo/cj_rails.git
     | create | app/helpers/pages_helper.rb               |
     | invoke | test_unit                                 |
 
+*** Spreadsheets
+
+** Models
+
+*** Page
+*** Spreadsheet
+
+    [[./app/models/spreadsheet.rb]]
+
+    #+NAME: spreadsheet.rb
+    #+begin_src ruby :tangle app/models/spreadsheet.rb :padline no
+      class Spreadsheet < ActiveRecord::Base
+        dragonfly_accessor :file  # defines a reader/writer for file
+      end
+    #+end_src
+
 ** TODO
 
+   - [ ] sidekiq
+     - [ ] background processes for creating pdfs
+   - [ ] requirements
+     - [ ] roo
+     - [ ] chronic
+   - [ ] pdflatex
+   - [ ] migrate code from cj-parser
    - [ ] user authentication
    - [ ] file upload
      - [ ] only xlsx file?
+     - [ ] AWS
    - [ ] file storage
      - [ ] archival api?
-   - [ ] 
+       
 
 

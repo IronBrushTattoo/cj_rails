@@ -9,6 +9,8 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
+gem 'dragonfly', '~> 1.0.12'
+gem 'rack-cache', :require => 'rack/cache'
 
 group :development, :test do
   gem 'byebug'

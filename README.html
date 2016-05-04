@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title><b>Iron Brush Tattoo</b> <i>Case Jewelry</i></title>
-<!-- 2016-05-03 Tue 11:51 -->
+<!-- 2016-05-03 Tue 20:32 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="AnderSon" />
@@ -142,28 +142,46 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1. Files</a>
+<li><a href="#sec-1">1. Config</a>
 <ul>
 <li><a href="#sec-1-1">1.1. Gemfile</a></li>
-<li><a href="#sec-1-2">1.2. database.yml</a></li>
+<li><a href="#sec-1-2">1.2. Gems</a></li>
+<li><a href="#sec-1-3">1.3. Environments</a>
+<ul>
+<li><a href="#sec-1-3-1">1.3.1. Development</a></li>
+<li><a href="#sec-1-3-2">1.3.2. Production</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#sec-2">2. First steps</a></li>
 <li><a href="#sec-3">3. Project</a>
 <ul>
 <li><a href="#sec-3-1">3.1. User Story</a></li>
-<li><a href="#sec-3-2">3.2. Views</a>
+<li><a href="#sec-3-2">3.2. File Upload</a>
 <ul>
-<li><a href="#sec-3-2-1">3.2.1. Routes</a></li>
-<li><a href="#sec-3-2-2">3.2.2. Static Pages</a></li>
+<li><a href="#sec-3-2-1">3.2.1. Dragonfly</a></li>
 </ul>
 </li>
-<li><a href="#sec-3-3">3.3. Controllers</a>
+<li><a href="#sec-3-3">3.3. Views</a>
 <ul>
-<li><a href="#sec-3-3-1">3.3.1. Pages</a></li>
+<li><a href="#sec-3-3-1">3.3.1. Routes</a></li>
+<li><a href="#sec-3-3-2">3.3.2. Static Pages</a></li>
 </ul>
 </li>
-<li><a href="#sec-3-4">3.4. <span class="todo TODO">TODO</span> </a></li>
+<li><a href="#sec-3-4">3.4. Controllers</a>
+<ul>
+<li><a href="#sec-3-4-1">3.4.1. Pages</a></li>
+<li><a href="#sec-3-4-2">3.4.2. Spreadsheets</a></li>
+</ul>
+</li>
+<li><a href="#sec-3-5">3.5. Models</a>
+<ul>
+<li><a href="#sec-3-5-1">3.5.1. Page</a></li>
+<li><a href="#sec-3-5-2">3.5.2. Spreadsheet</a></li>
+</ul>
+</li>
+<li><a href="#sec-3-6">3.6. <span class="todo TODO">TODO</span> </a></li>
 </ul>
 </li>
 </ul>
@@ -178,7 +196,7 @@ for the JavaScript code in this tag.
 </p>
 
 <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> Files</h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> Config</h2>
 <div class="outline-text-2" id="text-1">
 </div><div id="outline-container-sec-1-1" class="outline-3">
 <h3 id="sec-1-1"><span class="section-number-3">1.1</span> Gemfile</h3>
@@ -200,6 +218,8 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~&gt; 2.0'
 gem 'sdoc', '~&gt; 0.4.0', group: :doc
+gem 'dragonfly', '~&gt; 1.0.12'
+gem 'rack-cache', :require =&gt; 'rack/cache'
 
 group :development, :test do
   gem 'byebug'
@@ -214,15 +234,112 @@ end
 </div>
 </div>
 
-
-
-
 <div id="outline-container-sec-1-2" class="outline-3">
-<h3 id="sec-1-2"><span class="section-number-3">1.2</span> database.yml</h3>
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Gems</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
-<a href="./config/database.yml">./config/database.yml</a>
+<a href="#sec-3-2-1">3.2.1</a>
 </p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Environments</h3>
+<div class="outline-text-3" id="text-1-3">
+</div><div id="outline-container-sec-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1"><span class="section-number-4">1.3.1</span> Development</h4>
+</div>
+<div id="outline-container-sec-1-3-2" class="outline-4">
+<h4 id="sec-1-3-2"><span class="section-number-4">1.3.2</span> Production</h4>
+<div class="outline-text-4" id="text-1-3-2">
+<p>
+<a href="./config/environments/production.rb">./config/environments/production.rb</a>
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-ruby" id="production.rb">Rails.application.configure do
+  # Settings specified here will take precedence over those in config/application.rb.
+
+  # Code is not reloaded between requests.
+  config.cache_classes = true
+
+  # Eager load code on boot. This eager loads most of Rails and
+  # your application in memory, allowing both threaded web servers
+  # and those relying on copy on write to perform better.
+  # Rake tasks automatically ignore this option for performance.
+  config.eager_load = true
+
+  # Full error reports are disabled and caching is turned on.
+  config.consider_all_requests_local       = false
+  config.action_controller.perform_caching = true
+
+  # Enable Rack::Cache to put a simple HTTP cache in front of your application
+  # Add `rack-cache` to your Gemfile before enabling this.
+  # For large-scale production use, consider using a caching reverse proxy like
+  # NGINX, varnish or squid.
+  config.action_dispatch.rack_cache = true
+
+  # Disable serving static files from the `/public` folder by default since
+  # Apache or NGINX already handles this.
+  config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?
+
+  # Compress JavaScripts and CSS.
+  config.assets.js_compressor = :uglifier
+  # config.assets.css_compressor = :sass
+
+  # Do not fallback to assets pipeline if a precompiled asset is missed.
+  config.assets.compile = false
+
+  # Asset digests allow you to set far-future HTTP expiration dates on all assets,
+  # yet still be able to expire them through the digest params.
+  config.assets.digest = true
+
+  # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
+
+  # Specifies the header that your server uses for sending files.
+  # config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for Apache
+  # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
+
+  # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
+  # config.force_ssl = true
+
+  # Use the lowest log level to ensure availability of diagnostic information
+  # when problems arise.
+  config.log_level = :debug
+
+  # Prepend all log lines with the following tags.
+  # config.log_tags = [ :subdomain, :uuid ]
+
+  # Use a different logger for distributed setups.
+  # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
+
+  # Use a different cache store in production.
+  # config.cache_store = :mem_cache_store
+
+  # Enable serving of images, stylesheets, and JavaScripts from an asset server.
+  # config.action_controller.asset_host = 'http://assets.example.com'
+
+  # Ignore bad email addresses and do not raise email delivery errors.
+  # Set this to true and configure the email server for immediate delivery to raise delivery errors.
+  # config.action_mailer.raise_delivery_errors = false
+
+  # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
+  # the I18n.default_locale when a translation cannot be found).
+  config.i18n.fallbacks = true
+
+  # Send deprecation notices to registered listeners.
+  config.active_support.deprecation = :notify
+
+  # Use default logging formatter so that PID and timestamp are not suppressed.
+  config.log_formatter = ::Logger::Formatter.new
+
+  # Do not dump schema after migrations.
+  config.active_record.dump_schema_after_migration = false
+end
+</pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -240,7 +357,7 @@ rake db:setup
 <h2 id="sec-3"><span class="section-number-2">3</span> Project</h2>
 <div class="outline-text-2" id="text-3">
 <p>
-The purpose of this application is produce several pdf files from an xlsx file,
+The purpose of this application is to produce several pdf files from an xlsx file,
 as a re-implementation of <a href="https://github.com/IronBrushTattoo/cj">https://github.com/IronBrushTattoo/cj</a> as a web 
 application.
 </p>
@@ -251,8 +368,13 @@ application.
 <div class="outline-text-3" id="text-3-1">
 <ul class="org-ul">
 <li>user logs in
+<ul class="org-ul">
+<li>users will be piercers
+</li>
+</ul>
 </li>
 <li>chooses xlsx file for upload
+<a href="#sec-3-2">3.2</a>
 </li>
 <li>selects number of days back to make labels from
 </li>
@@ -277,11 +399,467 @@ application.
 </div>
 
 <div id="outline-container-sec-3-2" class="outline-3">
-<h3 id="sec-3-2"><span class="section-number-3">3.2</span> Views</h3>
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> File Upload</h3>
 <div class="outline-text-3" id="text-3-2">
-</div><div id="outline-container-sec-3-2-1" class="outline-4">
-<h4 id="sec-3-2-1"><span class="section-number-4">3.2.1</span> Routes</h4>
+<ul class="org-ul">
+<li>possible gems
+<a href="https://www.ruby-toolbox.com/categories/rails_file_uploads">https://www.ruby-toolbox.com/categories/rails_file_uploads</a>
+
+<ul class="org-ul">
+<li>paperclip
+<ul class="org-ul">
+<li>nb
+<ul class="org-ul">
+<li>used paperclip before
+</li>
+<li>seemed to be designed specifically for image files
+</li>
+<li>always worked well
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>carrierwave
+<ul class="org-ul">
+<li>nb
+<ul class="org-ul">
+<li>used before, but not thoroughly
+<ul class="org-ul">
+<li>i kind of remember having issues with it
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>dragonfly
+<a href="https://github.com/markevans/dragonfly">https://github.com/markevans/dragonfly</a>
+<a href="http://markevans.github.io/dragonfly/">http://markevans.github.io/dragonfly/</a>
+<a href="http://markevans.github.io/dragonfly/rails/">http://markevans.github.io/dragonfly/rails/</a>
+
+<p>
+Dragonfly is a highly customizable ruby gem for handling images and other
+attachments and is already in use on thousands of websites
+</p>
+
+<p>
+<a href="#sec-3-2-1">3.2.1</a>
+</p>
+
+<ul class="org-ul">
+<li>nb
+<ul class="org-ul">
+<li>used briefly before
+<ul class="org-ul">
+<li>i remember it being an easy configuration
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>attachment fu
+<a href="https://github.com/technoweenie/attachment_fu">https://github.com/technoweenie/attachment_fu</a>
+
+<p>
+Treat an ActiveRecord model as a file attachment, storing its patch, size,
+content type, etc. <a href="http://weblog.technoweenie.net">http://weblog.technoweenie.net</a>
+</p>
+
+<ul class="org-ul">
+<li>nb
+<ul class="org-ul">
+<li>has not been maintained since Apr 25, 2009
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>refile
+<ul class="org-ul">
+<li>nb
+<ul class="org-ul">
+<li>was my next choice when previously working with file uploads
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>jquery.fileupload-rails
+</li>
+<li>imagery
+</li>
+<li>attached
+</li>
+<li>papermill
+</li>
+<li>fileuploader-rails
+</li>
+<li>filecip
+</li>
+<li>simple-image-uploader
+</li>
+</ul>
+</li>
+</ul>
+</div>
+
+<div id="outline-container-sec-3-2-1" class="outline-4">
+<h4 id="sec-3-2-1"><span class="section-number-4">3.2.1</span> Dragonfly</h4>
 <div class="outline-text-4" id="text-3-2-1">
+<p>
+<a href="http://markevans.github.io/dragonfly/rails/">http://markevans.github.io/dragonfly/rails/</a>
+</p>
+</div>
+
+<ol class="org-ol"><li><a id="sec-3-2-1-1" name="sec-3-2-1-1"></a>Setup<br  /><div class="outline-text-5" id="text-3-2-1-1">
+<ul class="org-ul">
+<li><code>[X]</code> gem 'dragonfly', '~&gt; 1.0.12'
+
+<ul class="org-ul">
+<li><code>[X]</code> modify <a href="#Gemfile">1</a>
+</li>
+
+<li><code>[X]</code> bundle install
+</li>
+</ul>
+</li>
+
+<li><code>[X]</code> rails g dragonfly
+
+<p>
+generates config/initializers/dragonfly.rb
+</p>
+
+<p>
+<a href="./config/initializers/dragonfly.rb">./config/initializers/dragonfly.rb</a>
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-ruby">require 'dragonfly'
+
+# Configure
+Dragonfly.app.configure do
+  plugin :imagemagick
+
+  secret "72245c7371d66ccca6f9356779fa16e3104e6676c1e57af987e9e3f92130dca5"
+
+  url_format "/media/:job/:name"
+
+  datastore :file,
+    root_path: Rails.root.join('public/system/dragonfly', Rails.env),
+    server_root: Rails.root.join('public')
+end
+
+# Logger
+Dragonfly.logger = Rails.logger
+
+# Mount as middleware
+Rails.application.middleware.use Dragonfly::Middleware
+
+# Add model functionality
+if defined?(ActiveRecord::Base)
+  ActiveRecord::Base.extend Dragonfly::Model
+  ActiveRecord::Base.extend Dragonfly::Model::Validations
+end
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</li>
+
+<li><a id="sec-3-2-1-2" name="sec-3-2-1-2"></a>Handling attachments<br  /><div class="outline-text-5" id="text-3-2-1-2">
+<ul class="org-ul">
+<li>example (replace Photo model with Spreadsheet)
+
+<p>
+Model: <i>Photo</i>
+</p>
+
+<ul class="org-ul">
+<li>add <i>image</i> attribute to Photo
+
+<pre class="example">
+class Photo &lt; ActiveRecord::Base
+  dragonfly_accessor :image  # defines a reader/writer for image
+  # ...
+end
+</pre>
+</li>
+
+<li>needs <i>image<sub>uid</sub></i> column, create migration with
+
+<pre class="example">
+rails g migration 
+</pre>
+
+<pre class="example">
+add_column :photos, :image_uid, :string
+add_column :photos, :image_name, :string  # Optional - if you want 
+                                          # urls to end with the 
+                                          # original filename
+</pre>
+</li>
+
+<li>view for uploading
+
+<pre class="example">
+app/views/photos/...
+</pre>
+
+<pre class="example">
+&lt;% form_for @photo do |f| %&gt;
+  ...
+  &lt;%= f.file_field :image %&gt;
+  ...
+&lt;% end %&gt;
+</pre>
+</li>
+
+<li>allow parameter <i>image</i> to be accepted by the controller
+
+<pre class="example">
+app/controllers/photos_controller.rb
+</pre>
+
+<pre class="example">
+params.require(:photo).permit(:image)
+</pre>
+</li>
+
+<li>view for displaying
+
+<pre class="example">
+&lt;%= image_tag @photo.image.thumb('400x200#').url if @photo.image_stored? %&gt;
+</pre>
+</li>
+
+<li>more can be done with <a href="http://markevans.github.io/dragonfly/models">models</a>
+</li>
+</ul>
+</li>
+
+<li>Spreadsheet model sketch based on above example
+
+<p>
+Model: <i>Spreadsheet</i>
+</p>
+
+<p>
+<a href="#sec-3-5-2">3.5.2</a>
+</p>
+
+<ul class="org-ul">
+<li><code>[X]</code> add <i>file</i> attribute to Spreadsheet
+
+<pre class="example">
+class Spreadsheet &lt; ActiveRecord::Base
+  dragonfly_accessor :file  # defines a reader/writer for file
+  # ...
+end
+</pre>
+</li>
+
+<li><code>[X]</code> needs <i>file<sub>uid</sub></i> column, create migration with
+
+<pre class="example">
+rails g migration AddFileUidToSpreadsheets file_uid:string
+rails g migration AddFileNameToSpreadsheets file_name:string
+</pre>
+
+<p>
+<a href="./db/migrate/20160504011342_add_file_uid_to_spreadsheets.rb">./db/migrate/20160504011342_add_file_uid_to_spreadsheets.rb</a>
+<a href="./db/migrate/20160504011542_add_file_name_to_spreadsheets.rb">./db/migrate/20160504011542_add_file_name_to_spreadsheets.rb</a>
+</p>
+
+<pre class="example">
+add_column :spreadsheets, :file_uid, :string
+add_column :spreadsheets, :file_name, :string  # Optional - if you want 
+                                               # urls to end with the 
+                                               # original filename
+</pre>
+
+<pre class="example">
+rake db:migrate
+</pre>
+</li>
+
+<li><code>[X]</code> view for uploading
+
+<p>
+<a href="./app/views/spreadsheets/">./app/views/spreadsheets/</a>
+</p>
+
+<pre class="example">
+&lt;% form_for @spreadsheet do |f| %&gt;
+  ...
+  &lt;%= f.file_field :file %&gt;
+  ...
+&lt;% end %&gt;
+</pre>
+</li>
+
+<li><code>[X]</code> allow parameter <i>file</i> to be accepted by the controller
+
+<p>
+<a href="./app/controllers/spreadsheets_controller.rb">./app/controllers/spreadsheets_controller.rb</a>
+</p>
+
+<pre class="example">
+params.require(:spreadsheet).permit(:file)
+</pre>
+
+<div class="org-src-container">
+
+<pre class="src src-ruby" id="spreadsheets-controller">class SpreadsheetsController &lt; ApplicationController
+  before_action :set_spreadsheet, only: [:show, :edit, :update, :destroy]
+
+  def index
+    @spreadsheets = Spreadsheet.all
+  end
+
+  def show
+  end
+
+  def new
+    @spreadsheet = Spreadsheet.new
+  end
+
+  def edit
+  end
+
+  def create
+    @spreadsheet = Spreadsheet.new(spreadsheet_params)
+
+    respond_to do |format|
+      if @spreadsheet.save
+        format.html { redirect_to @spreadsheet, notice: 'Spreadsheet was successfully created.' }
+        format.json { render :show, status: :created, location: @spreadsheet }
+      else
+        format.html { render :new }
+        format.json { render json: @spreadsheet.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def update
+    respond_to do |format|
+      if @spreadsheet.update(spreadsheet_params)
+        format.html { redirect_to @spreadsheet, notice: 'Spreadsheet was successfully updated.' }
+        format.json { render :show, status: :ok, location: @spreadsheet }
+      else
+        format.html { render :edit }
+        format.json { render json: @spreadsheet.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def destroy
+    @spreadsheet.destroy
+    respond_to do |format|
+      format.html { redirect_to spreadsheets_url, notice: 'Spreadsheet was successfully destroyed.' }
+      format.json { head :no_content }
+    end
+  end
+
+  private
+  def set_spreadsheet
+    @spreadsheet = Spreadsheet.find(params[:id])
+  end
+
+  def spreadsheet_params
+    params.require(:spreadsheet).permit(:index, :file)
+  end
+end
+</pre>
+</div>
+</li>
+
+<li><code>[X]</code> view for displaying
+
+<p>
+<a href="./app/views/spreadsheets/show.html.erb">./app/views/spreadsheets/show.html.erb</a>
+<a href="./app/views/spreadsheets/index.html.erb">./app/views/spreadsheets/index.html.erb</a>
+</p>
+
+<pre class="example">
+&lt;%= @spreadsheet.file_name if @spreadsheet.file_stored? %&gt;
+</pre>
+</li>
+
+<li>more can be done with <a href="http://markevans.github.io/dragonfly/models">models</a>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</li>
+
+<li><a id="sec-3-2-1-3" name="sec-3-2-1-3"></a>Caching<br  /><div class="outline-text-5" id="text-3-2-1-3">
+<ul class="org-ul">
+<li><code>[X]</code> <a href="#Gemfile">1</a>
+
+<pre class="example">
+gem 'rack-cache', :require =&gt; 'rack/cache'
+</pre>
+
+<ul class="org-ul">
+<li><code>[X]</code> bundle install
+</li>
+</ul>
+</li>
+
+<li><code>[X]</code> uncomment in <a href="#sec-1-3-2">1.3.2</a>
+
+<pre class="example">
+config.action_dispatch.rack_cache = true
+</pre>
+</li>
+</ul>
+</div>
+</li>
+
+<li><a id="sec-3-2-1-4" name="sec-3-2-1-4"></a>Custom Endpoints<br  /><div class="outline-text-5" id="text-3-2-1-4">
+<p>
+<a href="#sec-3-3-1">3.3.1</a>
+</p>
+
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> text generation example
+
+<pre class="example">
+get "text/:text" =&gt; Dragonfly.app.endpoint { |params, app|
+  app.generate(:text, params[:text], 'font-size' =&gt; 42)
+}
+</pre>
+</li>
+
+<li><code>[&#xa0;]</code> endpoint callable from javascript (e.g. /image?file=egg.png&amp;size=30x30)
+
+<pre class="example">
+get "image" =&gt; Dragonfly.app.endpoint { |params, app|
+  app.fetch_file("some/dir/#{params[:file]}").thumb(params[:size])
+}
+</pre>
+</li>
+</ul>
+</div>
+</li></ol>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3"><span class="section-number-3">3.3</span> Views</h3>
+<div class="outline-text-3" id="text-3-3">
+</div><div id="outline-container-sec-3-3-1" class="outline-4">
+<h4 id="sec-3-3-1"><span class="section-number-4">3.3.1</span> Routes</h4>
+<div class="outline-text-4" id="text-3-3-1">
 <p>
 <a href="./config/routes.rb">./config/routes.rb</a>
 </p>
@@ -290,6 +868,10 @@ application.
 
 <pre class="src src-ruby" id="routes.rb">Rails.application.routes.draw do
   root 'pages#home'
+
+  resources :spreadsheets
+
+  get "spreadsheets" =&gt; "spreadsheets#new"
 
   # The priority is based upon order of creation: first created -&gt; highest priority.
   # See how all your routes lay out with "rake routes".
@@ -348,22 +930,26 @@ application.
 end
 </pre>
 </div>
+
+<p>
+<a href="#sec-3-2-1-4">3.2.1.4</a>
+</p>
 </div>
 </div>
 
-<div id="outline-container-sec-3-2-2" class="outline-4">
-<h4 id="sec-3-2-2"><span class="section-number-4">3.2.2</span> Static Pages</h4>
-<div class="outline-text-4" id="text-3-2-2">
+<div id="outline-container-sec-3-3-2" class="outline-4">
+<h4 id="sec-3-3-2"><span class="section-number-4">3.3.2</span> Static Pages</h4>
+<div class="outline-text-4" id="text-3-3-2">
 <pre class="example">
 root 'pages#home'    
 </pre>
 
 <p>
-<a href="#sec-3-3-1">3.3.1</a>
+<a href="#sec-3-4-1">3.4.1</a>
 </p>
 </div>
 
-<ol class="org-ol"><li><a id="sec-3-2-2-1" name="sec-3-2-2-1"></a>Home<br  /><div class="outline-text-5" id="text-3-2-2-1">
+<ol class="org-ol"><li><a id="sec-3-3-2-1" name="sec-3-3-2-1"></a>Home<br  /><div class="outline-text-5" id="text-3-3-2-1">
 <p>
 <a href="./app/views/pages/home.html.erb">./app/views/pages/home.html.erb</a>
 </p>
@@ -372,12 +958,12 @@ root 'pages#home'
 </div>
 </div>
 
-<div id="outline-container-sec-3-3" class="outline-3">
-<h3 id="sec-3-3"><span class="section-number-3">3.3</span> Controllers</h3>
-<div class="outline-text-3" id="text-3-3">
-</div><div id="outline-container-sec-3-3-1" class="outline-4">
-<h4 id="sec-3-3-1"><span class="section-number-4">3.3.1</span> Pages</h4>
-<div class="outline-text-4" id="text-3-3-1">
+<div id="outline-container-sec-3-4" class="outline-3">
+<h3 id="sec-3-4"><span class="section-number-3">3.4</span> Controllers</h3>
+<div class="outline-text-3" id="text-3-4">
+</div><div id="outline-container-sec-3-4-1" class="outline-4">
+<h4 id="sec-3-4-1"><span class="section-number-4">3.4.1</span> Pages</h4>
+<div class="outline-text-4" id="text-3-4-1">
 <p>
 Static pages controller
 </p>
@@ -389,17 +975,65 @@ Static pages controller
 </div>
 </div>
 </div>
+
+<div id="outline-container-sec-3-4-2" class="outline-4">
+<h4 id="sec-3-4-2"><span class="section-number-4">3.4.2</span> Spreadsheets</h4>
+</div>
 </div>
 
-<div id="outline-container-sec-3-4" class="outline-3">
-<h3 id="sec-3-4"><span class="section-number-3">3.4</span> <span class="todo TODO">TODO</span> </h3>
-<div class="outline-text-3" id="text-3-4">
+<div id="outline-container-sec-3-5" class="outline-3">
+<h3 id="sec-3-5"><span class="section-number-3">3.5</span> Models</h3>
+<div class="outline-text-3" id="text-3-5">
+</div><div id="outline-container-sec-3-5-1" class="outline-4">
+<h4 id="sec-3-5-1"><span class="section-number-4">3.5.1</span> Page</h4>
+</div>
+<div id="outline-container-sec-3-5-2" class="outline-4">
+<h4 id="sec-3-5-2"><span class="section-number-4">3.5.2</span> Spreadsheet</h4>
+<div class="outline-text-4" id="text-3-5-2">
+<p>
+<a href="./app/models/spreadsheet.rb">./app/models/spreadsheet.rb</a>
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-ruby" id="spreadsheet.rb">class Spreadsheet &lt; ActiveRecord::Base
+  dragonfly_accessor :file  # defines a reader/writer for file
+end
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-6" class="outline-3">
+<h3 id="sec-3-6"><span class="section-number-3">3.6</span> <span class="todo TODO">TODO</span> </h3>
+<div class="outline-text-3" id="text-3-6">
 <ul class="org-ul">
+<li><code>[&#xa0;]</code> sidekiq
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> background processes for creating pdfs
+</li>
+</ul>
+</li>
+<li><code>[&#xa0;]</code> requirements
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> roo
+</li>
+<li><code>[&#xa0;]</code> chronic
+</li>
+</ul>
+</li>
+<li><code>[&#xa0;]</code> pdflatex
+</li>
+<li><code>[&#xa0;]</code> migrate code from cj-parser
+</li>
 <li><code>[&#xa0;]</code> user authentication
 </li>
 <li><code>[&#xa0;]</code> file upload
 <ul class="org-ul">
 <li><code>[&#xa0;]</code> only xlsx file?
+</li>
+<li><code>[&#xa0;]</code> AWS
 </li>
 </ul>
 </li>
@@ -409,7 +1043,6 @@ Static pages controller
 </li>
 </ul>
 </li>
-<li><code>[&#xa0;]</code> </li>
 </ul>
 </div>
 </div>
