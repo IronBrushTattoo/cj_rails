@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title><b>Iron Brush Tattoo</b> <i>Case Jewelry</i></title>
-<!-- 2016-05-03 Tue 23:44 -->
+<!-- 2016-05-04 Wed 00:12 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="AnderSon" />
@@ -163,26 +163,32 @@ for the JavaScript code in this tag.
 <li><a href="#sec-3-2-1">3.2.1. Dragonfly</a></li>
 </ul>
 </li>
-<li><a href="#sec-3-3">3.3. Authentication</a></li>
-<li><a href="#sec-3-4">3.4. Views</a>
+<li><a href="#sec-3-3">3.3. File Conversion</a>
 <ul>
-<li><a href="#sec-3-4-1">3.4.1. Routes</a></li>
-<li><a href="#sec-3-4-2">3.4.2. Static Pages</a></li>
+<li><a href="#sec-3-3-1">3.3.1. xlsx processing</a></li>
+<li><a href="#sec-3-3-2">3.3.2. latex processing</a></li>
 </ul>
 </li>
-<li><a href="#sec-3-5">3.5. Controllers</a>
+<li><a href="#sec-3-4">3.4. Authentication</a></li>
+<li><a href="#sec-3-5">3.5. Views</a>
 <ul>
-<li><a href="#sec-3-5-1">3.5.1. Pages</a></li>
-<li><a href="#sec-3-5-2">3.5.2. Spreadsheets</a></li>
+<li><a href="#sec-3-5-1">3.5.1. Routes</a></li>
+<li><a href="#sec-3-5-2">3.5.2. Static Pages</a></li>
 </ul>
 </li>
-<li><a href="#sec-3-6">3.6. Models</a>
+<li><a href="#sec-3-6">3.6. Controllers</a>
 <ul>
-<li><a href="#sec-3-6-1">3.6.1. Page</a></li>
-<li><a href="#sec-3-6-2">3.6.2. Spreadsheet</a></li>
+<li><a href="#sec-3-6-1">3.6.1. Pages</a></li>
+<li><a href="#sec-3-6-2">3.6.2. Spreadsheets</a></li>
 </ul>
 </li>
-<li><a href="#sec-3-7">3.7. <span class="todo TODO">TODO</span> </a></li>
+<li><a href="#sec-3-7">3.7. Models</a>
+<ul>
+<li><a href="#sec-3-7-1">3.7.1. Page</a></li>
+<li><a href="#sec-3-7-2">3.7.2. Spreadsheet</a></li>
+</ul>
+</li>
+<li><a href="#sec-3-8">3.8. <span class="todo TODO">TODO</span> </a></li>
 </ul>
 </li>
 </ul>
@@ -368,7 +374,7 @@ application.
 <h3 id="sec-3-1"><span class="section-number-3">3.1</span> User Story</h3>
 <div class="outline-text-3" id="text-3-1">
 <ul class="org-ul">
-<li>user logs in (<a href="#sec-3-3">3.3</a>)
+<li>user logs in (<a href="#sec-3-4">3.4</a>)
 <ul class="org-ul">
 <li>users will be piercers
 </li>
@@ -652,7 +658,7 @@ Model: <i>Spreadsheet</i>
 </p>
 
 <p>
-<a href="#sec-3-6-2">3.6.2</a>
+<a href="#sec-3-7-2">3.7.2</a>
 </p>
 
 <ul class="org-ul">
@@ -827,7 +833,7 @@ config.action_dispatch.rack_cache = true
 
 <li><a id="sec-3-2-1-4" name="sec-3-2-1-4"></a>Custom Endpoints<br  /><div class="outline-text-5" id="text-3-2-1-4">
 <p>
-<a href="#sec-3-4-1">3.4.1</a>
+<a href="#sec-3-5-1">3.5.1</a>
 </p>
 
 <ul class="org-ul">
@@ -855,17 +861,60 @@ get "image" =&gt; Dragonfly.app.endpoint { |params, app|
 </div>
 
 <div id="outline-container-sec-3-3" class="outline-3">
-<h3 id="sec-3-3"><span class="section-number-3">3.3</span> Authentication</h3>
+<h3 id="sec-3-3"><span class="section-number-3">3.3</span> File Conversion</h3>
+<div class="outline-text-3" id="text-3-3">
+</div><div id="outline-container-sec-3-3-1" class="outline-4">
+<h4 id="sec-3-3-1"><span class="section-number-4">3.3.1</span> xlsx processing</h4>
+<div class="outline-text-4" id="text-3-3-1">
+<ul class="org-ul">
+<li>roo
+</li>
+</ul>
+</div>
 </div>
 
+<div id="outline-container-sec-3-3-2" class="outline-4">
+<h4 id="sec-3-3-2"><span class="section-number-4">3.3.2</span> latex processing</h4>
+<div class="outline-text-4" id="text-3-3-2">
+</div><ol class="org-ol"><li><a id="sec-3-3-2-1" name="sec-3-3-2-1"></a>Prawn<br  /></li>
 
+<li><a id="sec-3-3-2-2" name="sec-3-3-2-2"></a>nb<br  /><div class="outline-text-5" id="text-3-3-2-2">
+<p>
+<a href="https://rubygems.org/search?utf8=%E2%9C%93&query=latex">https://rubygems.org/search?utf8=%E2%9C%93&query=latex</a>
+<a href="http://www.sitepoint.com/hackable-pdf-typesetting-in-ruby-with-prawn/">http://www.sitepoint.com/hackable-pdf-typesetting-in-ruby-with-prawn/</a>
+</p>
+
+<p>
+<a href="https://github.com/prawnpdf/prawn">https://github.com/prawnpdf/prawn</a>
+</p>
+
+<p>
+Prawn is active and looks rad!
+</p>
+
+<ul class="org-ul">
+<li>outdated but possibly useful
+
+<p>
+<a href="https://github.com/baierjan/rails-latex">https://github.com/baierjan/rails-latex</a>
+<a href="https://github.com/bruce/rtex">https://github.com/bruce/rtex</a>
+</p>
+</li>
+</ul>
+</div>
+</li></ol>
+</div>
+</div>
 
 <div id="outline-container-sec-3-4" class="outline-3">
-<h3 id="sec-3-4"><span class="section-number-3">3.4</span> Views</h3>
-<div class="outline-text-3" id="text-3-4">
-</div><div id="outline-container-sec-3-4-1" class="outline-4">
-<h4 id="sec-3-4-1"><span class="section-number-4">3.4.1</span> Routes</h4>
-<div class="outline-text-4" id="text-3-4-1">
+<h3 id="sec-3-4"><span class="section-number-3">3.4</span> Authentication</h3>
+</div>
+<div id="outline-container-sec-3-5" class="outline-3">
+<h3 id="sec-3-5"><span class="section-number-3">3.5</span> Views</h3>
+<div class="outline-text-3" id="text-3-5">
+</div><div id="outline-container-sec-3-5-1" class="outline-4">
+<h4 id="sec-3-5-1"><span class="section-number-4">3.5.1</span> Routes</h4>
+<div class="outline-text-4" id="text-3-5-1">
 <p>
 <a href="./config/routes.rb">./config/routes.rb</a>
 </p>
@@ -943,19 +992,19 @@ end
 </div>
 </div>
 
-<div id="outline-container-sec-3-4-2" class="outline-4">
-<h4 id="sec-3-4-2"><span class="section-number-4">3.4.2</span> Static Pages</h4>
-<div class="outline-text-4" id="text-3-4-2">
+<div id="outline-container-sec-3-5-2" class="outline-4">
+<h4 id="sec-3-5-2"><span class="section-number-4">3.5.2</span> Static Pages</h4>
+<div class="outline-text-4" id="text-3-5-2">
 <pre class="example">
 root 'pages#home'    
 </pre>
 
 <p>
-<a href="#sec-3-5-1">3.5.1</a>
+<a href="#sec-3-6-1">3.6.1</a>
 </p>
 </div>
 
-<ol class="org-ol"><li><a id="sec-3-4-2-1" name="sec-3-4-2-1"></a>Home<br  /><div class="outline-text-5" id="text-3-4-2-1">
+<ol class="org-ol"><li><a id="sec-3-5-2-1" name="sec-3-5-2-1"></a>Home<br  /><div class="outline-text-5" id="text-3-5-2-1">
 <p>
 <a href="./app/views/pages/home.html.erb">./app/views/pages/home.html.erb</a>
 </p>
@@ -964,12 +1013,12 @@ root 'pages#home'
 </div>
 </div>
 
-<div id="outline-container-sec-3-5" class="outline-3">
-<h3 id="sec-3-5"><span class="section-number-3">3.5</span> Controllers</h3>
-<div class="outline-text-3" id="text-3-5">
-</div><div id="outline-container-sec-3-5-1" class="outline-4">
-<h4 id="sec-3-5-1"><span class="section-number-4">3.5.1</span> Pages</h4>
-<div class="outline-text-4" id="text-3-5-1">
+<div id="outline-container-sec-3-6" class="outline-3">
+<h3 id="sec-3-6"><span class="section-number-3">3.6</span> Controllers</h3>
+<div class="outline-text-3" id="text-3-6">
+</div><div id="outline-container-sec-3-6-1" class="outline-4">
+<h4 id="sec-3-6-1"><span class="section-number-4">3.6.1</span> Pages</h4>
+<div class="outline-text-4" id="text-3-6-1">
 <p>
 Static pages controller
 </p>
@@ -982,20 +1031,20 @@ Static pages controller
 </div>
 </div>
 
-<div id="outline-container-sec-3-5-2" class="outline-4">
-<h4 id="sec-3-5-2"><span class="section-number-4">3.5.2</span> Spreadsheets</h4>
+<div id="outline-container-sec-3-6-2" class="outline-4">
+<h4 id="sec-3-6-2"><span class="section-number-4">3.6.2</span> Spreadsheets</h4>
 </div>
 </div>
 
-<div id="outline-container-sec-3-6" class="outline-3">
-<h3 id="sec-3-6"><span class="section-number-3">3.6</span> Models</h3>
-<div class="outline-text-3" id="text-3-6">
-</div><div id="outline-container-sec-3-6-1" class="outline-4">
-<h4 id="sec-3-6-1"><span class="section-number-4">3.6.1</span> Page</h4>
+<div id="outline-container-sec-3-7" class="outline-3">
+<h3 id="sec-3-7"><span class="section-number-3">3.7</span> Models</h3>
+<div class="outline-text-3" id="text-3-7">
+</div><div id="outline-container-sec-3-7-1" class="outline-4">
+<h4 id="sec-3-7-1"><span class="section-number-4">3.7.1</span> Page</h4>
 </div>
-<div id="outline-container-sec-3-6-2" class="outline-4">
-<h4 id="sec-3-6-2"><span class="section-number-4">3.6.2</span> Spreadsheet</h4>
-<div class="outline-text-4" id="text-3-6-2">
+<div id="outline-container-sec-3-7-2" class="outline-4">
+<h4 id="sec-3-7-2"><span class="section-number-4">3.7.2</span> Spreadsheet</h4>
+<div class="outline-text-4" id="text-3-7-2">
 <p>
 <a href="./app/models/spreadsheet.rb">./app/models/spreadsheet.rb</a>
 </p>
@@ -1011,10 +1060,12 @@ end
 </div>
 </div>
 
-<div id="outline-container-sec-3-7" class="outline-3">
-<h3 id="sec-3-7"><span class="section-number-3">3.7</span> <span class="todo TODO">TODO</span> </h3>
-<div class="outline-text-3" id="text-3-7">
+<div id="outline-container-sec-3-8" class="outline-3">
+<h3 id="sec-3-8"><span class="section-number-3">3.8</span> <span class="todo TODO">TODO</span> </h3>
+<div class="outline-text-3" id="text-3-8">
 <ul class="org-ul">
+<li><code>[&#xa0;]</code> Tests
+</li>
 <li><code>[&#xa0;]</code> sidekiq
 <ul class="org-ul">
 <li><code>[&#xa0;]</code> background processes for creating pdfs
