@@ -1,4 +1,4 @@
-% Created 2016-05-03 Tue 20:32
+% Created 2016-05-03 Tue 23:44
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -180,7 +180,7 @@ application.
 \label{sec-3-1}
 
 \begin{itemize}
-\item user logs in
+\item user logs in (\ref{sec-3-3})
 \begin{itemize}
 \item users will be piercers
 \end{itemize}
@@ -397,7 +397,7 @@ params.require(:photo).permit(:image)
 
 Model: \emph{Spreadsheet}
 
-\ref{sec-3-5-2}
+\ref{sec-3-6-2}
 
 \begin{itemize}
 \item $\boxtimes$ add \emph{file} attribute to Spreadsheet
@@ -550,7 +550,7 @@ config.action_dispatch.rack_cache = true
 \item Custom Endpoints
 \label{sec-3-2-1-4}
 
-\ref{sec-3-3-1}
+\ref{sec-3-4-1}
 
 \begin{itemize}
 \item $\square$ text generation example
@@ -571,12 +571,16 @@ get "image" => Dragonfly.app.endpoint { |params, app|
 \end{itemize}
 \end{enumerate}
 
-
-\subsection{Views}
+\subsection{Authentication}
 \label{sec-3-3}
 
+
+
+\subsection{Views}
+\label{sec-3-4}
+
 \subsubsection{Routes}
-\label{sec-3-3-1}
+\label{sec-3-4-1}
 
 \url{./config/routes.rb}
 
@@ -648,26 +652,26 @@ end
 \ref{sec-3-2-1-4}
 
 \subsubsection{Static Pages}
-\label{sec-3-3-2}
+\label{sec-3-4-2}
 
 \begin{verbatim}
 root 'pages#home'    
 \end{verbatim}
 
-\ref{sec-3-4-1}
+\ref{sec-3-5-1}
 
 \begin{enumerate}
 \item Home
-\label{sec-3-3-2-1}
+\label{sec-3-4-2-1}
 
 \url{./app/views/pages/home.html.erb}
 \end{enumerate}
 
 \subsection{Controllers}
-\label{sec-3-4}
+\label{sec-3-5}
 
 \subsubsection{Pages}
-\label{sec-3-4-1}
+\label{sec-3-5-1}
 
 Static pages controller
 
@@ -676,15 +680,15 @@ rails g controller pages --skip-assets
 \end{verbatim}
 
 \subsubsection{Spreadsheets}
-\label{sec-3-4-2}
+\label{sec-3-5-2}
 
 \subsection{Models}
-\label{sec-3-5}
+\label{sec-3-6}
 
 \subsubsection{Page}
-\label{sec-3-5-1}
+\label{sec-3-6-1}
 \subsubsection{Spreadsheet}
-\label{sec-3-5-2}
+\label{sec-3-6-2}
 
 \url{./app/models/spreadsheet.rb}
 
@@ -695,7 +699,7 @@ end
 \end{verbatim}
 
 \subsection{{\bfseries\sffamily TODO} }
-\label{sec-3-6}
+\label{sec-3-7}
 
 \begin{itemize}
 \item $\square$ sidekiq

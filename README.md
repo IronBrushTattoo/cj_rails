@@ -23,25 +23,26 @@
 <li><a href="#sec-3-2-1">3.2.1. Dragonfly</a></li>
 </ul>
 </li>
-<li><a href="#sec-3-3">3.3. Views</a>
+<li><a href="#sec-3-3">3.3. Authentication</a></li>
+<li><a href="#sec-3-4">3.4. Views</a>
 <ul>
-<li><a href="#sec-3-3-1">3.3.1. Routes</a></li>
-<li><a href="#sec-3-3-2">3.3.2. Static Pages</a></li>
+<li><a href="#sec-3-4-1">3.4.1. Routes</a></li>
+<li><a href="#sec-3-4-2">3.4.2. Static Pages</a></li>
 </ul>
 </li>
-<li><a href="#sec-3-4">3.4. Controllers</a>
+<li><a href="#sec-3-5">3.5. Controllers</a>
 <ul>
-<li><a href="#sec-3-4-1">3.4.1. Pages</a></li>
-<li><a href="#sec-3-4-2">3.4.2. Spreadsheets</a></li>
+<li><a href="#sec-3-5-1">3.5.1. Pages</a></li>
+<li><a href="#sec-3-5-2">3.5.2. Spreadsheets</a></li>
 </ul>
 </li>
-<li><a href="#sec-3-5">3.5. Models</a>
+<li><a href="#sec-3-6">3.6. Models</a>
 <ul>
-<li><a href="#sec-3-5-1">3.5.1. Page</a></li>
-<li><a href="#sec-3-5-2">3.5.2. Spreadsheet</a></li>
+<li><a href="#sec-3-6-1">3.6.1. Page</a></li>
+<li><a href="#sec-3-6-2">3.6.2. Spreadsheet</a></li>
 </ul>
 </li>
-<li><a href="#sec-3-6">3.6. <span class="todo TODO">TODO</span> </a></li>
+<li><a href="#sec-3-7">3.7. <span class="todo TODO">TODO</span> </a></li>
 </ul>
 </li>
 </ul>
@@ -186,7 +187,7 @@ application.
 
 ## User Story<a id="sec-3-1" name="sec-3-1"></a>
 
--   user logs in
+-   user logs in (3.3)
     -   users will be piercers
 -   chooses xlsx file for upload
     3.2
@@ -334,7 +335,7 @@ application.
         
         Model: *Spreadsheet*
         
-        3.5.2
+        3.6.2
         
         -   [X] add *file* attribute to Spreadsheet
             
@@ -458,7 +459,7 @@ application.
 
 4.  Custom Endpoints
 
-    3.3.1
+    3.4.1
     
     -   [ ] text generation example
         
@@ -472,9 +473,11 @@ application.
               app.fetch_file("some/dir/#{params[:file]}").thumb(params[:size])
             }
 
-## Views<a id="sec-3-3" name="sec-3-3"></a>
+## Authentication<a id="sec-3-3" name="sec-3-3"></a>
 
-### Routes<a id="sec-3-3-1" name="sec-3-3-1"></a>
+## Views<a id="sec-3-4" name="sec-3-4"></a>
+
+### Routes<a id="sec-3-4-1" name="sec-3-4-1"></a>
 
 <./config/routes.rb>
 
@@ -543,31 +546,31 @@ application.
 
 3.2.1.4
 
-### Static Pages<a id="sec-3-3-2" name="sec-3-3-2"></a>
+### Static Pages<a id="sec-3-4-2" name="sec-3-4-2"></a>
 
     root 'pages#home'
 
-3.4.1
+3.5.1
 
 1.  Home
 
     <./app/views/pages/home.html.erb>
 
-## Controllers<a id="sec-3-4" name="sec-3-4"></a>
+## Controllers<a id="sec-3-5" name="sec-3-5"></a>
 
-### Pages<a id="sec-3-4-1" name="sec-3-4-1"></a>
+### Pages<a id="sec-3-5-1" name="sec-3-5-1"></a>
 
 Static pages controller
 
     rails g controller pages --skip-assets
 
-### Spreadsheets<a id="sec-3-4-2" name="sec-3-4-2"></a>
+### Spreadsheets<a id="sec-3-5-2" name="sec-3-5-2"></a>
 
-## Models<a id="sec-3-5" name="sec-3-5"></a>
+## Models<a id="sec-3-6" name="sec-3-6"></a>
 
-### Page<a id="sec-3-5-1" name="sec-3-5-1"></a>
+### Page<a id="sec-3-6-1" name="sec-3-6-1"></a>
 
-### Spreadsheet<a id="sec-3-5-2" name="sec-3-5-2"></a>
+### Spreadsheet<a id="sec-3-6-2" name="sec-3-6-2"></a>
 
 <./app/models/spreadsheet.rb>
 
@@ -575,7 +578,7 @@ Static pages controller
       dragonfly_accessor :file  # defines a reader/writer for file
     end
 
-## TODO <a id="sec-3-6" name="sec-3-6"></a>
+## TODO <a id="sec-3-7" name="sec-3-7"></a>
 
 -   [ ] sidekiq
     -   [ ] background processes for creating pdfs

@@ -145,7 +145,7 @@ https://github.com/IronBrushTattoo/cj_rails.git
 
 ** User Story
 
-   - user logs in
+   - user logs in ([[Authentication]])
      - users will be piercers
    - chooses xlsx file for upload
      [[File Upload]]
@@ -439,6 +439,9 @@ https://github.com/IronBrushTattoo/cj_rails.git
        :   app.fetch_file("some/dir/#{params[:file]}").thumb(params[:size])
        : }
 
+** Authentication
+
+   
 
 ** Views
 
