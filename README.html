@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title><b>Iron Brush Tattoo</b> <i>Case Jewelry</i></title>
-<!-- 2016-05-04 Wed 00:12 -->
+<!-- 2016-05-06 Fri 01:23 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="AnderSon" />
@@ -146,12 +146,6 @@ for the JavaScript code in this tag.
 <ul>
 <li><a href="#sec-1-1">1.1. Gemfile</a></li>
 <li><a href="#sec-1-2">1.2. Gems</a></li>
-<li><a href="#sec-1-3">1.3. Environments</a>
-<ul>
-<li><a href="#sec-1-3-1">1.3.1. Development</a></li>
-<li><a href="#sec-1-3-2">1.3.2. Production</a></li>
-</ul>
-</li>
 </ul>
 </li>
 <li><a href="#sec-2">2. First steps</a></li>
@@ -186,9 +180,15 @@ for the JavaScript code in this tag.
 <ul>
 <li><a href="#sec-3-7-1">3.7.1. Page</a></li>
 <li><a href="#sec-3-7-2">3.7.2. Spreadsheet</a></li>
+<li><a href="#sec-3-7-3">3.7.3. Label</a></li>
 </ul>
 </li>
-<li><a href="#sec-3-8">3.8. <span class="todo TODO">TODO</span> </a></li>
+<li><a href="#sec-3-8">3.8. Classes</a>
+<ul>
+<li><a href="#sec-3-8-1">3.8.1. SpreadsheetPdf</a></li>
+</ul>
+</li>
+<li><a href="#sec-3-9">3.9. <span class="todo TODO">TODO</span> </a></li>
 </ul>
 </li>
 </ul>
@@ -227,6 +227,8 @@ gem 'jbuilder', '~&gt; 2.0'
 gem 'sdoc', '~&gt; 0.4.0', group: :doc
 gem 'dragonfly', '~&gt; 1.0.12'
 gem 'rack-cache', :require =&gt; 'rack/cache'
+#gem 'prawn', '~&gt; 2.1'
+gem 'prawn'
 
 group :development, :test do
   gem 'byebug'
@@ -246,107 +248,8 @@ end
 <div class="outline-text-3" id="text-1-2">
 <p>
 <a href="#sec-3-2-1">3.2.1</a>
+<a href="#sec-3-3-2-1">3.3.2.1</a>
 </p>
-</div>
-</div>
-
-<div id="outline-container-sec-1-3" class="outline-3">
-<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Environments</h3>
-<div class="outline-text-3" id="text-1-3">
-</div><div id="outline-container-sec-1-3-1" class="outline-4">
-<h4 id="sec-1-3-1"><span class="section-number-4">1.3.1</span> Development</h4>
-</div>
-<div id="outline-container-sec-1-3-2" class="outline-4">
-<h4 id="sec-1-3-2"><span class="section-number-4">1.3.2</span> Production</h4>
-<div class="outline-text-4" id="text-1-3-2">
-<p>
-<a href="./config/environments/production.rb">./config/environments/production.rb</a>
-</p>
-
-<div class="org-src-container">
-
-<pre class="src src-ruby" id="production.rb">Rails.application.configure do
-  # Settings specified here will take precedence over those in config/application.rb.
-
-  # Code is not reloaded between requests.
-  config.cache_classes = true
-
-  # Eager load code on boot. This eager loads most of Rails and
-  # your application in memory, allowing both threaded web servers
-  # and those relying on copy on write to perform better.
-  # Rake tasks automatically ignore this option for performance.
-  config.eager_load = true
-
-  # Full error reports are disabled and caching is turned on.
-  config.consider_all_requests_local       = false
-  config.action_controller.perform_caching = true
-
-  # Enable Rack::Cache to put a simple HTTP cache in front of your application
-  # Add `rack-cache` to your Gemfile before enabling this.
-  # For large-scale production use, consider using a caching reverse proxy like
-  # NGINX, varnish or squid.
-  config.action_dispatch.rack_cache = true
-
-  # Disable serving static files from the `/public` folder by default since
-  # Apache or NGINX already handles this.
-  config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?
-
-  # Compress JavaScripts and CSS.
-  config.assets.js_compressor = :uglifier
-  # config.assets.css_compressor = :sass
-
-  # Do not fallback to assets pipeline if a precompiled asset is missed.
-  config.assets.compile = false
-
-  # Asset digests allow you to set far-future HTTP expiration dates on all assets,
-  # yet still be able to expire them through the digest params.
-  config.assets.digest = true
-
-  # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
-
-  # Specifies the header that your server uses for sending files.
-  # config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for Apache
-  # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
-
-  # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  # config.force_ssl = true
-
-  # Use the lowest log level to ensure availability of diagnostic information
-  # when problems arise.
-  config.log_level = :debug
-
-  # Prepend all log lines with the following tags.
-  # config.log_tags = [ :subdomain, :uuid ]
-
-  # Use a different logger for distributed setups.
-  # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
-
-  # Use a different cache store in production.
-  # config.cache_store = :mem_cache_store
-
-  # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  # config.action_controller.asset_host = 'http://assets.example.com'
-
-  # Ignore bad email addresses and do not raise email delivery errors.
-  # Set this to true and configure the email server for immediate delivery to raise delivery errors.
-  # config.action_mailer.raise_delivery_errors = false
-
-  # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
-  # the I18n.default_locale when a translation cannot be found).
-  config.i18n.fallbacks = true
-
-  # Send deprecation notices to registered listeners.
-  config.active_support.deprecation = :notify
-
-  # Use default logging formatter so that PID and timestamp are not suppressed.
-  config.log_formatter = ::Logger::Formatter.new
-
-  # Do not dump schema after migrations.
-  config.active_record.dump_schema_after_migration = false
-end
-</pre>
-</div>
-</div>
 </div>
 </div>
 </div>
@@ -731,6 +634,17 @@ params.require(:spreadsheet).permit(:file)
   end
 
   def show
+    @spreadsheet = Spreadsheet.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.pdf do
+        pdf = SpreadsheetPdf.new(@spreadsheet, view_context)
+        send_data pdf.render,
+                  filename: "spreadsheet_#{@spreadsheet.created_at.strftime("%d/%m/%Y")}.pdf",
+                  type: "application/pdf",
+                  disposition: "inline"
+      end
+    end
   end
 
   def new
@@ -785,6 +699,16 @@ params.require(:spreadsheet).permit(:file)
 end
 </pre>
 </div>
+
+<ul class="org-ul">
+<li>nb
+
+<p>
+<a href="#sec-3-3-2-1">3.3.2.1</a>
+<a href="#sec-3-3-2-1-3-1">3.3.2.1.3.1</a>
+</p>
+</li>
+</ul>
 </li>
 
 <li><code>[X]</code> view for displaying
@@ -821,7 +745,7 @@ gem 'rack-cache', :require =&gt; 'rack/cache'
 </ul>
 </li>
 
-<li><code>[X]</code> uncomment in <a href="#sec-1-3-2">1.3.2</a>
+<li><code>[X]</code> uncomment in <i>Production</i>
 
 <pre class="example">
 config.action_dispatch.rack_cache = true
@@ -876,7 +800,203 @@ get "image" =&gt; Dragonfly.app.endpoint { |params, app|
 <div id="outline-container-sec-3-3-2" class="outline-4">
 <h4 id="sec-3-3-2"><span class="section-number-4">3.3.2</span> latex processing</h4>
 <div class="outline-text-4" id="text-3-3-2">
-</div><ol class="org-ol"><li><a id="sec-3-3-2-1" name="sec-3-3-2-1"></a>Prawn<br  /></li>
+</div><ol class="org-ol"><li><a id="sec-3-3-2-1" name="sec-3-3-2-1"></a>Prawn<br  /><div class="outline-text-5" id="text-3-3-2-1">
+<p>
+<a href="https://github.com/prawnpdf/prawn">https://github.com/prawnpdf/prawn</a>
+</p>
+</div>
+
+<ol class="org-ol"><li><a id="sec-3-3-2-1-1" name="sec-3-3-2-1-1"></a>Setup<br  /><div class="outline-text-6" id="text-3-3-2-1-1">
+<ul class="org-ul">
+<li><code>[X]</code> <a href="#Gemfile">1</a>
+</li>
+</ul>
+<pre class="example">
+#gem 'prawn', '~&gt; 2.1'
+gem 'prawn'
+</pre>
+
+<ul class="org-ul">
+<li><code>[X]</code> bundle install
+</li>
+</ul>
+</div>
+
+<ol class="org-ol"><li><a id="sec-3-3-2-1-1-1" name="sec-3-3-2-1-1-1"></a>Manual<br  /><div class="outline-text-7" id="text-3-3-2-1-1-1">
+<p>
+<a href="http://prawnpdf.org/manual.pdf">http://prawnpdf.org/manual.pdf</a>
+</p>
+
+<ul class="org-ul">
+<li><code>[X]</code> clone repository
+
+<pre class="example">
+git clone https://github.com/prawnpdf/prawn
+</pre>
+</li>
+
+<li><code>[&#xa0;]</code> switch to the stable branch 
+
+<pre class="example">
+git branch stable
+</pre>
+</li>
+
+<li><code>[X]</code> bundle install
+</li>
+
+<li><code>[&#xa0;]</code> bundle exec rake manual
+generates <i>manual.pdf</i> in the project root
+</li>
+</ul>
+</div>
+</li></ol>
+</li>
+
+<li><a id="sec-3-3-2-1-2" name="sec-3-3-2-1-2"></a>basic<sub>concepts</sub>/creation.rb<br  /><div class="outline-text-6" id="text-3-3-2-1-2">
+<pre class="example">
+Prawn::Document
+Prawn::Document.generate
+</pre>
+</div>
+</li>
+
+<li><a id="sec-3-3-2-1-3" name="sec-3-3-2-1-3"></a>Tutorials<br  /><ol class="org-ol"><li><a id="sec-3-3-2-1-3-1" name="sec-3-3-2-1-3-1"></a>Creating PDF Using Prawn in Ruby on Rails<br  /><div class="outline-text-7" id="text-3-3-2-1-3-1">
+<p>
+<a href="http://www.idyllic-software.com/blog/creating-pdf-using-prawn-in-ruby-on-rails/">http://www.idyllic-software.com/blog/creating-pdf-using-prawn-in-ruby-on-rails/</a>
+</p>
+
+<ul class="org-ul">
+<li><code>[X]</code> <a href="#Gemfile">1</a>
+
+<pre class="example">
+gem 'prawn'
+bundle install
+</pre>
+</li>
+
+<li><code>[X]</code> <a href="./config/initializers/mime_types.rb">./config/initializers/mime_types.rb</a>
+
+<p>
+create a PDF Mime::Type inside mime<sub>types</sub>.rb
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-ruby" id="mime_types.rb"># Be sure to restart your server when you modify this file.
+
+# Add new mime types for use in respond_to blocks:
+# Mime::Type.register "text/richtext", :rtf
+
+Mime::Type.register "application/pdf", :pdf
+</pre>
+</div>
+</li>
+
+<li><code>[X]</code> <a href="./app/controllers/spreadsheets_controller.rb">./app/controllers/spreadsheets_controller.rb</a>
+
+<p>
+<a href="#sec-3-6-2">3.6.2</a>
+</p>
+
+<p>
+<a href="http://www.idyllic-software.com/blog/creating-pdf-using-prawn-in-ruby-on-rails/">http://www.idyllic-software.com/blog/creating-pdf-using-prawn-in-ruby-on-rails/</a>
+</p>
+
+<pre class="example">
+class InvoicesController &lt; ApplicationController
+
+  before_filter :authenticate_customer!, :only =&gt; [:index, :show]
+
+  def index
+    @invoices = Invoice.all_invoices(current_customer)
+  end
+
+  def show
+    @invoice = Invoice.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.pdf do
+        pdf = InvoicePdf.new(@invoice, view_context)
+        send_data pdf.render, filename: 
+          "invoice_#{@invoice.created_at.strftime("%d/%m/%Y")}.pdf",
+          type: "application/pdf"
+      end
+    end
+  end
+
+end
+</pre>
+
+<ul class="org-ul">
+<li><code>[X]</code> open pdf in browser instead of download
+
+<p>
+add /disposition: "inline"/ after type
+</p>
+</li>
+</ul>
+</li>
+
+<li><code>[X]</code> create a new class <b>app/pdfs/spreadsheet<sub>pdf</sub></b>
+
+<p>
+<a href="#sec-3-8-1">3.8.1</a>
+</p>
+
+<p>
+<a href="#sec-3-6-2">3.6.2</a>
+</p>
+</li>
+
+<li><code>[X]</code> restart server
+</li>
+
+<li><code>[X]</code> <a href="#sec-3-8-1">3.8.1</a>
+
+<p>
+set the <i>@spreadsheet</i> and <i>view<sub>context</sub></i>
+</p>
+
+<pre class="example">
+def initialize(spreadsheet, view)
+  super()
+  @spreadsheet = spreadsheet
+  @view = view
+  text "Spreadsheet #{@spreadsheet.id}"
+end
+</pre>
+</li>
+
+<li><code>[&#xa0;]</code> create different methods inside <a href="#sec-3-8-1">3.8.1</a> as per what you want to show on the pdf
+
+<ul class="org-ul">
+<li>example
+
+<pre class="example">
+def logo
+  logopath = "#{Rails.root}/app/assets/images/logo.png"
+  image logopath, :width =&gt; 197, :height =&gt; 91
+end
+</pre>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+
+<ol class="org-ol"><li><a id="sec-3-3-2-1-3-1-1" name="sec-3-3-2-1-3-1-1"></a>Issues<br  /><div class="outline-text-8" id="text-3-3-2-1-3-1-1">
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> NameError (uninitialized constant SpreadsheetsController::SpreadsheetPdf)
+</li>
+</ul>
+</div>
+</li></ol>
+</li></ol>
+</li></ol>
+</li>
+
+
 
 <li><a id="sec-3-3-2-2" name="sec-3-3-2-2"></a>nb<br  /><div class="outline-text-5" id="text-3-3-2-2">
 <p>
@@ -889,7 +1009,7 @@ get "image" =&gt; Dragonfly.app.endpoint { |params, app|
 </p>
 
 <p>
-Prawn is active and looks rad!
+<a href="#sec-3-3-2-1">3.3.2.1</a> is active and looks rad!
 </p>
 
 <ul class="org-ul">
@@ -1058,11 +1178,61 @@ end
 </div>
 </div>
 </div>
+
+<div id="outline-container-sec-3-7-3" class="outline-4">
+<h4 id="sec-3-7-3"><span class="section-number-4">3.7.3</span> Label</h4>
+</div>
+</div>
+<div id="outline-container-sec-3-8" class="outline-3">
+<h3 id="sec-3-8"><span class="section-number-3">3.8</span> Classes</h3>
+<div class="outline-text-3" id="text-3-8">
+</div><div id="outline-container-sec-3-8-1" class="outline-4">
+<h4 id="sec-3-8-1"><span class="section-number-4">3.8.1</span> SpreadsheetPdf</h4>
+<div class="outline-text-4" id="text-3-8-1">
+<pre class="example">
+mkdir ./app/pdfs
+</pre>
+
+<p>
+<a href="./app/pdfs/spreadsheet_pdf.rb">./app/pdfs/spreadsheet_pdf.rb</a>
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-ruby">class SpreadsheetPdf &lt; Prawn::Document
+
+  def initialize(spreadsheet, view)
+    super()
+    @spreadsheet = spreadsheet
+    @view = view
+    logo
+    text "This is a sheet of labels for selected case jewelry, #{@spreadsheet.id}"
+  end
+
+  def logo
+    logopath = "#{Rails.root}/app/assets/images/logo.png"
+    image logopath, :width =&gt; 197, :height =&gt; 197
+  end
+
+end
+</pre>
 </div>
 
-<div id="outline-container-sec-3-8" class="outline-3">
-<h3 id="sec-3-8"><span class="section-number-3">3.8</span> <span class="todo TODO">TODO</span> </h3>
-<div class="outline-text-3" id="text-3-8">
+<ul class="org-ul">
+<li>nb
+
+<p>
+<a href="#sec-3-3-2-1">3.3.2.1</a>
+</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-9" class="outline-3">
+<h3 id="sec-3-9"><span class="section-number-3">3.9</span> <span class="todo TODO">TODO</span> </h3>
+<div class="outline-text-3" id="text-3-9">
 <ul class="org-ul">
 <li><code>[&#xa0;]</code> Tests
 </li>
@@ -1081,7 +1251,12 @@ end
 </ul>
 </li>
 <li><code>[&#xa0;]</code> pdflatex
+
+<p>
+<a href="#sec-3-3-2-1">3.3.2.1</a>
+</p>
 </li>
+
 <li><code>[&#xa0;]</code> migrate code from cj-parser
 </li>
 <li><code>[&#xa0;]</code> user authentication

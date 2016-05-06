@@ -28,6 +28,8 @@ https://github.com/IronBrushTattoo/cj_rails.git
      gem 'sdoc', '~> 0.4.0', group: :doc
      gem 'dragonfly', '~> 1.0.12'
      gem 'rack-cache', :require => 'rack/cache'
+     #gem 'prawn', '~> 2.1'
+     gem 'prawn'
 
      group :development, :test do
        gem 'byebug'
@@ -38,101 +40,12 @@ https://github.com/IronBrushTattoo/cj_rails.git
        gem 'spring'
      end
    #+end_src
-
+   
 ** Gems
 
    [[Dragonfly]]
-   
-** Environments
+   [[Prawn]]
 
-*** Development
-*** Production
-    
-   [[./config/environments/production.rb]]
-
-   #+NAME: production.rb
-   #+begin_src ruby :tangle config/environments/production.rb :padline no
-     Rails.application.configure do
-       # Settings specified here will take precedence over those in config/application.rb.
-
-       # Code is not reloaded between requests.
-       config.cache_classes = true
-
-       # Eager load code on boot. This eager loads most of Rails and
-       # your application in memory, allowing both threaded web servers
-       # and those relying on copy on write to perform better.
-       # Rake tasks automatically ignore this option for performance.
-       config.eager_load = true
-
-       # Full error reports are disabled and caching is turned on.
-       config.consider_all_requests_local       = false
-       config.action_controller.perform_caching = true
-
-       # Enable Rack::Cache to put a simple HTTP cache in front of your application
-       # Add `rack-cache` to your Gemfile before enabling this.
-       # For large-scale production use, consider using a caching reverse proxy like
-       # NGINX, varnish or squid.
-       config.action_dispatch.rack_cache = true
-
-       # Disable serving static files from the `/public` folder by default since
-       # Apache or NGINX already handles this.
-       config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?
-
-       # Compress JavaScripts and CSS.
-       config.assets.js_compressor = :uglifier
-       # config.assets.css_compressor = :sass
-
-       # Do not fallback to assets pipeline if a precompiled asset is missed.
-       config.assets.compile = false
-
-       # Asset digests allow you to set far-future HTTP expiration dates on all assets,
-       # yet still be able to expire them through the digest params.
-       config.assets.digest = true
-
-       # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
-
-       # Specifies the header that your server uses for sending files.
-       # config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for Apache
-       # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
-
-       # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-       # config.force_ssl = true
-
-       # Use the lowest log level to ensure availability of diagnostic information
-       # when problems arise.
-       config.log_level = :debug
-
-       # Prepend all log lines with the following tags.
-       # config.log_tags = [ :subdomain, :uuid ]
-
-       # Use a different logger for distributed setups.
-       # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
-
-       # Use a different cache store in production.
-       # config.cache_store = :mem_cache_store
-
-       # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-       # config.action_controller.asset_host = 'http://assets.example.com'
-
-       # Ignore bad email addresses and do not raise email delivery errors.
-       # Set this to true and configure the email server for immediate delivery to raise delivery errors.
-       # config.action_mailer.raise_delivery_errors = false
-
-       # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
-       # the I18n.default_locale when a translation cannot be found).
-       config.i18n.fallbacks = true
-
-       # Send deprecation notices to registered listeners.
-       config.active_support.deprecation = :notify
-
-       # Use default logging formatter so that PID and timestamp are not suppressed.
-       config.log_formatter = ::Logger::Formatter.new
-
-       # Do not dump schema after migrations.
-       config.active_record.dump_schema_after_migration = false
-     end
-   #+end_src
-   
 * First steps :rails_template:rails:rake:
 
   : rake db:migrate
@@ -347,6 +260,17 @@ https://github.com/IronBrushTattoo/cj_rails.git
              end
 
              def show
+               @spreadsheet = Spreadsheet.find(params[:id])
+               respond_to do |format|
+                 format.html
+                 format.pdf do
+                   pdf = SpreadsheetPdf.new(@spreadsheet, view_context)
+                   send_data pdf.render,
+                             filename: "spreadsheet_#{@spreadsheet.created_at.strftime("%d/%m/%Y")}.pdf",
+                             type: "application/pdf",
+                             disposition: "inline"
+                 end
+               end
              end
 
              def new
@@ -402,6 +326,11 @@ https://github.com/IronBrushTattoo/cj_rails.git
 
          #+end_src
 
+         - nb
+           
+           [[Prawn]]
+           [[Creating PDF Using Prawn in Ruby on Rails]]
+
        - [X] view for displaying
 
          [[./app/views/spreadsheets/show.html.erb]]
@@ -448,14 +377,134 @@ https://github.com/IronBrushTattoo/cj_rails.git
 *** latex processing
 
 **** Prawn
+     https://github.com/prawnpdf/prawn
+
+***** Setup
+
+     - [X] [[Gemfile]]
+     : #gem 'prawn', '~> 2.1'
+     : gem 'prawn'
+
+     - [X] bundle install
+
+****** Manual
+
+       http://prawnpdf.org/manual.pdf
+
+       - [X] clone repository
+
+         : git clone https://github.com/prawnpdf/prawn
+
+       - [ ] switch to the stable branch 
+
+         : git branch stable
+         
+       - [X] bundle install
+
+       - [ ] bundle exec rake manual
+         generates /manual.pdf/ in the project root
     
+***** basic_concepts/creation.rb
+
+      : Prawn::Document
+      : Prawn::Document.generate
+
+***** Tutorials
+****** Creating PDF Using Prawn in Ruby on Rails
+
+       http://www.idyllic-software.com/blog/creating-pdf-using-prawn-in-ruby-on-rails/
+
+       - [X] [[Gemfile]]
+
+         : gem 'prawn'
+         : bundle install
+
+       - [X] [[./config/initializers/mime_types.rb]]
+
+         create a PDF Mime::Type inside mime_types.rb
+
+         #+NAME: mime_types.rb
+         #+begin_src ruby :tangle config/initializers/mime_types.rb
+           # Be sure to restart your server when you modify this file.
+
+           # Add new mime types for use in respond_to blocks:
+           # Mime::Type.register "text/richtext", :rtf
+
+           Mime::Type.register "application/pdf", :pdf
+         #+end_src
+
+       - [X] [[./app/controllers/spreadsheets_controller.rb]]
+
+         [[Spreadsheets]]
+         
+         http://www.idyllic-software.com/blog/creating-pdf-using-prawn-in-ruby-on-rails/
+         
+         : class InvoicesController < ApplicationController
+         :
+         :   before_filter :authenticate_customer!, :only => [:index, :show]
+         :
+         :   def index
+         :     @invoices = Invoice.all_invoices(current_customer)
+         :   end
+         :
+         :   def show
+         :     @invoice = Invoice.find(params[:id])
+         :     respond_to do |format|
+         :       format.html
+         :       format.pdf do
+         :         pdf = InvoicePdf.new(@invoice, view_context)
+         :         send_data pdf.render, filename: 
+         :           "invoice_#{@invoice.created_at.strftime("%d/%m/%Y")}.pdf",
+         :           type: "application/pdf"
+         :       end
+         :     end
+         :   end
+         : 
+         : end
+
+         - [X] open pdf in browser instead of download
+
+           add /disposition: "inline"/ after type
+
+       - [X] create a new class *app/pdfs/spreadsheet_pdf*
+         
+         [[SpreadsheetPdf]]
+
+         [[Spreadsheets]]
+
+       - [X] restart server
+
+       - [X] [[SpreadsheetPdf]]
+
+         set the /@spreadsheet/ and /view_context/
+
+         : def initialize(spreadsheet, view)
+         :   super()
+         :   @spreadsheet = spreadsheet
+         :   @view = view
+         :   text "Spreadsheet #{@spreadsheet.id}"
+         : end
+
+       - [ ] create different methods inside [[SpreadsheetPdf]] as per what you want to show on the pdf
+
+         - example
+
+           : def logo
+           :   logopath = "#{Rails.root}/app/assets/images/logo.png"
+           :   image logopath, :width => 197, :height => 91
+           : end
+       
+******* Issues
+
+        - [ ] NameError (uninitialized constant SpreadsheetsController::SpreadsheetPdf)
+      
 **** nb
       https://rubygems.org/search?utf8=%E2%9C%93&query=latex
       http://www.sitepoint.com/hackable-pdf-typesetting-in-ruby-with-prawn/
       
       https://github.com/prawnpdf/prawn
 
-      Prawn is active and looks rad!
+      [[Prawn]] is active and looks rad!
 
       - outdated but possibly useful
 
@@ -583,6 +632,38 @@ https://github.com/IronBrushTattoo/cj_rails.git
       end
     #+end_src
 
+*** Label
+** Classes
+
+*** SpreadsheetPdf
+
+    : mkdir ./app/pdfs
+
+    [[./app/pdfs/spreadsheet_pdf.rb]]
+
+    #+begin_src ruby :tangle app/pdfs/spreadsheet_pdf.rb :padline no
+      class SpreadsheetPdf < Prawn::Document
+
+        def initialize(spreadsheet, view)
+          super()
+          @spreadsheet = spreadsheet.to_json
+          @view = view
+          logo
+          text "@spreadsheet is of class #{@spreadsheet.class} as #{@spreadsheet}"
+        end
+
+        def logo
+          logopath = "#{Rails.root}/app/assets/images/logo.png"
+          image logopath, :width => 197, :height => 197
+        end
+        
+      end
+    #+end_src
+
+    - nb
+
+      [[Prawn]]
+
 ** TODO
 
    - [ ] Tests
@@ -592,6 +673,8 @@ https://github.com/IronBrushTattoo/cj_rails.git
      - [ ] roo
      - [ ] chronic
    - [ ] pdflatex
+
+     [[Prawn]]
    - [ ] migrate code from cj-parser
    - [ ] user authentication
    - [ ] file upload
@@ -599,3 +682,7 @@ https://github.com/IronBrushTattoo/cj_rails.git
      - [ ] AWS
    - [ ] file storage
      - [ ] archival api?
+   - [ ] production
+     - [ ] heroku
+       - [ ] secrets
+

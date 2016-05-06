@@ -6,12 +6,6 @@
 <ul>
 <li><a href="#sec-1-1">1.1. Gemfile</a></li>
 <li><a href="#sec-1-2">1.2. Gems</a></li>
-<li><a href="#sec-1-3">1.3. Environments</a>
-<ul>
-<li><a href="#sec-1-3-1">1.3.1. Development</a></li>
-<li><a href="#sec-1-3-2">1.3.2. Production</a></li>
-</ul>
-</li>
 </ul>
 </li>
 <li><a href="#sec-2">2. First steps</a></li>
@@ -46,9 +40,15 @@
 <ul>
 <li><a href="#sec-3-7-1">3.7.1. Page</a></li>
 <li><a href="#sec-3-7-2">3.7.2. Spreadsheet</a></li>
+<li><a href="#sec-3-7-3">3.7.3. Label</a></li>
 </ul>
 </li>
-<li><a href="#sec-3-8">3.8. <span class="todo TODO">TODO</span> </a></li>
+<li><a href="#sec-3-8">3.8. Classes</a>
+<ul>
+<li><a href="#sec-3-8-1">3.8.1. SpreadsheetPdf</a></li>
+</ul>
+</li>
+<li><a href="#sec-3-9">3.9. <span class="todo TODO">TODO</span> </a></li>
 </ul>
 </li>
 </ul>
@@ -78,6 +78,8 @@
     gem 'sdoc', '~> 0.4.0', group: :doc
     gem 'dragonfly', '~> 1.0.12'
     gem 'rack-cache', :require => 'rack/cache'
+    #gem 'prawn', '~> 2.1'
+    gem 'prawn'
     
     group :development, :test do
       gem 'byebug'
@@ -91,94 +93,7 @@
 ## Gems<a id="sec-1-2" name="sec-1-2"></a>
 
 3.2.1
-
-## Environments<a id="sec-1-3" name="sec-1-3"></a>
-
-### Development<a id="sec-1-3-1" name="sec-1-3-1"></a>
-
-### Production<a id="sec-1-3-2" name="sec-1-3-2"></a>
-
-<./config/environments/production.rb>
-
-    Rails.application.configure do
-      # Settings specified here will take precedence over those in config/application.rb.
-    
-      # Code is not reloaded between requests.
-      config.cache_classes = true
-    
-      # Eager load code on boot. This eager loads most of Rails and
-      # your application in memory, allowing both threaded web servers
-      # and those relying on copy on write to perform better.
-      # Rake tasks automatically ignore this option for performance.
-      config.eager_load = true
-    
-      # Full error reports are disabled and caching is turned on.
-      config.consider_all_requests_local       = false
-      config.action_controller.perform_caching = true
-    
-      # Enable Rack::Cache to put a simple HTTP cache in front of your application
-      # Add `rack-cache` to your Gemfile before enabling this.
-      # For large-scale production use, consider using a caching reverse proxy like
-      # NGINX, varnish or squid.
-      config.action_dispatch.rack_cache = true
-    
-      # Disable serving static files from the `/public` folder by default since
-      # Apache or NGINX already handles this.
-      config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?
-    
-      # Compress JavaScripts and CSS.
-      config.assets.js_compressor = :uglifier
-      # config.assets.css_compressor = :sass
-    
-      # Do not fallback to assets pipeline if a precompiled asset is missed.
-      config.assets.compile = false
-    
-      # Asset digests allow you to set far-future HTTP expiration dates on all assets,
-      # yet still be able to expire them through the digest params.
-      config.assets.digest = true
-    
-      # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
-    
-      # Specifies the header that your server uses for sending files.
-      # config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for Apache
-      # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
-    
-      # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-      # config.force_ssl = true
-    
-      # Use the lowest log level to ensure availability of diagnostic information
-      # when problems arise.
-      config.log_level = :debug
-    
-      # Prepend all log lines with the following tags.
-      # config.log_tags = [ :subdomain, :uuid ]
-    
-      # Use a different logger for distributed setups.
-      # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
-    
-      # Use a different cache store in production.
-      # config.cache_store = :mem_cache_store
-    
-      # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-      # config.action_controller.asset_host = 'http://assets.example.com'
-    
-      # Ignore bad email addresses and do not raise email delivery errors.
-      # Set this to true and configure the email server for immediate delivery to raise delivery errors.
-      # config.action_mailer.raise_delivery_errors = false
-    
-      # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
-      # the I18n.default_locale when a translation cannot be found).
-      config.i18n.fallbacks = true
-    
-      # Send deprecation notices to registered listeners.
-      config.active_support.deprecation = :notify
-    
-      # Use default logging formatter so that PID and timestamp are not suppressed.
-      config.log_formatter = ::Logger::Formatter.new
-    
-      # Do not dump schema after migrations.
-      config.active_record.dump_schema_after_migration = false
-    end
+3.3.2.1
 
 # First steps<a id="sec-2" name="sec-2"></a>
 
@@ -389,6 +304,17 @@ application.
                   end
                 
                   def show
+                    @spreadsheet = Spreadsheet.find(params[:id])
+                    respond_to do |format|
+                      format.html
+                      format.pdf do
+                        pdf = SpreadsheetPdf.new(@spreadsheet, view_context)
+                        send_data pdf.render,
+                                  filename: "spreadsheet_#{@spreadsheet.created_at.strftime("%d/%m/%Y")}.pdf",
+                                  type: "application/pdf",
+                                  disposition: "inline"
+                      end
+                    end
                   end
                 
                   def new
@@ -441,6 +367,11 @@ application.
                     params.require(:spreadsheet).permit(:index, :file)
                   end
                 end
+            
+            -   nb
+                
+                3.3.2.1
+                3.3.2.1.3.1
         
         -   [X] view for displaying
             
@@ -459,7 +390,7 @@ application.
         
         -   [X] bundle install
     
-    -   [X] uncomment in 1.3.2
+    -   [X] uncomment in 
         
             config.action_dispatch.rack_cache = true
 
@@ -489,6 +420,125 @@ application.
 
 1.  Prawn
 
+    <https://github.com/prawnpdf/prawn>
+    
+    1.  Setup
+    
+        -   [X] 1
+        
+            #gem 'prawn', '~> 2.1'
+            gem 'prawn'
+        
+        -   [X] bundle install
+        
+        1.  Manual
+        
+            <http://prawnpdf.org/manual.pdf>
+            
+            -   [X] clone repository
+                
+                    git clone https://github.com/prawnpdf/prawn
+            
+            -   [ ] switch to the stable branch 
+                
+                    git branch stable
+            
+            -   [X] bundle install
+            
+            -   [ ] bundle exec rake manual
+                generates *manual.pdf* in the project root
+    
+    2.  basic<sub>concepts</sub>/creation.rb
+    
+            Prawn::Document
+            Prawn::Document.generate
+    
+    3.  Tutorials
+    
+        1.  Creating PDF Using Prawn in Ruby on Rails
+        
+            <http://www.idyllic-software.com/blog/creating-pdf-using-prawn-in-ruby-on-rails/>
+            
+            -   [X] 1
+                
+                    gem 'prawn'
+                    bundle install
+            
+            -   [X] <./config/initializers/mime_types.rb>
+                
+                create a PDF Mime::Type inside mime<sub>types</sub>.rb
+                
+                    # Be sure to restart your server when you modify this file.
+                    
+                    # Add new mime types for use in respond_to blocks:
+                    # Mime::Type.register "text/richtext", :rtf
+                    
+                    Mime::Type.register "application/pdf", :pdf
+            
+            -   [X] <./app/controllers/spreadsheets_controller.rb>
+                
+                3.6.2
+                
+                <http://www.idyllic-software.com/blog/creating-pdf-using-prawn-in-ruby-on-rails/>
+                
+                    class InvoicesController < ApplicationController
+                    
+                      before_filter :authenticate_customer!, :only => [:index, :show]
+                    
+                      def index
+                        @invoices = Invoice.all_invoices(current_customer)
+                      end
+                    
+                      def show
+                        @invoice = Invoice.find(params[:id])
+                        respond_to do |format|
+                          format.html
+                          format.pdf do
+                            pdf = InvoicePdf.new(@invoice, view_context)
+                            send_data pdf.render, filename: 
+                              "invoice_#{@invoice.created_at.strftime("%d/%m/%Y")}.pdf",
+                              type: "application/pdf"
+                          end
+                        end
+                      end
+                    
+                    end
+                
+                -   [X] open pdf in browser instead of download
+                    
+                    add /disposition: "inline"/ after type
+            
+            -   [X] create a new class **app/pdfs/spreadsheet<sub>pdf</sub>**
+                
+                3.8.1
+                
+                3.6.2
+            
+            -   [X] restart server
+            
+            -   [X] 3.8.1
+                
+                set the *@spreadsheet* and *view<sub>context</sub>*
+                
+                    def initialize(spreadsheet, view)
+                      super()
+                      @spreadsheet = spreadsheet
+                      @view = view
+                      text "Spreadsheet #{@spreadsheet.id}"
+                    end
+            
+            -   [ ] create different methods inside 3.8.1 as per what you want to show on the pdf
+                -   example
+                    
+                        def logo
+                          logopath = "#{Rails.root}/app/assets/images/logo.png"
+                          image logopath, :width => 197, :height => 91
+                        end
+            
+            1.  Issues
+            
+                -   [ ] NameError (uninitialized constant SpreadsheetsController::SpreadsheetPdf)
+
 2.  nb
 
     <https://rubygems.org/search?utf8=%E2%9C%93&query=latex>
@@ -496,7 +546,7 @@ application.
     
     <https://github.com/prawnpdf/prawn>
     
-    Prawn is active and looks rad!
+    3.3.2.1 is active and looks rad!
     
     -   outdated but possibly useful
         
@@ -608,7 +658,38 @@ Static pages controller
       dragonfly_accessor :file  # defines a reader/writer for file
     end
 
-## TODO <a id="sec-3-8" name="sec-3-8"></a>
+### Label<a id="sec-3-7-3" name="sec-3-7-3"></a>
+
+## Classes<a id="sec-3-8" name="sec-3-8"></a>
+
+### SpreadsheetPdf<a id="sec-3-8-1" name="sec-3-8-1"></a>
+
+    mkdir ./app/pdfs
+
+<./app/pdfs/spreadsheet_pdf.rb>
+
+    class SpreadsheetPdf < Prawn::Document
+    
+      def initialize(spreadsheet, view)
+        super()
+        @spreadsheet = spreadsheet.to_json
+        @view = view
+        logo
+        text "@spreadsheet is of class #{@spreadsheet.class} as #{@spreadsheet}"
+      end
+    
+      def logo
+        logopath = "#{Rails.root}/app/assets/images/logo.png"
+        image logopath, :width => 197, :height => 197
+      end
+    
+    end
+
+-   nb
+    
+    3.3.2.1
+
+## TODO <a id="sec-3-9" name="sec-3-9"></a>
 
 -   [ ] Tests
 -   [ ] sidekiq
@@ -617,6 +698,8 @@ Static pages controller
     -   [ ] roo
     -   [ ] chronic
 -   [ ] pdflatex
+    
+    3.3.2.1
 -   [ ] migrate code from cj-parser
 -   [ ] user authentication
 -   [ ] file upload
@@ -624,3 +707,6 @@ Static pages controller
     -   [ ] AWS
 -   [ ] file storage
     -   [ ] archival api?
+-   [ ] production
+    -   [ ] heroku
+        -   [ ] secrets

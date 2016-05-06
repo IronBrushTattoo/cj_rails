@@ -6,6 +6,17 @@ class SpreadsheetsController < ApplicationController
   end
 
   def show
+    @spreadsheet = Spreadsheet.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.pdf do
+        pdf = SpreadsheetPdf.new(@spreadsheet, view_context)
+        send_data pdf.render,
+                  filename: "spreadsheet_#{@spreadsheet.created_at.strftime("%d/%m/%Y")}.pdf",
+                  type: "application/pdf",
+                  disposition: "inline"
+      end
+    end
   end
 
   def new
