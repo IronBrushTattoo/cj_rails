@@ -767,18 +767,8 @@ Static pages controller
         xls_file = get_labels("#{file_path}/#{@spreadsheet.file_uid}")
         @view = view
     
-        #make_table(xls_file)
         make_labels(xls_file)
     
-      end
-    
-      def make_table(file)
-        t = make_table(file)
-    
-        t.draw
-        move_down 20
-    
-        table([ ["short", "short", "loooooooooong"], ["sjdlfkjd", "lksjfdks"] ])
       end
     
       def desc_box(desc)
@@ -794,9 +784,7 @@ Static pages controller
     
       def size_box(gauge,size)
         transparent(0.1) do
-          #stroke_rectangle [($box_width/2.1)-$padding, $mid+$padding], $text_width, 31
           stroke_rectangle [0, $box_height+$padding], $box_width, $box_height*0.75
-          #stroke_rectangle [$box_height, 0], $text_wdith, $box_width*0.75
         end
     
         transparent(0.6) do
@@ -851,7 +839,6 @@ Static pages controller
             #stroke_axis
     
             fill_color "000000"
-            #stroke_color "d72d2d"
             stroke_color "ffffff"
     
             $box_width = 144
@@ -873,7 +860,6 @@ Static pages controller
               price_box(label.price)
             end
     
-            #transparent(0.5) { stroke_bounds }
           end
     
           if count%4 == 0
@@ -909,7 +895,6 @@ Static pages controller
     
           sheet = xls_file.sheet(sheet)
     
-          #sheet.parse[4..-1].each do |row|
           sheet.parse[0..-1].each do |row|
     
             zero,one,two,four,five,ten = nil_convert(row[0]),
