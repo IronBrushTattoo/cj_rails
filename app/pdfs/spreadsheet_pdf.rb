@@ -147,7 +147,6 @@ class SpreadsheetPdf < Prawn::Document
         sizes = strip(five.to_s)
         gauge = "#{sizes[0]}g" unless sizes[0].nil?
         size = "#{sizes[1]}\"" unless sizes[1].nil?
-        #size = "#{sizes[1]}" 
         desc = two.gsub("&", "and")
         id = one.to_s.split(/-/)[0]
         price = "$#{four.to_s.split(".")[0]}"
