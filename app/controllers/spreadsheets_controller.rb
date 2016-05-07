@@ -66,6 +66,6 @@ class SpreadsheetsController < ApplicationController
   end
 
   def spreadsheet_params
-    params.require(:spreadsheet).permit(:index, :file)
+    params.require(:spreadsheet).permit(:index, :file, :days)
   end
 end
