@@ -355,6 +355,216 @@ https://github.com/IronBrushTattoo/cj_rails.git
 
 **** Handling attachments
 
+     - Labelsheet model 
+
+         Model: /Labelsheet/
+
+         [[Labelsheet]]
+
+         [[./db/migrate]]
+
+         - [-] create Labelsheet
+           
+           : rails g scaffold Labelsheet days:integer file_uid:string file_name:string
+
+           : rake db:migrate
+
+           - [-] check for coffee and scaffold files
+             - [X] coffee
+               - [X] rm
+             - [X] scaffold.scss
+               - [X] rm
+             - [ ] look into scaffold configuration
+
+         - [X] add /file/ attribute to Labelsheet
+
+           [[Labelsheet]]
+
+           [[./app/models/labelsheet.rb]]
+
+           : class Labelsheet < ActiveRecord::Base
+           :   dragonfly_accessor :file  # defines a reader/writer for file
+           :   # ...
+           : end
+       
+         - [X] update [[Routes]]
+
+           : resources :labelsheets
+           : get "labelsheets" => "labelsheets#new"
+
+         - [ ] update [[Auth0]] for Labelsheet references
+
+         - [X] view for uploading
+
+           [[Views]]
+
+           [[./app/views/labelsheets/_form.html.erb]]
+
+           : <% form_for @labelsheet do |f| %>
+           :   ...
+           :   <%= f.file_field :file %>
+           :   ...
+           : <% end %>
+
+         - [X] Remodel SpreadsheetPdf to LabelsheetPdf
+
+           [[LabelsheetPdf]]
+         
+         - [X] allow parameter /file/ to be accepted by the controller
+
+           [[./app/controllers/labelsheets_controller.rb]]
+
+           [[Labelsheets]]
+
+           #+NAME: DEPRECATED :: spreadsheets controller
+           #+begin_src ruby
+             class SpreadsheetsController < SecuredController
+               before_action :set_spreadsheet, only: [:show, :edit, :update, :destroy]
+               before_action :logged_in_using_omniauth?, only: [:new, :edit, :update, :destroy]
+
+               def index
+                 @spreadsheets = Spreadsheet.all
+               end
+
+               def show
+                 @spreadsheet = Spreadsheet.find(params[:id])
+                 respond_to do |format|
+                   format.html
+                   format.pdf do
+                     pdf = SpreadsheetPdf.new(@spreadsheet, view_context)
+                     send_data pdf.render,
+                               filename: "spreadsheet_#{@spreadsheet.created_at.strftime("%d/%m/%Y")}.pdf",
+                               type: "application/pdf",
+                               disposition: "inline"
+                   end
+                 end
+               end
+
+               def new
+                 @spreadsheet = Spreadsheet.new
+               end
+
+               def edit
+               end
+
+               def create
+                 @spreadsheet = Spreadsheet.new(spreadsheet_params)
+
+                 respond_to do |format|
+                   if @spreadsheet.save
+                     format.html { redirect_to @spreadsheet, notice: 'Spreadsheet was successfully created.' }
+                     format.json { render :show, status: :created, location: @spreadsheet }
+                   else
+                     format.html { render :new }
+                     format.json { render json: @spreadsheet.errors, status: :unprocessable_entity }
+                   end
+                 end
+               end
+
+               def update
+                 respond_to do |format|
+                   if @spreadsheet.update(spreadsheet_params)
+                     format.html { redirect_to @spreadsheet, notice: 'Spreadsheet was successfully updated.' }
+                     format.json { render :show, status: :ok, location: @spreadsheet }
+                   else
+                     format.html { render :edit }
+                     format.json { render json: @spreadsheet.errors, status: :unprocessable_entity }
+                   end
+                 end
+               end
+
+               def destroy
+                 @spreadsheet.destroy
+                 respond_to do |format|
+                   format.html { redirect_to spreadsheets_url, notice: 'Spreadsheet was successfully destroyed.' }
+                   format.json { head :no_content }
+                 end
+               end
+
+               private
+               def set_spreadsheet
+                 @spreadsheet = Spreadsheet.find(params[:id])
+               end
+
+               def spreadsheet_params
+                 params.require(:spreadsheet).permit(:index, :file, :days)
+               end
+             end
+
+           #+end_src
+
+           - nb
+           
+             [[Prawn]]
+             [[Creating PDF Using Prawn in Ruby on Rails]]
+
+         - [X] view for displaying
+
+           [[Views]]
+
+           [[./app/views/labelsheets/show.html.erb]]
+           [[./app/views/labelsheets/index.html.erb]]
+
+           : <%= @labelsheet.file_name if @labelsheet.file_stored? %>
+
+         - more can be done with [[http://markevans.github.io/dragonfly/models][models]]
+
+**** Caching
+
+     - [X] [[Gemfile]]
+
+       : gem 'rack-cache', :require => 'rack/cache'
+
+       - [X] bundle install
+
+     - [X] uncomment in [[Production]]
+
+       : config.action_dispatch.rack_cache = true
+
+**** Custom Endpoints
+
+     [[Routes]]
+
+     - [ ] text generation example
+       
+       : get "text/:text" => Dragonfly.app.endpoint { |params, app|
+       :   app.generate(:text, params[:text], 'font-size' => 42)
+       : }
+
+     - [ ] endpoint callable from javascript (e.g. /image?file=egg.png&size=30x30)
+
+       : get "image" => Dragonfly.app.endpoint { |params, app|
+       :   app.fetch_file("some/dir/#{params[:file]}").thumb(params[:size])
+       : }
+
+**** Using Another Data Store
+
+     http://www.sitepoint.com/file-uploads-dragonfly/
+
+     - [ ] add [[./public/system/dragonfly]] to [[./.gitignore]]
+
+       #+NAME: gitignore
+       #+begin_src text :tangle .gitignore :padline no
+         # See https://help.github.com/articles/ignoring-files for more about ignoring files.
+         #
+         # If you find yourself ignoring temporary files generated by your text editor
+         # or operating system, you probably want to add a global ignore instead:
+         #   git config --global core.excludesfile '~/.gitignore_global'
+
+         # Ignore bundler config.
+         /.bundle
+
+         # Ignore all logfiles and tempfiles.
+         /log/*
+         !/log/.keep
+         /tmp
+
+         /public/system/dragonfly
+       #+end_src
+
+
+**** DEPRECATIONS :noexport:
+
      - example (replace Photo model with Spreadsheet)
 
        Model: /Photo/
@@ -535,213 +745,6 @@ https://github.com/IronBrushTattoo/cj_rails.git
            [[./app/views/spreadsheets/index.html.erb]]
 
            : <%= @spreadsheet.file_name if @spreadsheet.file_stored? %>
-
-       - Labelsheet model sketch based on above example
-
-         Model: /Labelsheet/
-
-         [[Labelsheet]]
-
-         [[./db/migrate]]
-
-         - [-] create Labelsheet
-           
-           : rails g scaffold Labelsheet days:integer file_uid:string file_name:string
-
-           : rake db:migrate
-
-           - [-] check for coffee and scaffold files
-             - [X] coffee
-               - [X] rm
-             - [X] scaffold.scss
-               - [X] rm
-             - [ ] look into scaffold configuration
-
-         - [X] add /file/ attribute to Labelsheet
-
-           [[Labelsheet]]
-
-           [[./app/models/labelsheet.rb]]
-
-           : class Labelsheet < ActiveRecord::Base
-           :   dragonfly_accessor :file  # defines a reader/writer for file
-           :   # ...
-           : end
-       
-         - [X] update [[Routes]]
-
-           : resources :labelsheets
-           : get "labelsheets" => "labelsheets#new"
-
-         - [ ] update [[Auth0]] for Labelsheet references
-
-         - [X] view for uploading
-
-           [[Views]]
-
-           [[./app/views/labelsheets/_form.html.erb]]
-
-           : <% form_for @labelsheet do |f| %>
-           :   ...
-           :   <%= f.file_field :file %>
-           :   ...
-           : <% end %>
-
-         - [X] Remodel SpreadsheetPdf to LabelsheetPdf
-
-           [[LabelsheetPdf]]
-         
-         - [X] allow parameter /file/ to be accepted by the controller
-
-           [[./app/controllers/labelsheets_controller.rb]]
-
-           [[Labelsheets]]
-
-           #+NAME: DEPRECATED :: spreadsheets controller
-           #+begin_src ruby
-             class SpreadsheetsController < SecuredController
-               before_action :set_spreadsheet, only: [:show, :edit, :update, :destroy]
-               before_action :logged_in_using_omniauth?, only: [:new, :edit, :update, :destroy]
-
-               def index
-                 @spreadsheets = Spreadsheet.all
-               end
-
-               def show
-                 @spreadsheet = Spreadsheet.find(params[:id])
-                 respond_to do |format|
-                   format.html
-                   format.pdf do
-                     pdf = SpreadsheetPdf.new(@spreadsheet, view_context)
-                     send_data pdf.render,
-                               filename: "spreadsheet_#{@spreadsheet.created_at.strftime("%d/%m/%Y")}.pdf",
-                               type: "application/pdf",
-                               disposition: "inline"
-                   end
-                 end
-               end
-
-               def new
-                 @spreadsheet = Spreadsheet.new
-               end
-
-               def edit
-               end
-
-               def create
-                 @spreadsheet = Spreadsheet.new(spreadsheet_params)
-
-                 respond_to do |format|
-                   if @spreadsheet.save
-                     format.html { redirect_to @spreadsheet, notice: 'Spreadsheet was successfully created.' }
-                     format.json { render :show, status: :created, location: @spreadsheet }
-                   else
-                     format.html { render :new }
-                     format.json { render json: @spreadsheet.errors, status: :unprocessable_entity }
-                   end
-                 end
-               end
-
-               def update
-                 respond_to do |format|
-                   if @spreadsheet.update(spreadsheet_params)
-                     format.html { redirect_to @spreadsheet, notice: 'Spreadsheet was successfully updated.' }
-                     format.json { render :show, status: :ok, location: @spreadsheet }
-                   else
-                     format.html { render :edit }
-                     format.json { render json: @spreadsheet.errors, status: :unprocessable_entity }
-                   end
-                 end
-               end
-
-               def destroy
-                 @spreadsheet.destroy
-                 respond_to do |format|
-                   format.html { redirect_to spreadsheets_url, notice: 'Spreadsheet was successfully destroyed.' }
-                   format.json { head :no_content }
-                 end
-               end
-
-               private
-               def set_spreadsheet
-                 @spreadsheet = Spreadsheet.find(params[:id])
-               end
-
-               def spreadsheet_params
-                 params.require(:spreadsheet).permit(:index, :file, :days)
-               end
-             end
-
-           #+end_src
-
-           - nb
-           
-             [[Prawn]]
-             [[Creating PDF Using Prawn in Ruby on Rails]]
-
-         - [X] view for displaying
-
-           [[Views]]
-
-           [[./app/views/labelsheets/show.html.erb]]
-           [[./app/views/labelsheets/index.html.erb]]
-
-           : <%= @labelsheet.file_name if @labelsheet.file_stored? %>
-
-       - more can be done with [[http://markevans.github.io/dragonfly/models][models]]
-
-**** Caching
-
-     - [X] [[Gemfile]]
-
-       : gem 'rack-cache', :require => 'rack/cache'
-
-       - [X] bundle install
-
-     - [X] uncomment in [[Production]]
-
-       : config.action_dispatch.rack_cache = true
-
-**** Custom Endpoints
-
-     [[Routes]]
-
-     - [ ] text generation example
-       
-       : get "text/:text" => Dragonfly.app.endpoint { |params, app|
-       :   app.generate(:text, params[:text], 'font-size' => 42)
-       : }
-
-     - [ ] endpoint callable from javascript (e.g. /image?file=egg.png&size=30x30)
-
-       : get "image" => Dragonfly.app.endpoint { |params, app|
-       :   app.fetch_file("some/dir/#{params[:file]}").thumb(params[:size])
-       : }
-
-**** Using Another Data Store
-
-     http://www.sitepoint.com/file-uploads-dragonfly/
-
-     - [ ] add [[./public/system/dragonfly]] to [[./.gitignore]]
-
-       #+NAME: gitignore
-       #+begin_src text :tangle .gitignore :padline no
-         # See https://help.github.com/articles/ignoring-files for more about ignoring files.
-         #
-         # If you find yourself ignoring temporary files generated by your text editor
-         # or operating system, you probably want to add a global ignore instead:
-         #   git config --global core.excludesfile '~/.gitignore_global'
-
-         # Ignore bundler config.
-         /.bundle
-
-         # Ignore all logfiles and tempfiles.
-         /log/*
-         !/log/.keep
-         /tmp
-
-         /public/system/dragonfly
-       #+end_src
 
 ** File Conversion
 

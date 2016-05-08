@@ -409,330 +409,153 @@ application.
 
 2.  Handling attachments
 
-    -   example (replace Photo model with Spreadsheet)
+    -   Labelsheet model 
         
-        Model: *Photo*
+        Model: *Labelsheet*
         
-        -   Sun May  8 11:00:11 CDT 2016
-            
-            REMODELING Spreadsheet into Labelsheet
+        3.7.3
         
-        -   add *image* attribute to Photo
-            
-                class Photo < ActiveRecord::Base
-                  dragonfly_accessor :image  # defines a reader/writer for image
-                  # ...
-                end
+        <./db/migrate>
         
-        -   needs *image<sub>uid</sub>* column, create migration with
+        -   [-] create Labelsheet
             
-                rails g migration
+                rails g scaffold Labelsheet days:integer file_uid:string file_name:string
             
-                add_column :photos, :image_uid, :string
-                add_column :photos, :image_name, :string  # Optional - if you want 
-                                                          # urls to end with the 
-                                                          # original filename
+                rake db:migrate
+            
+            -   [-] check for coffee and scaffold files
+                -   [X] coffee
+                    -   [X] rm
+                -   [X] scaffold.scss
+                    -   [X] rm
+                -   [ ] look into scaffold configuration
         
-        -   view for uploading
-            
-                app/views/photos/...
-            
-                <% form_for @photo do |f| %>
-                  ...
-                  <%= f.file_field :image %>
-                  ...
-                <% end %>
-        
-        -   allow parameter *image* to be accepted by the controller
-            
-                app/controllers/photos_controller.rb
-            
-                params.require(:photo).permit(:image)
-        
-        -   view for displaying
-            
-                <%= image_tag @photo.image.thumb('400x200#').url if @photo.image_stored? %>
-        
-        -   more can be done with [models](http://markevans.github.io/dragonfly/models)
-        
-        -   DEPRECATED::REMODEL::Labelsheet = Spreadsheet model sketch based on above example
-            
-            Model: *Spreadsheet*
-            
-            
-            
-            -   [X] add *file* attribute to Spreadsheet
-                
-                    class Spreadsheet < ActiveRecord::Base
-                      dragonfly_accessor :file  # defines a reader/writer for file
-                      # ...
-                    end
-            
-            -   [X] needs *file<sub>uid</sub>* column, create migration with
-                
-                    rails g migration AddFileUidToSpreadsheets file_uid:string
-                    rails g migration AddFileNameToSpreadsheets file_name:string
-                
-                <./db/migrate/20160504011342_add_file_uid_to_spreadsheets.rb>
-                <./db/migrate/20160504011542_add_file_name_to_spreadsheets.rb>
-                
-                    add_column :spreadsheets, :file_uid, :string
-                    add_column :spreadsheets, :file_name, :string  # Optional - if you want 
-                                                                   # urls to end with the 
-                                                                   # original filename
-                
-                    rake db:migrate
-            
-            -   [X] view for uploading
-                
-                <./app/views/spreadsheets/>
-                
-                    <% form_for @spreadsheet do |f| %>
-                      ...
-                      <%= f.file_field :file %>
-                      ...
-                    <% end %>
-            
-            -   [X] allow parameter *file* to be accepted by the controller
-                
-                <./app/controllers/spreadsheets_controller.rb>
-                
-                    params.require(:spreadsheet).permit(:file)
-                
-                
-                
-                    class SpreadsheetsController < SecuredController
-                      before_action :set_spreadsheet, only: [:show, :edit, :update, :destroy]
-                      before_action :logged_in_using_omniauth?, only: [:new, :edit, :update, :destroy]
-                    
-                      def index
-                        @spreadsheets = Spreadsheet.all
-                      end
-                    
-                      def show
-                        @spreadsheet = Spreadsheet.find(params[:id])
-                        respond_to do |format|
-                          format.html
-                          format.pdf do
-                            pdf = SpreadsheetPdf.new(@spreadsheet, view_context)
-                            send_data pdf.render,
-                                      filename: "spreadsheet_#{@spreadsheet.created_at.strftime("%d/%m/%Y")}.pdf",
-                                      type: "application/pdf",
-                                      disposition: "inline"
-                          end
-                        end
-                      end
-                    
-                      def new
-                        @spreadsheet = Spreadsheet.new
-                      end
-                    
-                      def edit
-                      end
-                    
-                      def create
-                        @spreadsheet = Spreadsheet.new(spreadsheet_params)
-                    
-                        respond_to do |format|
-                          if @spreadsheet.save
-                            format.html { redirect_to @spreadsheet, notice: 'Spreadsheet was successfully created.' }
-                            format.json { render :show, status: :created, location: @spreadsheet }
-                          else
-                            format.html { render :new }
-                            format.json { render json: @spreadsheet.errors, status: :unprocessable_entity }
-                          end
-                        end
-                      end
-                    
-                      def update
-                        respond_to do |format|
-                          if @spreadsheet.update(spreadsheet_params)
-                            format.html { redirect_to @spreadsheet, notice: 'Spreadsheet was successfully updated.' }
-                            format.json { render :show, status: :ok, location: @spreadsheet }
-                          else
-                            format.html { render :edit }
-                            format.json { render json: @spreadsheet.errors, status: :unprocessable_entity }
-                          end
-                        end
-                      end
-                    
-                      def destroy
-                        @spreadsheet.destroy
-                        respond_to do |format|
-                          format.html { redirect_to spreadsheets_url, notice: 'Spreadsheet was successfully destroyed.' }
-                          format.json { head :no_content }
-                        end
-                      end
-                    
-                      private
-                      def set_spreadsheet
-                        @spreadsheet = Spreadsheet.find(params[:id])
-                      end
-                    
-                      def spreadsheet_params
-                        params.require(:spreadsheet).permit(:index, :file, :days)
-                      end
-                    end
-                
-                -   nb
-                    
-                    3.3.2.1
-                    3.3.2.1.2.1
-            
-            -   [X] view for displaying
-                
-                <./app/views/spreadsheets/show.html.erb>
-                <./app/views/spreadsheets/index.html.erb>
-                
-                    <%= @spreadsheet.file_name if @spreadsheet.file_stored? %>
-        
-        -   Labelsheet model sketch based on above example
-            
-            Model: *Labelsheet*
+        -   [X] add *file* attribute to Labelsheet
             
             3.7.3
             
-            <./db/migrate>
+            <./app/models/labelsheet.rb>
             
-            -   [-] create Labelsheet
-                
-                    rails g scaffold Labelsheet days:integer file_uid:string file_name:string
-                
-                    rake db:migrate
-                
-                -   [-] check for coffee and scaffold files
-                    -   [X] coffee
-                        -   [X] rm
-                    -   [X] scaffold.scss
-                        -   [X] rm
-                    -   [ ] look into scaffold configuration
+                class Labelsheet < ActiveRecord::Base
+                  dragonfly_accessor :file  # defines a reader/writer for file
+                  # ...
+                end
+        
+        -   [X] update 3.5.1
             
-            -   [X] add *file* attribute to Labelsheet
-                
-                3.7.3
-                
-                <./app/models/labelsheet.rb>
-                
-                    class Labelsheet < ActiveRecord::Base
-                      dragonfly_accessor :file  # defines a reader/writer for file
-                      # ...
-                    end
+                resources :labelsheets
+                get "labelsheets" => "labelsheets#new"
+        
+        -   [ ] update for Labelsheet references
+        
+        -   [X] view for uploading
             
-            -   [X] update 3.5.1
-                
-                    resources :labelsheets
-                    get "labelsheets" => "labelsheets#new"
+            3.5
             
-            -   [ ] update for Labelsheet references
+            <./app/views/labelsheets/_form.html.erb>
             
-            -   [X] view for uploading
-                
-                3.5
-                
-                <./app/views/labelsheets/_form.html.erb>
-                
-                    <% form_for @labelsheet do |f| %>
-                      ...
-                      <%= f.file_field :file %>
-                      ...
-                    <% end %>
+                <% form_for @labelsheet do |f| %>
+                  ...
+                  <%= f.file_field :file %>
+                  ...
+                <% end %>
+        
+        -   [X] Remodel SpreadsheetPdf to LabelsheetPdf
             
-            -   [X] Remodel SpreadsheetPdf to LabelsheetPdf
-                
-                31
+            30
+        
+        -   [X] allow parameter *file* to be accepted by the controller
             
-            -   [X] allow parameter *file* to be accepted by the controller
+            <./app/controllers/labelsheets_controller.rb>
+            
+            3.5.3
+            
+                class SpreadsheetsController < SecuredController
+                  before_action :set_spreadsheet, only: [:show, :edit, :update, :destroy]
+                  before_action :logged_in_using_omniauth?, only: [:new, :edit, :update, :destroy]
                 
-                <./app/controllers/labelsheets_controller.rb>
+                  def index
+                    @spreadsheets = Spreadsheet.all
+                  end
                 
-                3.5.3
-                
-                    class SpreadsheetsController < SecuredController
-                      before_action :set_spreadsheet, only: [:show, :edit, :update, :destroy]
-                      before_action :logged_in_using_omniauth?, only: [:new, :edit, :update, :destroy]
-                    
-                      def index
-                        @spreadsheets = Spreadsheet.all
-                      end
-                    
-                      def show
-                        @spreadsheet = Spreadsheet.find(params[:id])
-                        respond_to do |format|
-                          format.html
-                          format.pdf do
-                            pdf = SpreadsheetPdf.new(@spreadsheet, view_context)
-                            send_data pdf.render,
-                                      filename: "spreadsheet_#{@spreadsheet.created_at.strftime("%d/%m/%Y")}.pdf",
-                                      type: "application/pdf",
-                                      disposition: "inline"
-                          end
-                        end
-                      end
-                    
-                      def new
-                        @spreadsheet = Spreadsheet.new
-                      end
-                    
-                      def edit
-                      end
-                    
-                      def create
-                        @spreadsheet = Spreadsheet.new(spreadsheet_params)
-                    
-                        respond_to do |format|
-                          if @spreadsheet.save
-                            format.html { redirect_to @spreadsheet, notice: 'Spreadsheet was successfully created.' }
-                            format.json { render :show, status: :created, location: @spreadsheet }
-                          else
-                            format.html { render :new }
-                            format.json { render json: @spreadsheet.errors, status: :unprocessable_entity }
-                          end
-                        end
-                      end
-                    
-                      def update
-                        respond_to do |format|
-                          if @spreadsheet.update(spreadsheet_params)
-                            format.html { redirect_to @spreadsheet, notice: 'Spreadsheet was successfully updated.' }
-                            format.json { render :show, status: :ok, location: @spreadsheet }
-                          else
-                            format.html { render :edit }
-                            format.json { render json: @spreadsheet.errors, status: :unprocessable_entity }
-                          end
-                        end
-                      end
-                    
-                      def destroy
-                        @spreadsheet.destroy
-                        respond_to do |format|
-                          format.html { redirect_to spreadsheets_url, notice: 'Spreadsheet was successfully destroyed.' }
-                          format.json { head :no_content }
-                        end
-                      end
-                    
-                      private
-                      def set_spreadsheet
-                        @spreadsheet = Spreadsheet.find(params[:id])
-                      end
-                    
-                      def spreadsheet_params
-                        params.require(:spreadsheet).permit(:index, :file, :days)
+                  def show
+                    @spreadsheet = Spreadsheet.find(params[:id])
+                    respond_to do |format|
+                      format.html
+                      format.pdf do
+                        pdf = SpreadsheetPdf.new(@spreadsheet, view_context)
+                        send_data pdf.render,
+                                  filename: "spreadsheet_#{@spreadsheet.created_at.strftime("%d/%m/%Y")}.pdf",
+                                  type: "application/pdf",
+                                  disposition: "inline"
                       end
                     end
+                  end
                 
-                -   nb
-                    
-                    3.3.2.1
-                    3.3.2.1.2.1
+                  def new
+                    @spreadsheet = Spreadsheet.new
+                  end
+                
+                  def edit
+                  end
+                
+                  def create
+                    @spreadsheet = Spreadsheet.new(spreadsheet_params)
+                
+                    respond_to do |format|
+                      if @spreadsheet.save
+                        format.html { redirect_to @spreadsheet, notice: 'Spreadsheet was successfully created.' }
+                        format.json { render :show, status: :created, location: @spreadsheet }
+                      else
+                        format.html { render :new }
+                        format.json { render json: @spreadsheet.errors, status: :unprocessable_entity }
+                      end
+                    end
+                  end
+                
+                  def update
+                    respond_to do |format|
+                      if @spreadsheet.update(spreadsheet_params)
+                        format.html { redirect_to @spreadsheet, notice: 'Spreadsheet was successfully updated.' }
+                        format.json { render :show, status: :ok, location: @spreadsheet }
+                      else
+                        format.html { render :edit }
+                        format.json { render json: @spreadsheet.errors, status: :unprocessable_entity }
+                      end
+                    end
+                  end
+                
+                  def destroy
+                    @spreadsheet.destroy
+                    respond_to do |format|
+                      format.html { redirect_to spreadsheets_url, notice: 'Spreadsheet was successfully destroyed.' }
+                      format.json { head :no_content }
+                    end
+                  end
+                
+                  private
+                  def set_spreadsheet
+                    @spreadsheet = Spreadsheet.find(params[:id])
+                  end
+                
+                  def spreadsheet_params
+                    params.require(:spreadsheet).permit(:index, :file, :days)
+                  end
+                end
             
-            -   [X] view for displaying
+            -   nb
                 
-                3.5
-                
-                <./app/views/labelsheets/show.html.erb>
-                <./app/views/labelsheets/index.html.erb>
-                
-                    <%= @labelsheet.file_name if @labelsheet.file_stored? %>
+                3.3.2.1
+                3.3.2.1.2.1
+        
+        -   [X] view for displaying
+            
+            3.5
+            
+            <./app/views/labelsheets/show.html.erb>
+            <./app/views/labelsheets/index.html.erb>
+            
+                <%= @labelsheet.file_name if @labelsheet.file_stored? %>
         
         -   more can be done with [models](http://markevans.github.io/dragonfly/models)
 
