@@ -6,6 +6,12 @@
 <ul>
 <li><a href="#sec-1-1">1.1. Gemfile</a></li>
 <li><a href="#sec-1-2">1.2. Gems</a></li>
+<li><a href="#sec-1-3">1.3. Environments</a>
+<ul>
+<li><a href="#sec-1-3-1">1.3.1. Development</a></li>
+<li><a href="#sec-1-3-2">1.3.2. Production</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#sec-2">2. First steps</a></li>
@@ -23,7 +29,12 @@
 <li><a href="#sec-3-3-2">3.3.2. pdf processing</a></li>
 </ul>
 </li>
-<li><a href="#sec-3-4">3.4. Authentication</a></li>
+<li><a href="#sec-3-4">3.4. Authentication</a>
+<ul>
+<li><a href="#sec-3-4-1">3.4.1. AuthO</a></li>
+<li><a href="#sec-3-4-2">3.4.2. nb</a></li>
+</ul>
+</li>
 <li><a href="#sec-3-5">3.5. Views</a>
 <ul>
 <li><a href="#sec-3-5-1">3.5.1. Routes</a></li>
@@ -33,7 +44,7 @@
 <li><a href="#sec-3-6">3.6. Controllers</a>
 <ul>
 <li><a href="#sec-3-6-1">3.6.1. Pages</a></li>
-<li><a href="#sec-3-6-2">3.6.2. Spreadsheets</a></li>
+<li><a href="#sec-3-6-2">3.6.2. Dashboard</a></li>
 </ul>
 </li>
 <li><a href="#sec-3-7">3.7. Models</a>
@@ -76,6 +87,7 @@
     gem 'coffee-rails', '~> 4.1.0'
     gem 'jquery-rails'
     gem 'turbolinks'
+    gem 'jquery-turbolinks'
     gem 'jbuilder', '~> 2.0'
     gem 'sdoc', '~> 0.4.0', group: :doc
     gem 'dragonfly', '~> 1.0.12'
@@ -84,6 +96,9 @@
     gem 'prawn-table', '~> 0.2.2'
     gem 'roo', '~> 2.3.2'
     gem 'chronic', '~> 0.10.2'
+    gem 'omniauth', '~> 1.3.1'
+    gem 'omniauth-auth0', '~> 1.4.1'
+    gem 'dotenv-rails', :groups => [:development, :test]
     
     group :development, :test do
       gem 'byebug'
@@ -94,10 +109,181 @@
       gem 'spring'
     end
 
+<./app/assets/javascripts/application.js>
+
+    // This is a manifest file that'll be compiled into application.js, which will include all the files
+    // listed below.
+    //
+    // Any JavaScript/Coffee file within this directory, lib/assets/javascripts, vendor/assets/javascripts,
+    // or any plugin's vendor/assets/javascripts directory can be referenced here using a relative path.
+    //
+    // It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
+    // compiled file.
+    //
+    // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
+    // about supported directives.
+    //
+    //= require jquery
+    //= require jquery.turbolinks
+    //= require jquery_ujs
+    //= require turbolinks
+    //= require_tree .
+
 ## Gems<a id="sec-1-2" name="sec-1-2"></a>
 
 3.2.1
 3.3.2.1
+
+## Environments<a id="sec-1-3" name="sec-1-3"></a>
+
+### Development<a id="sec-1-3-1" name="sec-1-3-1"></a>
+
+<./config/environments/development.rb>
+
+    Rails.application.configure do
+      # Settings specified here will take precedence over those in config/application.rb.
+    
+      # In the development environment your application's code is reloaded on
+      # every request. This slows down response time but is perfect for development
+      # since you don't have to restart the web server when you make code changes.
+      config.cache_classes = false
+    
+      config.cachestore = :memorystore
+    
+      # Do not eager load code on boot.
+      config.eager_load = false
+    
+      # Show full error reports and disable caching.
+      config.consider_all_requests_local       = true
+      config.action_controller.perform_caching = false
+    
+      # Don't care if the mailer can't send.
+      config.action_mailer.raise_delivery_errors = false
+    
+      # Print deprecation notices to the Rails logger.
+      config.active_support.deprecation = :log
+    
+      # Raise an error on page load if there are pending migrations.
+      config.active_record.migration_error = :page_load
+    
+      # Debug mode disables concatenation and preprocessing of assets.
+      # This option may cause significant delays in view rendering with a large
+      # number of complex assets.
+      config.assets.debug = true
+    
+      # Asset digests allow you to set far-future HTTP expiration dates on all assets,
+      # yet still be able to expire them through the digest params.
+      config.assets.digest = true
+    
+      # Adds additional error checking when serving assets at runtime.
+      # Checks for improperly declared sprockets dependencies.
+      # Raises helpful error messages.
+      config.assets.raise_runtime_errors = true
+    
+      # Raises error for missing translations
+      # config.action_view.raise_on_missing_translations = true
+    
+      # OmniAuth.config.on_failure = Proc.new { |env|
+      #   message_key = env['omniauth.error.type']
+      #   error_description = Rack::Utils.escape(env['omniauth.error'].error_reason)
+      #   new_path = "#{env['SCRIPT_NAME']}#{OmniAuth.config.path_prefix}/failure?message=#{message_key}&error_description=#{error_description}"
+      #   Rack::Response.new(['302 Moved'], 302, 'Location' => new_path).finish
+      # }
+    end
+
+### Production<a id="sec-1-3-2" name="sec-1-3-2"></a>
+
+<./config/environments/production.rb>
+
+    Rails.application.configure do
+      # Settings specified here will take precedence over those in config/application.rb.
+    
+      # Code is not reloaded between requests.
+      config.cache_classes = true
+    
+      # Eager load code on boot. This eager loads most of Rails and
+      # your application in memory, allowing both threaded web servers
+      # and those relying on copy on write to perform better.
+      # Rake tasks automatically ignore this option for performance.
+      config.eager_load = true
+    
+      # Full error reports are disabled and caching is turned on.
+      config.consider_all_requests_local       = false
+      config.action_controller.perform_caching = true
+    
+      # Enable Rack::Cache to put a simple HTTP cache in front of your application
+      # Add `rack-cache` to your Gemfile before enabling this.
+      # For large-scale production use, consider using a caching reverse proxy like
+      # NGINX, varnish or squid.
+      config.action_dispatch.rack_cache = true
+    
+      # Disable serving static files from the `/public` folder by default since
+      # Apache or NGINX already handles this.
+      config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?
+    
+      # Compress JavaScripts and CSS.
+      config.assets.js_compressor = :uglifier
+      # config.assets.css_compressor = :sass
+    
+      # Do not fallback to assets pipeline if a precompiled asset is missed.
+      config.assets.compile = false
+    
+      # Asset digests allow you to set far-future HTTP expiration dates on all assets,
+      # yet still be able to expire them through the digest params.
+      config.assets.digest = true
+    
+      # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
+    
+      # Specifies the header that your server uses for sending files.
+      # config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for Apache
+      # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
+    
+      # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
+      # config.force_ssl = true
+    
+      # Use the lowest log level to ensure availability of diagnostic information
+      # when problems arise.
+      config.log_level = :debug
+    
+      # Prepend all log lines with the following tags.
+      # config.log_tags = [ :subdomain, :uuid ]
+    
+      # Use a different logger for distributed setups.
+      # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
+    
+      # Use a different cache store in production.
+      # config.cache_store = :mem_cache_store
+    
+      # Enable serving of images, stylesheets, and JavaScripts from an asset server.
+      # config.action_controller.asset_host = 'http://assets.example.com'
+    
+      # Ignore bad email addresses and do not raise email delivery errors.
+      # Set this to true and configure the email server for immediate delivery to raise delivery errors.
+      # config.action_mailer.raise_delivery_errors = false
+    
+      # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
+      # the I18n.default_locale when a translation cannot be found).
+      config.i18n.fallbacks = true
+    
+      # Send deprecation notices to registered listeners.
+      config.active_support.deprecation = :notify
+    
+      # Use default logging formatter so that PID and timestamp are not suppressed.
+      config.log_formatter = ::Logger::Formatter.new
+    
+      # Do not dump schema after migrations.
+      config.active_record.dump_schema_after_migration = false
+    
+      OmniAuth.config.on_failure = Proc.new { |env|
+        message_key = env['omniauth.error.type']
+        error_description = Rack::Utils.escape(env['omniauth.error'].error_reason)
+        new_path = "#{env['SCRIPT_NAME']}#{OmniAuth.config.path_prefix}/failure?message=#{message_key}&error_description=#{error_description}"
+        Rack::Response.new(['302 Moved'], 302, 'Location' => new_path).finish
+      }
+    
+    end
+
+3.4.1
 
 # First steps<a id="sec-2" name="sec-2"></a>
 
@@ -113,7 +299,6 @@ application.
 ## User Story<a id="sec-3-1" name="sec-3-1"></a>
 
 -   user logs in (3.4)
-    -   users will be piercers
 -   chooses xlsx file for upload
     3.2
 -   selects number of days back to make labels from
@@ -300,10 +485,11 @@ application.
             
                 params.require(:spreadsheet).permit(:file)
             
-            10
+            24
             
-                class SpreadsheetsController < ApplicationController
+                class SpreadsheetsController < SecuredController
                   before_action :set_spreadsheet, only: [:show, :edit, :update, :destroy]
+                  before_action :logged_in_using_omniauth?, only: [:new, :edit, :update, :destroy]
                 
                   def index
                     @spreadsheets = Spreadsheet.all
@@ -396,7 +582,7 @@ application.
         
         -   [X] bundle install
     
-    -   [X] uncomment in 
+    -   [X] uncomment in 1.3.2
         
             config.action_dispatch.rack_cache = true
 
@@ -567,7 +753,7 @@ application.
             
             -   [X] <./app/controllers/spreadsheets_controller.rb>
                 
-                3.6.2
+                
                 
                 <http://www.idyllic-software.com/blog/creating-pdf-using-prawn-in-ruby-on-rails/>
                 
@@ -600,13 +786,11 @@ application.
             
             -   [X] create a new class **app/pdfs/spreadsheet<sub>pdf</sub>**
                 
-                10
-                
-                3.6.2
+                24
             
             -   [X] restart server
             
-            -   [X] 10
+            -   [X] 24
                 
                 set the *@spreadsheet* and *view<sub>context</sub>*
                 
@@ -617,7 +801,7 @@ application.
                       text "Spreadsheet #{@spreadsheet.id}"
                     end
             
-            -   [ ] create different methods inside 10 as per what you want to show on the pdf
+            -   [ ] create different methods inside 24 as per what you want to show on the pdf
                 -   example
                     
                         def logo
@@ -645,6 +829,279 @@ application.
 
 ## Authentication<a id="sec-3-4" name="sec-3-4"></a>
 
+### AuthO<a id="sec-3-4-1" name="sec-3-4-1"></a>
+
+<https://manage.auth0.com/#/>
+<https://manage.auth0.com/#/applications/eD2I5SEBmvgx3tEzeFd35mJfvW5HkasK/quickstart>
+
+-   [X] 1. Add dependencies
+    
+    1
+    
+        gem 'omniauth', '~> 1.3.1'
+        gem 'omniauth-auth0', '~> 1.4.1'
+    
+    -   [X] bundle install
+
+-   [X] 2. Initialize Omniauth AuthO
+    
+    <./config/initializers/auth0.rb>
+    
+        Rails.application.config.middleware.use OmniAuth::Builder do
+          provider(
+            :auth0,
+            ENV["AUTH0_CLIENT_ID"],
+            ENV["AUTH0_CLIENT_SECRET"],
+            ENV["AUTH0_DOMAIN"],
+            callback_path: "/auth/auth0/callback"
+          )
+        end
+    
+    -   [X] add to gitignore?
+        
+        <./.gitignore>
+        
+        -   [X] dotenv
+            
+            1
+            
+                gem 'dotenv-rails', :groups => [:development, :test]
+
+-   [X] 3. Add the AuthO callback handler
+    
+        rails g controller auth0 callback failure --skip-template-engine --skip-assets
+    
+    <./app/controllers/auth0_controller.rb>
+    
+        class Auth0Controller < ApplicationController
+          def callback
+            # This stores all the user information that came from Auth0 and the IdP
+            session[:userinfo] = request.env['omniauth.auth']
+        
+            # Redirect to the URL you want after successful auth
+            redirect_to '/spreadsheets'
+          end
+        
+          def failure
+            # show a failure page or redirect to an error page
+            @error_msg = request.params['message']
+          end
+        end
+    
+    -   [X] replace the generated routes in <./config/routes.rb> 
+        
+        3.5.1
+        
+            get "/auth/auth0/callback" => "auth0#callback"
+            get "/auth/failure" => "auth0#failure"
+
+-   [X] 4. Specify the callback on AuthO Dashboard
+    
+    For security purposes, register callback URL of the application at
+    <https://manage.auth0.com/#/applications> 
+    
+        http://yourUrl/auth/auth0/callback
+
+-   [X] 5. Triggering login manually or integrating the AuthOLock
+    -   [X] passwordless - Email Code
+        
+        <./app/views/layouts/application.html.erb>
+        
+            <!DOCTYPE html>
+            <html>
+            <head>
+              <title>CaseJewelryRails</title>
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <%= yield :cdn_code %>
+              <%= stylesheet_link_tag    '//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css' %>
+              <%= stylesheet_link_tag    '//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css' %>
+            
+              <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+              <%= javascript_include_tag '//cdn.auth0.com/js/lock-9.0.min.js' %>
+              <%= javascript_include_tag '//use.typekit.net/iws6ohy.js' %>
+              <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+            
+              <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+              <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+              <%= csrf_meta_tags %>
+            </head>
+            <body>
+            
+            <%= yield %>
+            
+            </body>
+            </html>
+        
+        <./app/assets/javascripts/home.js.erb>
+        
+            var lock = new Auth0Lock("<%= Rails.application.secrets.auth0_client_id %>", "<%= Rails.application.secrets.auth0_domain %>");
+            function signin() {
+                lock.show({
+                    callbackURL: "<%= Rails.application.secrets.auth0_callback_url %>"
+                    responseType: 'code', 
+                    authParams: {
+                        scope: 'openid name email picture'
+                    }
+                });
+            }
+        
+        <./config/secrets.yml>
+        
+            # Be sure to restart your server when you modify this file.
+            
+            # Your secret key is used for verifying the integrity of signed cookies.
+            # If you change this key, all old signed cookies will become invalid!
+            
+            # Make sure the secret is at least 30 characters and all random,
+            # no regular words or you'll be exposed to dictionary attacks.
+            # You can use `rake secret` to generate a secure secret key.
+            
+            # Make sure the secrets in this file are kept private
+            # if you're sharing your code publicly.
+            
+            development:
+              secret_key_base: bea023fad0c0803893cde72b419aa08fc9d7456bedeaf9b5490c4c2ef34de64bd1eee9ca4583a19f5f206a36b750bd41a85dcf95567718099ae827ee1d1fcc18
+              auth0_client_id: <%= ENV["AUTH0_CLIENT_ID"] %>
+              auth0_client_secret: <%= ENV["AUTH0_CLIENT_SECRET"] %>
+              auth0_domain: <%= ENV["AUTH0_DOMAIN"] %>
+              auth0_callback_url: <%= ENV["AUTH0_CALLBACK_URL"] %>
+            
+            
+            test:
+              secret_key_base: 932c75a9b0d799c43e825634b7c2a94fc48ca57bc02db62353a6a51211f9818c4b84105cb15e815de487c59106cc25982c31f95238fd184af8a97003a55c08b4
+              auth0_client_id: <%= ENV["AUTH0_CLIENT_ID"] %>
+              auth0_client_secret: <%= ENV["AUTH0_CLIENT_SECRET"] %>
+              auth0_domain: <%= ENV["AUTH0_DOMAIN"] %>
+              auth0_callback_url: <%= ENV["AUTH0_CALLBACK_URL"] %>
+            
+            # Do not keep production secrets in the repository,
+            # instead read values from the environment.
+            production:
+              secret_key_base: <%= ENV["SECRET_KEY_BASE"] %>
+              auth0_client_id: <%= ENV["AUTH0_CLIENT_ID"] %>
+              auth0_client_secret: <%= ENV["AUTH0_CLIENT_SECRET"] %>
+              auth0_domain: <%= ENV["AUTH0_DOMAIN"] %>
+              auth0_callback_url: <%= ENV["AUTH0_CALLBACK_URL"] %>
+        
+        update 3.5.1
+
+-   [ ] 6. Accessing user information
+    
+    <./app/controllers/secured_controller.rb>
+    
+        class SecuredController < ApplicationController
+        
+          before_action :logged_in_using_omniauth?
+        
+          private
+        
+          def logged_in_using_omniauth?
+            unless session[:userinfo].present?
+              redirect_to '/'
+            end
+          end
+        
+        end
+    
+    via *userinfo* stored in the session on step 3
+    
+        class DashboardController < SecuredController
+          def show
+            @user = session[:userinfo]
+          end
+        end
+    
+        <div>
+          <img class="avatar" src="<%= @user[:info][:image] %>"/>
+          <h2>Welcom <%= @user[:info][:name] %></h2>
+        </div>
+    
+    <./config/initializers/session_store.rb>
+    
+        # Be sure to restart your server when you modify this file.
+        
+        #Rails.application.config.session_store :cookie_store, key: '_CaseJewelryRails_session'
+        Rails.application.config.session_store :cache_store
+    
+    <./config/environments/development.rb>
+    
+        config.cachestore = :memorystore
+    
+    <./app/views/dashboard/show.html.erb>
+    
+        <div class="home">
+            <div class="container">
+                <div class="login-page clearfix">
+                  <div class="logged-in-box auth0-box logged-in">
+                    <h1 id="logo"><img src="//cdn.auth0.com/samples/auth0_logo_final_blue_RGB.png" /></h1>
+                    <img class="avatar" src="<%= @user[:info][:image] %>"/>
+                    <h2>Welcome <%= @user[:info][:name] %></h2>
+                    <pre><%= JSON.pretty_generate(@user[:info]) %></pre>
+                  </div>
+                </div>
+            </div>
+        </div>
+    
+    <./app/views/home/show.html.erb>
+    
+        <div class="home">
+            <div class="container">
+                <div class="login-page clearfix">
+                  <div class="login-box auth0-box before">
+                    <img src="https://i.cloudup.com/StzWWrY34s.png" />
+                    <h3>Auth0 Example</h3>
+                    <p>Zero friction identity infrastructure, built for developers</p>
+                    <a class="btn btn-primary btn-lg btn-login btn-block" onclick="signin()">SignIn</a>
+                  </div>
+                </div>
+            </div>
+        </div>
+    
+    3.6.2
+    3.6.1
+
+-   [ ] Troubleshooting
+    -   [ ] "We're sorry, we can't send you the email&#x2026;
+        
+        [auth0 in development](https://www.google.com/search?q=auth0+in+development&oq=auth0+in+development&aqs=chrome..69i57.6898j0j7&sourceid=chrome&es_sm=122&ie=UTF-8)
+        
+        <https://auth0.com/docs/lifecycle>
+        <https://auth0.com/docs/local-testing-and-development>
+        
+        If you need to develop an application locally, it's possible to use
+        localhost or other domains which Auth0 cannot access (e.g. intranets) 
+        as callback URLs. Since Auth0 uses OpenID Connect as its main identity 
+        protocol, it never makes a call directly to your application's server. 
+        Instead, it redirects users in a browser to an endpoint of your 
+        application (which must be listed in the "Allowed Callback URLs" list) 
+        with specific information in the query string or hash fragment, 
+        depending on the type of application.
+        
+        <https://auth0.com/docs/protocols>
+        
+        <file:///home/son/IBT/jewelry/rails/docs/omniauth-auth0-sample/>
+    
+    -   [ ] get error description on failure
+        
+        <./config/environments/production.rb>
+        
+            OmniAuth.config.on_failure = Proc.new { |env|
+              message_key = env['omniauth.error.type']
+              error_description = Rack::Utils.escape(env['omniauth.error'].error_reason)
+              new_path = "#{env['SCRIPT_NAME']}#{OmniAuth.config.path_prefix}/failure?message=#{message_key}&error_description=#{error_description}"
+              Rack::Response.new(['302 Moved'], 302, 'Location' => new_path).finish
+            }
+        
+        1
+        1.3
+        1.3.2
+
+### nb<a id="sec-3-4-2" name="sec-3-4-2"></a>
+
+-   oauth?
+    -   login with familiar accounts
+        -   google, fb, twitter, etc
+
 ## Views<a id="sec-3-5" name="sec-3-5"></a>
 
 ### Routes<a id="sec-3-5-1" name="sec-3-5-1"></a>
@@ -652,13 +1109,21 @@ application.
 <./config/routes.rb>
 
     Rails.application.routes.draw do
-      root 'spreadsheets#new'
-    
       resources :spreadsheets
-    
       get "spreadsheets" => "spreadsheets#new"
+    
+      get 'dashboard/show'
+    
+      get "/" => "home#show"
+    
+      get "/dashboard" => "dashboard#show"
+    
+      get "/auth/auth0/callback" => "auth0#callback"
+      get "/auth/failure" => "auth0#failure"
     end
 
+3.6.1
+3.4.1
 3.2.1.4
 
 ### Static Pages<a id="sec-3-5-2" name="sec-3-5-2"></a>
@@ -679,7 +1144,26 @@ Static pages controller
 
     rails g controller pages --skip-assets
 
-### Spreadsheets<a id="sec-3-6-2" name="sec-3-6-2"></a>
+<./app/controllers/pages_controller.rb>
+
+    class PagesController < ApplicationController
+    end
+
+-   nb
+    
+    3.4.1
+
+### Dashboard<a id="sec-3-6-2" name="sec-3-6-2"></a>
+
+    rails g controller Dashboard show
+
+<./app/controllers/dashboard_controller.rb>
+
+    class DashboardController < SecuredController
+      def show
+        @user = session[:userinfo]
+      end
+    end
 
 ## Models<a id="sec-3-7" name="sec-3-7"></a>
 
@@ -903,8 +1387,6 @@ Static pages controller
 -   nb
     
     3.3.2.1
-    
-    3.6.2
 
 ### Label<a id="sec-3-8-2" name="sec-3-8-2"></a>
 
@@ -928,17 +1410,16 @@ Static pages controller
 
 ## TODO <a id="sec-3-9" name="sec-3-9"></a>
 
--   [ ] Tests
+-   [ ] Testing
 -   [ ] sidekiq
-    -   [ ] background processes for creating pdfs
--   [ ] requirements
-    -   [ ] roo
-    -   [ ] chronic
--   [ ] pdflatex
-    
-    3.3.2.1
--   [ ] migrate code from cj-parser
+    -   [ ] background processes for creating pdfs?
+-   [-] requirements
+    -   [X] roo
+    -   [X] chronic
+    -   [ ] 3.3.2.1
+-   [X] migrate code from cj-parser
 -   [ ] user authentication
+
 -   [ ] file upload
     -   [ ] only xlsx file?
     -   [ ] AWS

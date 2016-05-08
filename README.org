@@ -25,6 +25,7 @@ https://github.com/IronBrushTattoo/cj_rails.git
      gem 'coffee-rails', '~> 4.1.0'
      gem 'jquery-rails'
      gem 'turbolinks'
+     gem 'jquery-turbolinks'
      gem 'jbuilder', '~> 2.0'
      gem 'sdoc', '~> 0.4.0', group: :doc
      gem 'dragonfly', '~> 1.0.12'
@@ -33,6 +34,9 @@ https://github.com/IronBrushTattoo/cj_rails.git
      gem 'prawn-table', '~> 0.2.2'
      gem 'roo', '~> 2.3.2'
      gem 'chronic', '~> 0.10.2'
+     gem 'omniauth', '~> 1.3.1'
+     gem 'omniauth-auth0', '~> 1.4.1'
+     gem 'dotenv-rails', :groups => [:development, :test]
 
      group :development, :test do
        gem 'byebug'
@@ -43,11 +47,191 @@ https://github.com/IronBrushTattoo/cj_rails.git
        gem 'spring'
      end
    #+end_src
+
+   [[./app/assets/javascripts/application.js]]
+
+   #+NAME: application.js
+   #+begin_src js :tangle app/assets/javascripts/application.js :padline no
+     // This is a manifest file that'll be compiled into application.js, which will include all the files
+     // listed below.
+     //
+     // Any JavaScript/Coffee file within this directory, lib/assets/javascripts, vendor/assets/javascripts,
+     // or any plugin's vendor/assets/javascripts directory can be referenced here using a relative path.
+     //
+     // It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
+     // compiled file.
+     //
+     // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
+     // about supported directives.
+     //
+     //= require jquery
+     //= require jquery.turbolinks
+     //= require jquery_ujs
+     //= require turbolinks
+     //= require_tree .
+   #+end_src
    
 ** Gems
 
    [[Dragonfly]]
    [[Prawn]]
+
+** Environments
+
+*** Development
+
+    [[./config/environments/development.rb]]
+
+    #+NAME: development.rb
+    #+begin_src ruby :tangle config/environments/development.rb :padline no
+      Rails.application.configure do
+        # Settings specified here will take precedence over those in config/application.rb.
+
+        # In the development environment your application's code is reloaded on
+        # every request. This slows down response time but is perfect for development
+        # since you don't have to restart the web server when you make code changes.
+        config.cache_classes = false
+
+        config.cachestore = :memorystore
+        
+        # Do not eager load code on boot.
+        config.eager_load = false
+
+        # Show full error reports and disable caching.
+        config.consider_all_requests_local       = true
+        config.action_controller.perform_caching = false
+
+        # Don't care if the mailer can't send.
+        config.action_mailer.raise_delivery_errors = false
+
+        # Print deprecation notices to the Rails logger.
+        config.active_support.deprecation = :log
+
+        # Raise an error on page load if there are pending migrations.
+        config.active_record.migration_error = :page_load
+
+        # Debug mode disables concatenation and preprocessing of assets.
+        # This option may cause significant delays in view rendering with a large
+        # number of complex assets.
+        config.assets.debug = true
+
+        # Asset digests allow you to set far-future HTTP expiration dates on all assets,
+        # yet still be able to expire them through the digest params.
+        config.assets.digest = true
+
+        # Adds additional error checking when serving assets at runtime.
+        # Checks for improperly declared sprockets dependencies.
+        # Raises helpful error messages.
+        config.assets.raise_runtime_errors = true
+
+        # Raises error for missing translations
+        # config.action_view.raise_on_missing_translations = true
+
+        # OmniAuth.config.on_failure = Proc.new { |env|
+        #   message_key = env['omniauth.error.type']
+        #   error_description = Rack::Utils.escape(env['omniauth.error'].error_reason)
+        #   new_path = "#{env['SCRIPT_NAME']}#{OmniAuth.config.path_prefix}/failure?message=#{message_key}&error_description=#{error_description}"
+        #   Rack::Response.new(['302 Moved'], 302, 'Location' => new_path).finish
+        # }
+      end
+    #+end_src
+
+*** Production   
+
+    [[./config/environments/production.rb]]
+
+    #+NAME: production.rb
+    #+begin_src ruby :tangle config/environments/production.rb :padline no
+      Rails.application.configure do
+        # Settings specified here will take precedence over those in config/application.rb.
+
+        # Code is not reloaded between requests.
+        config.cache_classes = true
+
+        # Eager load code on boot. This eager loads most of Rails and
+        # your application in memory, allowing both threaded web servers
+        # and those relying on copy on write to perform better.
+        # Rake tasks automatically ignore this option for performance.
+        config.eager_load = true
+
+        # Full error reports are disabled and caching is turned on.
+        config.consider_all_requests_local       = false
+        config.action_controller.perform_caching = true
+
+        # Enable Rack::Cache to put a simple HTTP cache in front of your application
+        # Add `rack-cache` to your Gemfile before enabling this.
+        # For large-scale production use, consider using a caching reverse proxy like
+        # NGINX, varnish or squid.
+        config.action_dispatch.rack_cache = true
+
+        # Disable serving static files from the `/public` folder by default since
+        # Apache or NGINX already handles this.
+        config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?
+
+        # Compress JavaScripts and CSS.
+        config.assets.js_compressor = :uglifier
+        # config.assets.css_compressor = :sass
+
+        # Do not fallback to assets pipeline if a precompiled asset is missed.
+        config.assets.compile = false
+
+        # Asset digests allow you to set far-future HTTP expiration dates on all assets,
+        # yet still be able to expire them through the digest params.
+        config.assets.digest = true
+
+        # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
+
+        # Specifies the header that your server uses for sending files.
+        # config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for Apache
+        # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
+
+        # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
+        # config.force_ssl = true
+
+        # Use the lowest log level to ensure availability of diagnostic information
+        # when problems arise.
+        config.log_level = :debug
+
+        # Prepend all log lines with the following tags.
+        # config.log_tags = [ :subdomain, :uuid ]
+
+        # Use a different logger for distributed setups.
+        # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
+
+        # Use a different cache store in production.
+        # config.cache_store = :mem_cache_store
+
+        # Enable serving of images, stylesheets, and JavaScripts from an asset server.
+        # config.action_controller.asset_host = 'http://assets.example.com'
+
+        # Ignore bad email addresses and do not raise email delivery errors.
+        # Set this to true and configure the email server for immediate delivery to raise delivery errors.
+        # config.action_mailer.raise_delivery_errors = false
+
+        # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
+        # the I18n.default_locale when a translation cannot be found).
+        config.i18n.fallbacks = true
+
+        # Send deprecation notices to registered listeners.
+        config.active_support.deprecation = :notify
+
+        # Use default logging formatter so that PID and timestamp are not suppressed.
+        config.log_formatter = ::Logger::Formatter.new
+
+        # Do not dump schema after migrations.
+        config.active_record.dump_schema_after_migration = false
+
+        OmniAuth.config.on_failure = Proc.new { |env|
+          message_key = env['omniauth.error.type']
+          error_description = Rack::Utils.escape(env['omniauth.error'].error_reason)
+          new_path = "#{env['SCRIPT_NAME']}#{OmniAuth.config.path_prefix}/failure?message=#{message_key}&error_description=#{error_description}"
+          Rack::Response.new(['302 Moved'], 302, 'Location' => new_path).finish
+        }
+
+      end
+    #+end_src
+
+    [[AuthO]]
 
 * First steps :rails_template:rails:rake:
 
@@ -256,8 +440,9 @@ https://github.com/IronBrushTattoo/cj_rails.git
 
          #+NAME: spreadsheets controller
          #+begin_src ruby :tangle app/controllers/spreadsheets_controller.rb :padline no
-           class SpreadsheetsController < ApplicationController
+           class SpreadsheetsController < SecuredController
              before_action :set_spreadsheet, only: [:show, :edit, :update, :destroy]
+             before_action :logged_in_using_omniauth?, only: [:new, :edit, :update, :destroy]
 
              def index
                @spreadsheets = Spreadsheet.all
@@ -610,25 +795,300 @@ https://github.com/IronBrushTattoo/cj_rails.git
 
 *** AuthO
 
-    On October 6, 2015 the European Court of Justice invalidated the Safe Harbor treaty that prescribed privacy protections for EU residents. Auth0 was and remains compliant with Safe Harbor terms, but due to the invalidation now further commits to the EU Commission’s standard Model Contract Clauses (below) for personal data. Because you do or may have Auth0 process EU users, to use Auth0’s service you must now affirmatively agree to these Model Contract Clauses by checking the box below.
-    Please carefully review these European Commission Standard Contractual Clauses (processors), because it is a binding legal document. The data exporter (you) consents and agrees that (i) it is the controller of personal data transferred from the European Economic Area (EEA) to the United States or other countries not deemed to provide adequate security for such data, and (ii) an electronic signature (manifested by clicking "Accept"), meets the requirements of an original signature as if actually signed in writing. At the request of data importer (Auth0), any electronically signed document must be re-executed by data exporter in original form. No party hereto may raise the use of an electronic signature as a defense to the enforcement of these clauses. Standard Contractual Clauses (processors) For the purposes of Article 26(2) of Directive 95/46/EC for the transfer of personal data to processors established in third countries which do not ensure an adequate level of data protection, the non-Auth0 legal entity accepting the Clauses (the “Data Exporter”) and Auth0 Inc., 10777 Main Street, Suite 204, Bellevue, WA, 98004, USA (the “Data Importer”) each a “party”; together “the parties”, HAVE AGREED on the following Contractual Clauses (the “Clauses”) in order to adduce adequate safeguards with respect to the protection of privacy and fundamental rights and freedoms of individuals for the transfer by the data exporter to the data importer of the personal data specified in Appendix 1. The Clauses (including Appendices 1 and 2) are effective from the date the non-Auth0 entity has both: (i) executed a valid “Auth0 Service Agreement” (collectively the “Services Agreement”) or is otherwise an authorized customer affiliate under such Services Agreement; and (ii) clicked to accept these Clauses. A “Auth0 Service Agreement” means an Auth0 Service Agreement entered into with Auth0 Inc.,. If you are accepting on behalf of the Data Exporter, you represent and warrant that: (i) you have full legal authority to bind your employer, or the applicable entity, to these terms and conditions; (ii) you have read and understand the Clauses; and (iii) you agree, on behalf of the party that you represent, to the Clauses. If you do not have the legal authority to bind the Data Exporter, please do not click the “Accept” button below. The Clauses shall automatically expire on the termination or expiry of the Auth0 Service Agreement. The parties agree that where Data Exporter has been presented with these Clauses and clicked to accept these terms electronically, such acceptance shall constitute execution of the entirety of the Clauses by both parties, subject to the effective date described above. Clause 1 Definitions For the purposes of the Clauses: (a) 'personal data', 'special categories of data', 'process/processing', 'controller', 'processor', 'data subject' and 'supervisory authority' shall have the same meaning as in Directive 95/46/EC of the European Parliament and of the Council of 24 October 1995 on the protection of individuals with regard to the processing of personal data and on the free movement of such data[1]; (b) 'the data exporter' means the controller who transfers the personal data; (c) 'the data importer' means the processor who agrees to receive from the data exporter personal data intended for processing on his behalf after the transfer in accordance with his instructions and the terms of the Clauses and who is not subject to a third country's system ensuring adequate protection within the meaning of Article 25(1) of Directive 95/46/EC; (d) 'the subprocessor' means any processor engaged by the data importer or by any other subprocessor of the data importer who agrees to receive from the data importer or from any other subprocessor of the data importer personal data exclusively intended for processing activities to be carried out on behalf of the data exporter after the transfer in accordance with his instructions, the terms of the Clauses and the terms of the written subcontract; (e) 'the applicable data protection law' means the legislation protecting the fundamental rights and freedoms of individuals and, in particular, their right to privacy with respect to the processing of personal data applicable to a data controller in the Member State in which the data exporter is established; (f) 'technical and organisational security measures' means those measures aimed at protecting personal data against accidental or unlawful destruction or accidental loss, alteration, unauthorised disclosure or access, in particular where the processing involves the transmission of data over a network, and against all other unlawful forms of processing. Clause 2 Details of the transfer The details of the transfer and in particular the special categories of personal data where applicable are specified in Appendix 1 which forms an integral part of the Clauses. Clause 3 Third-party beneficiary clause 1. The data subject can enforce against the data exporter this Clause, Clause 4(b) to (i), Clause 5(a) to (e), and (g) to (j), Clause 6(1) and (2), Clause 7, Clause 8(2), and Clauses 9 to 12 as third-party beneficiary. 2. The data subject can enforce against the data importer this Clause, Clause 5(a) to (e) and (g), Clause 6, Clause 7, Clause 8(2), and Clauses 9 to 12, in cases where the data exporter has factually disappeared or has ceased to exist in law unless any successor entity has assumed the entire legal obligations of the data exporter by contract or by operation of law, as a result of which it takes on the rights and obligations of the data exporter, in which case the data subject can enforce them against such entity. 3. The data subject can enforce against the subprocessor this Clause, Clause 5(a) to (e) and (g), Clause 6, Clause 7, Clause 8(2), and Clauses 9 to 12, in cases where both the data exporter and the data importer have factually disappeared or ceased to exist in law or have become insolvent, unless any successor entity has assumed the entire legal obligations of the data exporter by contract or by operation of law as a result of which it takes on the rights and obligations of the data exporter, in which case the data subject can enforce them against such entity. Such third-party liability of the subprocessor shall be limited to its own processing operations under the Clauses. 4. The parties do not object to a data subject being represented by an association or other body if the data subject so expressly wishes and if permitted by national law. Clause 4 Obligations of the data exporter The data exporter agrees and warrants: (a) that the processing, including the transfer itself, of the personal data has been and will continue to be carried out in accordance with the relevant provisions of the applicable data protection law (and, where applicable, has been notified to the relevant authorities of the Member State where the data exporter is established) and does not violate the relevant provisions of that State; (b) that it has instructed and throughout the duration of the personal data processing services will instruct the data importer to process the personal data transferred only on the data exporter's behalf and in accordance with the applicable data protection law and the Clauses; (c) that the data importer will provide sufficient guarantees in respect of the technical and organisational security measures specified in Appendix 2 to this contract; (d) that after assessment of the requirements of the applicable data protection law, the security measures are appropriate to protect personal data against accidental or unlawful destruction or accidental loss, alteration, unauthorised disclosure or access, in particular where the processing involves the transmission of data over a network, and against all other unlawful forms of processing, and that these measures ensure a level of security appropriate to the risks presented by the processing and the nature of the data to be protected having regard to the state of the art and the cost of their implementation; (e) that it will ensure compliance with the security measures; (f) that, if the transfer involves special categories of data, the data subject has been informed or will be informed before, or as soon as possible after, the transfer that its data could be transmitted to a third country not providing adequate protection within the meaning of Directive 95/46/EC; (g) to forward any notification received from the data importer or any subprocessor pursuant to Clause 5(b) and Clause 8(3) to the data protection supervisory authority if the data exporter decides to continue the transfer or to lift the suspension; (h) to make available to the data subjects upon request a copy of the Clauses, with the exception of Appendix 2, and a summary description of the security measures, as well as a copy of any contract for subprocessing services which has to be made in accordance with the Clauses, unless the Clauses or the contract contain commercial information, in which case it may remove such commercial information; (i) that, in the event of subprocessing, the processing activity is carried out in accordance with Clause 11 by a subprocessor providing at least the same level of protection for the personal data and the rights of data subject as the data importer under the Clauses; and (j) that it will ensure compliance with Clause 4(a) to (i). Clause 5 Obligations of the data importer[2] The data importer agrees and warrants: (a) to process the personal data only on behalf of the data exporter and in compliance with its instructions and the Clauses; if it cannot provide such compliance for whatever reasons, it agrees to inform promptly the data exporter of its inability to comply, in which case the data exporter is entitled to suspend the transfer of data and/or terminate the contract; (b) that it has no reason to believe that the legislation applicable to it prevents it from fulfilling the instructions received from the data exporter and its obligations under the contract and that in the event of a change in this legislation which is likely to have a substantial adverse effect on the warranties and obligations provided by the Clauses, it will promptly notify the change to the data exporter as soon as it is aware, in which case the data exporter is entitled to suspend the transfer of data and/or terminate the contract; (c) that it has implemented the technical and organisational security measures specified in Appendix 2 before processing the personal data transferred; (d) that it will promptly notify the data exporter about: (i) any legally binding request for disclosure of the personal data by a law enforcement authority unless otherwise prohibited, such as a prohibition under criminal law to preserve the confidentiality of a law enforcement investigation, (ii) any accidental or unauthorised access, and (iii)	any request received directly from the data subjects without responding to that request, unless it has been otherwise authorised to do so; (e) to deal promptly and properly with all inquiries from the data exporter relating to its processing of the personal data subject to the transfer and to abide by the advice of the supervisory authority with regard to the processing of the data transferred; (f) at the request of the data exporter to submit its data processing facilities for audit of the processing activities covered by the Clauses which shall be carried out by the data exporter or an inspection body composed of independent members and in possession of the required professional qualifications bound by a duty of confidentiality, selected by the data exporter, where applicable, in agreement with the supervisory authority; (g) to make available to the data subject upon request a copy of the Clauses, or any existing contract for subprocessing, unless the Clauses or contract contain commercial information, in which case it may remove such commercial information, with the exception of Appendix 2 which shall be replaced by a summary description of the security measures in those cases where the data subject is unable to obtain a copy from the data exporter; (h) that, in the event of subprocessing, it has previously informed the data exporter and obtained its prior written consent; (i) that the processing services by the subprocessor will be carried out in accordance with Clause 11; (j) to send promptly a copy of any subprocessor agreement it concludes under the Clauses to the data exporter. Clause 6 Liability 1. The parties agree that any data subject, who has suffered damage as a result of any breach of the obligations referred to in Clause 3 or in Clause 11 by any party or subprocessor is entitled to receive compensation from the data exporter for the damage suffered. 2. If a data subject is not able to bring a claim for compensation in accordance with paragraph 1 against the data exporter, arising out of a breach by the data importer or his subprocessor of any of their obligations referred to in Clause 3 or in Clause 11, because the data exporter has factually disappeared or ceased to exist in law or has become insolvent, the data importer agrees that the data subject may issue a claim against the data importer as if it were the data exporter, unless any successor entity has assumed the entire legal obligations of the data exporter by contract of by operation of law, in which case the data subject can enforce its rights against such entity. The data importer may not rely on a breach by a subprocessor of its obligations in order to avoid its own liabilities. 3. If a data subject is not able to bring a claim against the data exporter or the data importer referred to in paragraphs 1 and 2, arising out of a breach by the subprocessor of any of their obligations referred to in Clause 3 or in Clause 11 because both the data exporter and the data importer have factually disappeared or ceased to exist in law or have become insolvent, the subprocessor agrees that the data subject may issue a claim against the data subprocessor with regard to its own processing operations under the Clauses as if it were the data exporter or the data importer, unless any successor entity has assumed the entire legal obligations of the data exporter or data importer by contract or by operation of law, in which case the data subject can enforce its rights against such entity. The liability of the subprocessor shall be limited to its own processing operations under the Clauses. Clause 7 Mediation and jurisdiction 1. The data importer agrees that if the data subject invokes against it third-party beneficiary rights and/or claims compensation for damages under the Clauses, the data importer will accept the decision of the data subject: (a) to refer the dispute to mediation, by an independent person or, where applicable, by the supervisory authority; (b) to refer the dispute to the courts in the Member State in which the data exporter is established. 2. The parties agree that the choice made by the data subject will not prejudice its substantive or procedural rights to seek remedies in accordance with other provisions of national or international law. Clause 8 Cooperation with supervisory authorities 1. The data exporter agrees to deposit a copy of this contract with the supervisory authority if it so requests or if such deposit is required under the applicable data protection law. 2. The parties agree that the supervisory authority has the right to conduct an audit of the data importer, and of any subprocessor, which has the same scope and is subject to the same conditions as would apply to an audit of the data exporter under the applicable data protection law. 3. The data importer shall promptly inform the data exporter about the existence of legislation applicable to it or any subprocessor preventing the conduct of an audit of the data importer, or any subprocessor, pursuant to paragraph 2. In such a case the data exporter shall be entitled to take the measures foreseen in Clause 5 (b). Clause 9 Governing Law The Clauses shall be governed by the law of the Member State in which the data exporter is established. Clause 10 Variation of the contract The parties undertake not to vary or modify the Clauses. This does not preclude the parties from adding clauses on business related issues where required as long as they do not contradict the Clause. Clause 11 Subprocessing 1. The data importer shall not subcontract any of its processing operations performed on behalf of the data exporter under the Clauses without the prior written consent of the data exporter. Where the data importer subcontracts its obligations under the Clauses, with the consent of the data exporter, it shall do so only by way of a written agreement with the subprocessor which imposes the same obligations on the subprocessor as are imposed on the data importer under the Clauses[3]. Where the subprocessor fails to fulfil its data protection obligations under such written agreement the data importer shall remain fully liable to the data exporter for the performance of the subprocessor's obligations under such agreement. 2. The prior written contract between the data importer and the subprocessor shall also provide for a third-party beneficiary clause as laid down in Clause 3 for cases where the data subject is not able to bring the claim for compensation referred to in paragraph 1 of Clause 6 against the data exporter or the data importer because they have factually disappeared or have ceased to exist in law or have become insolvent and no successor entity has assumed the entire legal obligations of the data exporter or data importer by contract or by operation of law. Such third-party liability of the subprocessor shall be limited to its own processing operations under the Clauses. 3. The provisions relating to data protection aspects for subprocessing of the contract referred to in paragraph 1 shall be governed by the law of the Member State in which the data exporter is established. 4. The data exporter shall keep a list of subprocessing agreements concluded under the Clauses and notified by the data importer pursuant to Clause 5 (j), which shall be updated at least once a year. The list shall be available to the data exporter's data protection supervisory authority. Clause 12 Obligation after the termination of personal data processing services 1. The parties agree that on the termination of the provision of data processing services, the data importer and the subprocessor shall, at the choice of the data exporter, return all the personal data transferred and the copies thereof to the data exporter or shall destroy all the personal data and certify to the data exporter that it has done so, unless legislation imposed upon the data importer prevents it from returning or destroying all or part of the personal data transferred. In that case, the data importer warrants that it will guarantee the confidentiality of the personal data transferred and will not actively process the personal data transferred anymore. 2. The data importer and the subprocessor warrant that upon request of the data exporter and/or of the supervisory authority, it will submit its data processing facilities for an audit of the measures referred to in paragraph 1. [1] Parties may reproduce definitions and meanings contained in Directive 95/46/EC within this Clause if they considered it better for the contract to stand alone. [2] Mandatory requirements of the national legislation applicable to the data importer which do not go beyond what is necessary in a democratic society on the basis of one of the interests listed in Article 13(1) of Directive 95/46/EC, that is, if they constitute a necessary measure to safeguard national security, defence, public security, the prevention, investigation, detection and prosecution of criminal offences or of breaches of ethics for the regulated professions, an important economic or financial interest of the State or the protection of the data subject or the rights and freedoms of others, are not in contradiction with the standard contractual clauses. Some examples of such mandatory requirements which do not go beyond what is necessary in a democratic society are, inter alia, internationally recognised sanctions, tax-reporting requirements or anti-money-laundering reporting requirements. [3] This requirement may be satisfied by the subprocessor co-signing the contract entered into between the data exporter and the data importer under this Decision. Appendix 1 Appendix 1 to the Standard Contractual Clauses This Appendix forms part of the Clauses of the Standard Contractual Clauses and is to be considered as part of any agreement to the Standard Contractual Clauses. Data Exporter The data exporter has purchased authentication Services from the data importer which include the processing of personal data. Data Importer The Data Importer, a global provider of technology services for businesses, has agreed to provide authentication Services to data exporter (on a software-as-a-service basis) including the processing of personal data. Data Subjects The personal data transferred by the data exporter to the data importer concerns the following categories of data subjects: Data exporter’s customers and end-users Data exporter’s employees, consultant and agents authorized by data exporter to use the Services and/or identified to serve as customer contacts. . Categories of data Data exporter may provide names, emails, street addresses, and phone numbers with respect to its employees, consultants and agents authorized by data exporter to use the Services and/or identified to serve as customer contacts. Data exporter selects the categories of data collected by, and/or provided to, data importer for purposes of providing the authentication Services and related processing. All these activities are conducted electronically, so data importer has no visibility into the selections by data exporter, but assumes that the categories of data would be those commonly used for authentication purposes, such as log-in credentials, first name, last name and email address. Special categories of data (if appropriate) Not applicable. Processing operations The personal data transferred will be subject to the following basic processing activities: Scope of Processing. Personal data may be processed only to comply with Instructions by (or at the direction of) Data Exporter (and as defined in the Terms of Service or Service Agreement) in order to provide the Services. Storage Personal data will be stored by data importer. Access Data exporter will have the ability to configure the Services, access, correct, block, export and delete data from the Services in accordance with the Terms of Service or Service Agreement. Termination After termination or expiry of the applicable Services Agreement, data importer will delete the data exporter’s data from the Service. Appendix 2 Appendix 2 to the Standard Contractual Clauses This Appendix forms part of the Clauses of the Standard Contractual Clauses and is considered to be part of any agreement to the Standard Contractual Clauses. Description of the technical and organisational security measures implemented by the Data Importer in accordance with Clauses 4(c) and 5(c) (or document/legislation attached): The Data Importer currently abides by the security standards in this Appendix 2. The Data Importer may update or modify these security standards from time to time provided such updates and modifications will not result in a degradation of the overall security of the Services during the term of the Service Agreement. 1. Hosting Infrastructure. Infrastructure. The Data Importer hosts its services in geographically distributed, secure data centers operated by Amazon Web Services (AWS) and Microsoft Azure. Redundancy. The services are replicated across multiple data centers within a geographic region to eliminate single points of failure using an active/passive configuration in order to minimize the impact of environmental risks. Monitoring. The services are protected by automated monitoring which is designed to detect a variety of failure conditions and which will, when appropriate, trigger failover mechanisms. Backups. Backups are performed on a regular basis and stored in a secondary site within the same geographic region. Business Continuity. The Data Importer replicates its service and data over multiple data centers within a geographic region to protect against loss of service or data. The Data Importer conducts periodic tests of failover and data backup procedures to ensure readiness for business continuity and disaster recovery. 2. Networks & Transmission. Network Data Transmission. All interactions between users, administrators and Auth0 modules are done using the Secure Socket Layer (SSL) or Transport Layer Security (TLS) standard cryptographic protocols. Network Security. The Data Importer employs multiple layers of DOS protection, Intrusion Detection, Rate Limiting and other network security services from both its hosting providers and third party providers. Encryption Technologies. The Data Importer makes HTTPS encryption (also referred to as SSL or TLS connection) available. 3. Policies and Procedures Policies. The Data Importer has written, approved policies governing Account Management, Acceptable Use, Data Retention, Employee Code of Conduct, Encryption, Incident Response, Information Sensitivity, Use of Mobile Devices, Password Protection, Patch Management and Risk Management. Procedures. The Data Importer has written and approved procedures for Data Breach Notification, Change Management, Communication, Disaster Recovery, DoS Response, System Backup and Recovery, and Monitoring. Security Response. The Data Importer monitors a variety of communication channels for security incidents, and the Data Importer’s security personnel will react promptly to known incidents. 4. Access Controls. Access Procedures. The Data Importer maintains formal access procedures for allowing access to the production service and components involved in building the production service. Only authorized employees are allowed access to these restricted components and all access is approved by an employee’s manager and service owner. Only a small number of individuals are approved to access the restricted components. Audit records are maintained to indicate who has access to restricted components. Access Mechanisms. Access to the Data Importer’s production service and build infrastructure occurs only over a secured channel and require two-factor authentication. Logging. Access to the Data Importer’s production service and build infrastructure is done using unique IDs and is logged. Infrastructure Security Personnel. The Data Importer maintains several security policies governing its personnel. The Data Importer’s infrastructure security personnel are responsible for the ongoing monitoring of the Data Importer’s security infrastructure, the review of the Services, and responding to security incidents. . 5. Data Protection. In Transit. All interactions between users, administrators and Auth0 modules are done using the Secure Socket Layer (SSL) or Transport Layer Security (TLS) standard cryptographic protocols At Rest. The Data Importer uses cryptographic hashing and encryption mechanisms to protect sensitive information such as cryptographic keys and application secrets. Redundancy. The Data Importer stores data in a multi-tenant environment within the Data Importer’s hosted infrastructure. The data and service are replicated across multiple hosted datacenters within the same geographic region. Data Isolation. The Data Importer logically isolates the Data Exporter’s data, and the Data Exporter has a large degree of control over the specific data stored in the Service. Data Deletion. The Data Importer provides to the Data Exporter a mechanism that can be used to delete the Data Exporter’s data. 6. Software Code Review. The Data Importer employs a code review process to improve the security of the code used to provide the Services. All changes to the service are reviewed and approved by a senior engineer other than the author of the change. Automated testing. Each software build is subjected to a comprehensive suite of automated tests. Security Scan. The Data Importer employs a third party to scan the Service for security vulnerabilities on a periodic basis. 7. Staff Conduct and Security. Staff Conduct. The Data Importer personnel are required to conduct themselves in a manner consistent with the company’s guidelines regarding confidentiality, business ethics, usage, compliance and professional standards. Background Checks. The Data Importer conducts reasonably appropriate backgrounds checks to the extent legally permissible and in accordance with applicable local labor law and statutory regulations. 8. Subprocessor Security. Prior to onboarding Subprocessors that will handle any data provided by a Data Exporter, the Data Importer conducts an audit of the security and privacy practices of Subprocessors to ensure Subprocessors provide a level of security and privacy appropriate to their access to data and the scope of the services they are engaged to provide. 9. Data Privacy Office. The Data Privacy Office of the Data Importer can be contacted by the Data Exporter’s administrators using the mechanism defined at: https://auth0.com/privacy (or via such other means as may be provided by the Data Importer).
-    By clicking "Accept", you acknowledge that you have read, understood and agree to be legally bound by the European Commission Model Contract Clauses (processors), as well as our Terms of Service and Privacy Policy. If you are accepting these clauses on behalf of a company or other legal entity, you represent that you have the authority to bind such company or legal entity. You may download and print these clauses at any time.
-
     https://manage.auth0.com/#/
     https://manage.auth0.com/#/applications/eD2I5SEBmvgx3tEzeFd35mJfvW5HkasK/quickstart
 
-    - [ ] Add dependencies
+    - [X] 1. Add dependencies
 
       [[Gemfile]]
 
-      : gem 'ominauth', '~> 1.3'
+      : gem 'omniauth', '~> 1.3.1'
+      : gem 'omniauth-auth0', '~> 1.4.1'
 
-    - [ ] Initialize Omniauth AuthO
-    - [ ] Add the AuthO callback handler
-    - [ ] Specify the callback on AuthO Dashboard
-    - [ ] Triggering login manually or integrating the AuthOLock
-    - [ ] Accessing user information
-    - [ ] You're done!
+      - [X] bundle install
+
+    - [X] 2. Initialize Omniauth AuthO
+
+      [[./config/initializers/auth0.rb]]
+
+      #+NAME: auth0.rb
+      #+begin_src ruby :tangle config/initializers/auth0.rb :padline no
+        Rails.application.config.middleware.use OmniAuth::Builder do
+          provider(
+            :auth0,
+            ENV["AUTH0_CLIENT_ID"],
+            ENV["AUTH0_CLIENT_SECRET"],
+            ENV["AUTH0_DOMAIN"],
+            callback_path: "/auth/auth0/callback"
+          )
+        end
+      #+end_src
+
+      - [X] add to gitignore?
+
+        [[./.gitignore]]
+
+        - [X] dotenv
+
+          [[Gemfile]]
+
+          : gem 'dotenv-rails', :groups => [:development, :test]
+
+    - [X] 3. Add the AuthO callback handler
+
+      : rails g controller auth0 callback failure --skip-template-engine --skip-assets
+
+      [[./app/controllers/auth0_controller.rb]]
+
+      #+NAME: auth0_controller.rb
+      #+begin_src ruby :tangle app/controllers/auth0_controller.rb :padline no
+        class Auth0Controller < ApplicationController
+          def callback
+            # This stores all the user information that came from Auth0 and the IdP
+            session[:userinfo] = request.env['omniauth.auth']
+
+            # Redirect to the URL you want after successful auth
+            redirect_to '/spreadsheets'
+          end
+
+          def failure
+            # show a failure page or redirect to an error page
+            @error_msg = request.params['message']
+          end
+        end
+      #+end_src
+
+      - [X] replace the generated routes in [[./config/routes.rb]] 
+
+        [[Routes]]
+
+        : get "/auth/auth0/callback" => "auth0#callback"
+        : get "/auth/failure" => "auth0#failure"
+
+    - [X] 4. Specify the callback on AuthO Dashboard
+
+      For security purposes, register callback URL of the application at
+      https://manage.auth0.com/#/applications 
+
+      : http://yourUrl/auth/auth0/callback
+
+    - [X] 5. Triggering login manually or integrating the AuthOLock
+
+      - [X] passwordless - Email Code
+
+        [[./app/views/layouts/application.html.erb]]
+    
+        #+NAME: application.html.erb
+        #+begin_src html :tangle app/views/layouts/application.html.erb :padline no
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>CaseJewelryRails</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <%= yield :cdn_code %>
+            <%= stylesheet_link_tag    '//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css' %>
+            <%= stylesheet_link_tag    '//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css' %>
+
+            <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+            <%= javascript_include_tag '//cdn.auth0.com/js/lock-9.0.min.js' %>
+            <%= javascript_include_tag '//use.typekit.net/iws6ohy.js' %>
+            <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+            <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+            <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+            <%= csrf_meta_tags %>
+          </head>
+          <body>
+
+          <%= yield %>
+
+          </body>
+          </html>
+
+        #+end_src
+
+        [[./app/assets/javascripts/home.js.erb]]
+
+        #+NAME: javascripts/home.js.erb
+        #+begin_src js :tangle app/assets/javascripts/home.js.erb :padline no
+          var lock = new Auth0Lock("<%= Rails.application.secrets.auth0_client_id %>", "<%= Rails.application.secrets.auth0_domain %>");
+          function signin() {
+              lock.show({
+                  callbackURL: "<%= Rails.application.secrets.auth0_callback_url %>"
+                  responseType: 'code', 
+                  authParams: {
+                      scope: 'openid name email picture'
+                  }
+              });
+          }
+        #+end_src
+
+        [[./config/secrets.yml]]
+
+        #+NAME: secrets.yml
+        #+begin_src yaml :tangle config/secrets.yml :padline no
+          # Be sure to restart your server when you modify this file.
+
+          # Your secret key is used for verifying the integrity of signed cookies.
+          # If you change this key, all old signed cookies will become invalid!
+
+          # Make sure the secret is at least 30 characters and all random,
+          # no regular words or you'll be exposed to dictionary attacks.
+          # You can use `rake secret` to generate a secure secret key.
+
+          # Make sure the secrets in this file are kept private
+          # if you're sharing your code publicly.
+
+          development:
+            secret_key_base: bea023fad0c0803893cde72b419aa08fc9d7456bedeaf9b5490c4c2ef34de64bd1eee9ca4583a19f5f206a36b750bd41a85dcf95567718099ae827ee1d1fcc18
+            auth0_client_id: <%= ENV["AUTH0_CLIENT_ID"] %>
+            auth0_client_secret: <%= ENV["AUTH0_CLIENT_SECRET"] %>
+            auth0_domain: <%= ENV["AUTH0_DOMAIN"] %>
+            auth0_callback_url: <%= ENV["AUTH0_CALLBACK_URL"] %>
+
+
+          test:
+            secret_key_base: 932c75a9b0d799c43e825634b7c2a94fc48ca57bc02db62353a6a51211f9818c4b84105cb15e815de487c59106cc25982c31f95238fd184af8a97003a55c08b4
+            auth0_client_id: <%= ENV["AUTH0_CLIENT_ID"] %>
+            auth0_client_secret: <%= ENV["AUTH0_CLIENT_SECRET"] %>
+            auth0_domain: <%= ENV["AUTH0_DOMAIN"] %>
+            auth0_callback_url: <%= ENV["AUTH0_CALLBACK_URL"] %>
+
+          # Do not keep production secrets in the repository,
+          # instead read values from the environment.
+          production:
+            secret_key_base: <%= ENV["SECRET_KEY_BASE"] %>
+            auth0_client_id: <%= ENV["AUTH0_CLIENT_ID"] %>
+            auth0_client_secret: <%= ENV["AUTH0_CLIENT_SECRET"] %>
+            auth0_domain: <%= ENV["AUTH0_DOMAIN"] %>
+            auth0_callback_url: <%= ENV["AUTH0_CALLBACK_URL"] %>
+        #+end_src
+
+        update [[Routes]]
+
+    - [ ] 6. Accessing user information
+
+      [[./app/controllers/secured_controller.rb]]
+
+      #+NAME: secured controller
+      #+begin_src ruby :tangle app/controllers/secured_controller.rb :padline no
+        class SecuredController < ApplicationController
+
+          before_action :logged_in_using_omniauth?
+
+          private
+
+          def logged_in_using_omniauth?
+            unless session[:userinfo].present?
+              redirect_to '/'
+            end
+          end
+
+        end
+      #+end_src
+      
+      via /userinfo/ stored in the session on step 3
+
+      : class DashboardController < SecuredController
+      :   def show
+      :     @user = session[:userinfo]
+      :   end
+      : end
+
+      : <div>
+      :   <img class="avatar" src="<%= @user[:info][:image] %>"/>
+      :   <h2>Welcom <%= @user[:info][:name] %></h2>
+      : </div>
+
+      [[./config/initializers/session_store.rb]]
+      
+      #+NAME: session_store.rb
+      #+begin_src ruby :tangle config/initializers/session_store.rb :padline no
+        # Be sure to restart your server when you modify this file.
+
+        #Rails.application.config.session_store :cookie_store, key: '_CaseJewelryRails_session'
+        Rails.application.config.session_store :cache_store
+      #+end_src
+
+      [[./config/environments/development.rb]]
+
+      : config.cachestore = :memorystore
+
+      [[./app/views/dashboard/show.html.erb]]
+
+      #+NAME: dashboard show view
+      #+begin_src html :tangle app/views/dashboard/show.html.erb :padline no
+        <div class="home">
+            <div class="container">
+                <div class="login-page clearfix">
+                  <div class="logged-in-box auth0-box logged-in">
+                    <h1 id="logo"><img src="//cdn.auth0.com/samples/auth0_logo_final_blue_RGB.png" /></h1>
+                    <img class="avatar" src="<%= @user[:info][:image] %>"/>
+                    <h2>Welcome <%= @user[:info][:name] %></h2>
+                    <pre><%= JSON.pretty_generate(@user[:info]) %></pre>
+                  </div>
+                </div>
+            </div>
+        </div>
+      #+end_src
+
+      [[./app/views/home/show.html.erb]]
+
+      #+NAME: home show view
+      #+begin_src html :tangle app/views/home/show.html.erb :padline no
+        <div class="home">
+            <div class="container">
+                <div class="login-page clearfix">
+                  <div class="login-box auth0-box before">
+                    <img src="https://i.cloudup.com/StzWWrY34s.png" />
+                    <h3>Auth0 Example</h3>
+                    <p>Zero friction identity infrastructure, built for developers</p>
+                    <a class="btn btn-primary btn-lg btn-login btn-block" onclick="signin()">SignIn</a>
+                  </div>
+                </div>
+            </div>
+        </div>
+      #+end_src
+
+      [[Dashboard]]
+      [[Pages]]
+
+    - [ ] Troubleshooting
+
+      - [ ] "We're sorry, we can't send you the email...
+
+        [[https://www.google.com/search?q=auth0+in+development&oq=auth0+in+development&aqs=chrome..69i57.6898j0j7&sourceid=chrome&es_sm=122&ie=UTF-8][auth0 in development]]
+
+        https://auth0.com/docs/lifecycle
+        https://auth0.com/docs/local-testing-and-development
+
+        If you need to develop an application locally, it's possible to use
+        localhost or other domains which Auth0 cannot access (e.g. intranets) 
+        as callback URLs. Since Auth0 uses OpenID Connect as its main identity 
+        protocol, it never makes a call directly to your application's server. 
+        Instead, it redirects users in a browser to an endpoint of your 
+        application (which must be listed in the "Allowed Callback URLs" list) 
+        with specific information in the query string or hash fragment, 
+        depending on the type of application.
+
+        https://auth0.com/docs/protocols
+
+        [[~/IBT/jewelry/rails/docs/omniauth-auth0-sample/]]
+
+      - [ ] get error description on failure
+
+        [[./config/environments/production.rb]]
+        
+        : OmniAuth.config.on_failure = Proc.new { |env|
+        :   message_key = env['omniauth.error.type']
+        :   error_description = Rack::Utils.escape(env['omniauth.error'].error_reason)
+        :   new_path = "#{env['SCRIPT_NAME']}#{OmniAuth.config.path_prefix}/failure?message=#{message_key}&error_description=#{error_description}"
+        :   Rack::Response.new(['302 Moved'], 302, 'Location' => new_path).finish
+        : }
+
+        [[Config]]
+        [[Environments]]
+        [[Production]]
 
 *** nb
 
@@ -636,7 +1096,6 @@ https://github.com/IronBrushTattoo/cj_rails.git
       - login with familiar accounts
         - google, fb, twitter, etc
           
-
 ** Views
 
 *** Routes
@@ -646,14 +1105,22 @@ https://github.com/IronBrushTattoo/cj_rails.git
     #+NAME: routes.rb
     #+begin_src ruby :tangle config/routes.rb :padline no
       Rails.application.routes.draw do
-        root 'spreadsheets#new'
-
         resources :spreadsheets
-
         get "spreadsheets" => "spreadsheets#new"
+
+        get 'dashboard/show'
+
+        get "/" => "home#show"
+
+        get "/dashboard" => "dashboard#show"
+
+        get "/auth/auth0/callback" => "auth0#callback"
+        get "/auth/failure" => "auth0#failure"
       end
     #+end_src
 
+    [[Pages]]
+    [[AuthO]]
     [[Custom Endpoints]]
 
 *** Static Pages
@@ -676,17 +1143,32 @@ https://github.com/IronBrushTattoo/cj_rails.git
       rails g controller pages --skip-assets
     #+end_src
 
-    #+RESULTS:
-    | create | app/controllers/pages_controller.rb       |
-    | invoke | erb                                       |
-    | create | app/views/pages                           |
-    | invoke | test_unit                                 |
-    | create | test/controllers/pages_controller_test.rb |
-    | invoke | helper                                    |
-    | create | app/helpers/pages_helper.rb               |
-    | invoke | test_unit                                 |
+    [[./app/controllers/pages_controller.rb]]
 
-*** Spreadsheets
+    #+NAME: pages_controller
+    #+begin_src ruby :tangle app/controllers/pages_controller.rb
+      class PagesController < ApplicationController
+      end
+    #+end_src
+
+    - nb
+
+      [[AuthO]]
+
+*** Dashboard
+
+    : rails g controller Dashboard show
+
+    [[./app/controllers/dashboard_controller.rb]]
+
+    #+NAME: dashboard_controller
+    #+begin_src ruby :tangle app/controllers/dashboard_controller.rb :padline no
+      class DashboardController < SecuredController
+        def show
+          @user = session[:userinfo]
+        end
+      end
+    #+end_src
 
 ** Models
 

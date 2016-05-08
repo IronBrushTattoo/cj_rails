@@ -1,4 +1,4 @@
-% Created 2016-05-06 Fri 01:23
+% Created 2016-05-07 Sat 19:17
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -31,6 +31,7 @@
 \emph{Rails 4.2.6}
 
 \url{https://github.com/IronBrushTattoo/cj_rails.git}
+\url{../../Retail_Jewelry}
 
 \section{Config}
 \label{sec-1}
@@ -54,8 +55,12 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'dragonfly', '~> 1.0.12'
 gem 'rack-cache', :require => 'rack/cache'
-#gem 'prawn', '~> 2.1'
 gem 'prawn'
+gem 'prawn-table', '~> 0.2.2'
+gem 'roo', '~> 2.3.2'
+gem 'chronic', '~> 0.10.2'
+gem 'omniauth', '~> 1.3'
+gem 'omniauth-auth0', '~> 1.4'
 
 group :development, :test do
   gem 'byebug'
@@ -72,6 +77,162 @@ end
 
 \ref{sec-3-2-1}
 \ref{sec-3-3-2-1}
+
+\subsection{Environments}
+\label{sec-1-3}
+
+\subsubsection{Development}
+\label{sec-1-3-1}
+
+\url{./config/environments/development.rb}
+
+\begin{verbatim}
+Rails.application.configure do
+  # Settings specified here will take precedence over those in config/application.rb.
+
+  # In the development environment your application's code is reloaded on
+  # every request. This slows down response time but is perfect for development
+  # since you don't have to restart the web server when you make code changes.
+  config.cache_classes = false
+
+  # Do not eager load code on boot.
+  config.eager_load = false
+
+  # Show full error reports and disable caching.
+  config.consider_all_requests_local       = true
+  config.action_controller.perform_caching = false
+
+  # Don't care if the mailer can't send.
+  config.action_mailer.raise_delivery_errors = false
+
+  # Print deprecation notices to the Rails logger.
+  config.active_support.deprecation = :log
+
+  # Raise an error on page load if there are pending migrations.
+  config.active_record.migration_error = :page_load
+
+  # Debug mode disables concatenation and preprocessing of assets.
+  # This option may cause significant delays in view rendering with a large
+  # number of complex assets.
+  config.assets.debug = true
+
+  # Asset digests allow you to set far-future HTTP expiration dates on all assets,
+  # yet still be able to expire them through the digest params.
+  config.assets.digest = true
+
+  # Adds additional error checking when serving assets at runtime.
+  # Checks for improperly declared sprockets dependencies.
+  # Raises helpful error messages.
+  config.assets.raise_runtime_errors = true
+
+  # Raises error for missing translations
+  # config.action_view.raise_on_missing_translations = true
+
+  OmniAuth.config.on_failure = Proc.new { |env|
+    message_key = env['omniauth.error.type']
+    error_description = Rack::Utils.escape(env['omniauth.error'].error_reason)
+    new_path = "#{env['SCRIPT_NAME']}#{OmniAuth.config.path_prefix}/failure?message=#{message_key}&error_description=#{error_description}"
+    Rack::Response.new(['302 Moved'], 302, 'Location' => new_path).finish
+  }
+end
+\end{verbatim}
+
+\subsubsection{Production}
+\label{sec-1-3-2}
+
+\url{./config/environments/production.rb}
+
+\begin{verbatim}
+Rails.application.configure do
+  # Settings specified here will take precedence over those in config/application.rb.
+
+  # Code is not reloaded between requests.
+  config.cache_classes = true
+
+  # Eager load code on boot. This eager loads most of Rails and
+  # your application in memory, allowing both threaded web servers
+  # and those relying on copy on write to perform better.
+  # Rake tasks automatically ignore this option for performance.
+  config.eager_load = true
+
+  # Full error reports are disabled and caching is turned on.
+  config.consider_all_requests_local       = false
+  config.action_controller.perform_caching = true
+
+  # Enable Rack::Cache to put a simple HTTP cache in front of your application
+  # Add `rack-cache` to your Gemfile before enabling this.
+  # For large-scale production use, consider using a caching reverse proxy like
+  # NGINX, varnish or squid.
+  config.action_dispatch.rack_cache = true
+
+  # Disable serving static files from the `/public` folder by default since
+  # Apache or NGINX already handles this.
+  config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?
+
+  # Compress JavaScripts and CSS.
+  config.assets.js_compressor = :uglifier
+  # config.assets.css_compressor = :sass
+
+  # Do not fallback to assets pipeline if a precompiled asset is missed.
+  config.assets.compile = false
+
+  # Asset digests allow you to set far-future HTTP expiration dates on all assets,
+  # yet still be able to expire them through the digest params.
+  config.assets.digest = true
+
+  # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
+
+  # Specifies the header that your server uses for sending files.
+  # config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for Apache
+  # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
+
+  # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
+  # config.force_ssl = true
+
+  # Use the lowest log level to ensure availability of diagnostic information
+  # when problems arise.
+  config.log_level = :debug
+
+  # Prepend all log lines with the following tags.
+  # config.log_tags = [ :subdomain, :uuid ]
+
+  # Use a different logger for distributed setups.
+  # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
+
+  # Use a different cache store in production.
+  # config.cache_store = :mem_cache_store
+
+  # Enable serving of images, stylesheets, and JavaScripts from an asset server.
+  # config.action_controller.asset_host = 'http://assets.example.com'
+
+  # Ignore bad email addresses and do not raise email delivery errors.
+  # Set this to true and configure the email server for immediate delivery to raise delivery errors.
+  # config.action_mailer.raise_delivery_errors = false
+
+  # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
+  # the I18n.default_locale when a translation cannot be found).
+  config.i18n.fallbacks = true
+
+  # Send deprecation notices to registered listeners.
+  config.active_support.deprecation = :notify
+
+  # Use default logging formatter so that PID and timestamp are not suppressed.
+  config.log_formatter = ::Logger::Formatter.new
+
+  # Do not dump schema after migrations.
+  config.active_record.dump_schema_after_migration = false
+
+  OmniAuth.config.on_failure = Proc.new { |env|
+    message_key = env['omniauth.error.type']
+    error_description = Rack::Utils.escape(env['omniauth.error'].error_reason)
+    new_path = "#{env['SCRIPT_NAME']}#{OmniAuth.config.path_prefix}/failure?message=#{message_key}&error_description=#{error_description}"
+    Rack::Response.new(['302 Moved'], 302, 'Location' => new_path).finish
+  }
+
+end
+\end{verbatim}
+
+\ref{sec-3-4-1}
 
 \section{First steps}
 \label{sec-2}
@@ -92,9 +253,6 @@ application.
 
 \begin{itemize}
 \item user logs in (\ref{sec-3-4})
-\begin{itemize}
-\item users will be piercers
-\end{itemize}
 \item chooses xlsx file for upload
 \ref{sec-3-2}
 \item selects number of days back to make labels from
@@ -361,6 +519,8 @@ rake db:migrate
 params.require(:spreadsheet).permit(:file)
 \end{verbatim}
 
+\ref{SpreadsheetPdf}
+
 \begin{verbatim}
 class SpreadsheetsController < ApplicationController
   before_action :set_spreadsheet, only: [:show, :edit, :update, :destroy]
@@ -430,7 +590,7 @@ class SpreadsheetsController < ApplicationController
   end
 
   def spreadsheet_params
-    params.require(:spreadsheet).permit(:index, :file)
+    params.require(:spreadsheet).permit(:index, :file, :days)
   end
 end
 \end{verbatim}
@@ -439,7 +599,7 @@ end
 \item nb
 
 \ref{sec-3-3-2-1}
-\ref{sec-3-3-2-1-3-1}
+\ref{sec-3-3-2-1-2-1}
 \end{itemize}
 
 \item $\boxtimes$ view for displaying
@@ -469,7 +629,7 @@ gem 'rack-cache', :require => 'rack/cache'
 \item $\boxtimes$ bundle install
 \end{itemize}
 
-\item $\boxtimes$ uncomment in \texttt{Production}
+\item $\boxtimes$ uncomment in \ref{sec-1-3-2}
 
 \begin{verbatim}
 config.action_dispatch.rack_cache = true
@@ -498,6 +658,33 @@ get "image" => Dragonfly.app.endpoint { |params, app|
 }
 \end{verbatim}
 \end{itemize}
+
+\item Using Another Data Store
+\label{sec-3-2-1-5}
+
+\url{http://www.sitepoint.com/file-uploads-dragonfly/}
+
+\begin{itemize}
+\item $\square$ add \url{./public/system/dragonfly} to \url{./.gitignore}
+
+\begin{verbatim}
+# See https://help.github.com/articles/ignoring-files for more about ignoring files.
+#
+# If you find yourself ignoring temporary files generated by your text editor
+# or operating system, you probably want to add a global ignore instead:
+#   git config --global core.excludesfile '~/.gitignore_global'
+
+# Ignore bundler config.
+/.bundle
+
+# Ignore all logfiles and tempfiles.
+/log/*
+!/log/.keep
+/tmp
+
+/public/system/dragonfly
+\end{verbatim}
+\end{itemize}
 \end{enumerate}
 
 \subsection{File Conversion}
@@ -506,11 +693,87 @@ get "image" => Dragonfly.app.endpoint { |params, app|
 \subsubsection{xlsx processing}
 \label{sec-3-3-1}
 
+\begin{enumerate}
+\item Roo
+\label{sec-3-3-1-1}
+
+\url{https://github.com/roo-rb/roo}
+
 \begin{itemize}
-\item roo
+\item $\boxtimes$ \ref{Gemfile}
+
+\begin{verbatim}
+gem 'roo', '~> 2.3.2'
+\end{verbatim}
+
+\begin{itemize}
+\item $\boxtimes$ bundle install
 \end{itemize}
 
-\subsubsection{latex processing}
+\item $\square$ examine code from native application
+
+\url{file:///home/son/IBT/jewelry/Retail_Jewelry/cj-parser.rb}
+
+\begin{verbatim}
+: require 'roo'
+: 
+: def get_labels(file)
+:   puts "getting labels"
+:   
+:   labels = []
+:   
+:   xls_file = Roo::Spreadsheet.open(file)
+: 
+:   xls_file.sheets.each do |sheet|
+: 
+:     sheet = xls_file.sheet(sheet)
+:     
+:     sheet.parse[4..-1].each do |row|
+: 
+:       zero,one,two,four,five,ten = nil_convert(row[0]),
+:       nil_convert(row[1]),
+:       nil_convert(row[2]),
+:       nil_convert(row[4]),
+:       nil_convert(row[5]),
+:       nil_convert(row[10])
+: 
+:       sizes = strip(five.to_s)
+:       gauge = "#{sizes[0]}g"
+:       size = "#{sizes[1]}\""
+:       desc = two.gsub("&", "and")
+:       id = one.to_s.split(/-/)[0]
+:       price = "$#{four.to_s.split(".")[0]}"
+:       supply = five
+:       updated = Chronic.parse(ten).to_f
+: 
+:       label = Label.new(gauge,
+:                         size,
+:                         desc,
+:                         id,
+:                         price,
+:                         supply,
+:                         updated
+:                        )
+: 
+:       seconds = 60*60*24*$days
+:       
+:       if (Time.now.to_f - updated.to_f) < seconds
+:         puts label.id
+:         $labelID = label.id
+:         labels.push label
+:       end
+: 
+:     end
+:   end
+: 
+:   return labels
+: 
+: end
+\end{verbatim}
+\end{itemize}
+\end{enumerate}
+
+\subsubsection{pdf processing}
 \label{sec-3-3-2}
 
 \begin{enumerate}
@@ -560,19 +823,11 @@ generates \emph{manual.pdf} in the project root
 \end{itemize}
 \end{enumerate}
 
-\item basic$_{\text{concepts}}$/creation.rb
-\label{sec-3-3-2-1-2}
-
-\begin{verbatim}
-Prawn::Document
-Prawn::Document.generate
-\end{verbatim}
-
 \item Tutorials
-\label{sec-3-3-2-1-3}
+\label{sec-3-3-2-1-2}
 \begin{enumerate}
 \item Creating PDF Using Prawn in Ruby on Rails
-\label{sec-3-3-2-1-3-1}
+\label{sec-3-3-2-1-2-1}
 
 \url{http://www.idyllic-software.com/blog/creating-pdf-using-prawn-in-ruby-on-rails/}
 
@@ -599,7 +854,7 @@ Mime::Type.register "application/pdf", :pdf
 
 \item $\boxtimes$ \url{./app/controllers/spreadsheets_controller.rb}
 
-\ref{sec-3-6-2}
+\texttt{Spreadsheets}
 
 \url{http://www.idyllic-software.com/blog/creating-pdf-using-prawn-in-ruby-on-rails/}
 
@@ -636,13 +891,13 @@ add /disposition: "inline"/ after type
 
 \item $\boxtimes$ create a new class \textbf{app/pdfs/spreadsheet$_{\text{pdf}}$}
 
-\ref{sec-3-8-1}
+\ref{SpreadsheetPdf}
 
-\ref{sec-3-6-2}
+\texttt{Spreadsheets}
 
 \item $\boxtimes$ restart server
 
-\item $\boxtimes$ \ref{sec-3-8-1}
+\item $\boxtimes$ \ref{SpreadsheetPdf}
 
 set the \emph{@spreadsheet} and \emph{view$_{\text{context}}$}
 
@@ -655,7 +910,7 @@ def initialize(spreadsheet, view)
 end
 \end{verbatim}
 
-\item $\square$ create different methods inside \ref{sec-3-8-1} as per what you want to show on the pdf
+\item $\square$ create different methods inside \ref{SpreadsheetPdf} as per what you want to show on the pdf
 
 \begin{itemize}
 \item example
@@ -671,7 +926,7 @@ end
 
 \begin{enumerate}
 \item Issues
-\label{sec-3-3-2-1-3-1-1}
+\label{sec-3-3-2-1-2-1-1}
 
 \begin{itemize}
 \item $\square$ NameError (uninitialized constant SpreadsheetsController::SpreadsheetPdf)
@@ -679,8 +934,6 @@ end
 \end{enumerate}
 \end{enumerate}
 \end{enumerate}
-
-
 
 \item nb
 \label{sec-3-3-2-2}
@@ -701,6 +954,197 @@ end
 
 \subsection{Authentication}
 \label{sec-3-4}
+
+\subsubsection{AuthO}
+\label{sec-3-4-1}
+
+\url{https://manage.auth0.com/#/}
+\url{https://manage.auth0.com/#/applications/eD2I5SEBmvgx3tEzeFd35mJfvW5HkasK/quickstart}
+
+\begin{itemize}
+\item $\boxtimes$ 1. Add dependencies
+
+\ref{Gemfile}
+
+\begin{verbatim}
+gem 'omniauth', '~> 1.3'
+gem 'omniauth-auth0', '~> 1.4'
+\end{verbatim}
+
+\begin{itemize}
+\item $\boxtimes$ bundle install
+\end{itemize}
+
+\item $\square$ 2. Initialize Omniauth AuthO
+
+\url{./config/initializers/auth0.rb}
+
+\begin{verbatim}
+Rails.application.config.middleware.use OmniAuth::Builder do
+  provider(
+    :auth0,
+    'eD2I5SEBmvgx3tEzeFd35mJfvW5HkasK',
+    'CbeRu17uzZttvi8qLafpZJLWr2vTcEf33VLAztuT16FmeujTgrHLtWMSxSe-Plwf',
+    'sonarch.auth0.com',
+    callback_path: "/auth/auth0/callback"
+  )
+end
+\end{verbatim}
+
+\begin{itemize}
+\item $\square$ add to gitignore?
+\end{itemize}
+
+\item $\boxtimes$ 3. Add the AuthO callback handler
+
+\begin{verbatim}
+rails g controller auth0 callback failure --skip-template-engine --skip-assets
+\end{verbatim}
+
+\url{./app/controllers/auth0_controller.rb}
+
+\begin{verbatim}
+class Auth0Controller < ApplicationController
+  def callback
+    # This stores all the user information that came from Auth0 and the IdP
+    session[:userinfo] = request.env['ominauth.auth']
+
+    # Redirect to the URL you want after successful auth
+    redirect_to '/dashboard'
+  end
+
+  def failure
+    # show a failure page or redirect to an error page
+    @error_msg = request.params['message']
+  end
+end
+\end{verbatim}
+
+\begin{itemize}
+\item $\boxtimes$ replace the generated routes in \url{./config/routes.rb} 
+
+\ref{sec-3-5-1}
+
+\begin{verbatim}
+get "/auth/auth0/callback" => "auth0#callback"
+get "/auth/failure" => "auth0#failure"
+\end{verbatim}
+\end{itemize}
+
+\item $\boxtimes$ 4. Specify the callback on AuthO Dashboard
+
+For security purposes, register callback URL of the application at
+\url{https://manage.auth0.com/#/applications} 
+
+\begin{verbatim}
+http://yourUrl/auth/auth0/callback
+\end{verbatim}
+
+\item $\boxtimes$ 5. Triggering login manually or integrating the AuthOLock
+
+\begin{itemize}
+\item $\boxtimes$ passwordless - Email Code
+
+\url{./app/views/pages/login.html.erb}
+
+\begin{verbatim}
+<script src="https://cdn.auth0.com/js/lock-passwordless-1.0.min.js"></script>
+<script type="text/javascript">
+  var clientID = 'eD2I5SEBmvgx3tEzeFd35mJfvW5HkasK';
+  var domain = 'sonarch.auth0.com';
+
+  var lock = new Auth0LockPasswordless(clientID, domain);
+
+  function open() {
+  lock.emailcode({
+  callbackURL: 'http://a1e4c04e.ngrok.io/auth/auth0/callback',
+  authParams: {
+  scope: 'openid profile'
+  }
+  });
+  }
+</script>
+<button onclick="window.open();">Email Code</button>
+\end{verbatim}
+
+update \ref{sec-3-5-1}
+\end{itemize}
+
+\item $\square$ 6. Accessing user information
+
+via \emph{userinfo} stored in the session on step 3
+
+\begin{verbatim}
+class DashboardController < SecuredController
+  def show
+    @user = session[:userinfo]
+  end
+end
+\end{verbatim}
+
+\begin{verbatim}
+<div>
+  <img class="avatar" src="<%= @user[:info][:image] %>"/>
+  <h2>Welcom <%= @user[:info][:name] %></h2>
+</div>
+\end{verbatim}
+
+\url{./app/views/dashboard/show.html.erb}
+
+\begin{verbatim}
+<div>
+  <img class="avatar" src="<%= @user[:info][:image] %>"/>
+  <h2>Welcom <%= @user[:info][:name] %></h2>
+</div>
+\end{verbatim}
+
+\ref{sec-3-6-2}
+\ref{sec-3-6-1}
+
+\item $\square$ Troubleshooting
+
+\begin{itemize}
+\item $\square$ "We're sorry, we can't send you the email\ldots{}
+
+\href{https://www.google.com/search?q=auth0+in+development&oq=auth0+in+development&aqs=chrome..69i57.6898j0j7&sourceid=chrome&es_sm=122&ie=UTF-8}{auth0 in development}
+
+\url{https://auth0.com/docs/lifecycle}
+\end{itemize}
+\end{itemize}
+
+
+\begin{itemize}
+\item $\square$ get error description on failure
+
+\url{./config/environments/production.rb}
+
+\begin{verbatim}
+OmniAuth.config.on_failure = Proc.new { |env|
+  message_key = env['omniauth.error.type']
+  error_description = Rack::Utils.escape(env['omniauth.error'].error_reason)
+  new_path = "#{env['SCRIPT_NAME']}#{OmniAuth.config.path_prefix}/failure?message=#{message_key}&error_description=#{error_description}"
+  Rack::Response.new(['302 Moved'], 302, 'Location' => new_path).finish
+}
+\end{verbatim}
+
+\ref{sec-1}
+\ref{sec-1-3}
+\ref{sec-1-3-2}
+\end{itemize}
+
+\subsubsection{nb}
+\label{sec-3-4-2}
+
+\begin{itemize}
+\item oauth?
+\begin{itemize}
+\item login with familiar accounts
+\begin{itemize}
+\item google, fb, twitter, etc
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
 \subsection{Views}
 \label{sec-3-5}
 
@@ -711,69 +1155,20 @@ end
 
 \begin{verbatim}
 Rails.application.routes.draw do
-  root 'pages#home'
+  root 'spreadsheets#new'
 
   resources :spreadsheets
 
   get "spreadsheets" => "spreadsheets#new"
+  get "login" => "pages#login"
 
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
-
-  # You can have the root of your site routed with "root"
-  # root 'welcome#index'
-
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
-
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
-
-  # Example resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
-
-  # Example resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
-
-  # Example resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
-
-  # Example resource route with more complex sub-resources:
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', on: :collection
-  #     end
-  #   end
-
-  # Example resource route with concerns:
-  #   concern :toggleable do
-  #     post 'toggle'
-  #   end
-  #   resources :posts, concerns: :toggleable
-  #   resources :photos, concerns: :toggleable
-
-  # Example resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
+  get "/auth/auth0/callback" => "auth0#callback"
+  get "/auth/failure" => "auth0#failure"
 end
 \end{verbatim}
 
+\ref{sec-3-6-1}
+\ref{sec-3-4-1}
 \ref{sec-3-2-1-4}
 
 \subsubsection{Static Pages}
@@ -804,8 +1199,35 @@ Static pages controller
 rails g controller pages --skip-assets
 \end{verbatim}
 
-\subsubsection{Spreadsheets}
+\url{./app/controllers/pages_controller.rb}
+
+\begin{verbatim}
+class PagesController < ApplicationController
+end
+\end{verbatim}
+
+\begin{itemize}
+\item nb
+
+\ref{sec-3-4-1}
+\end{itemize}
+
+\subsubsection{Dashboard}
 \label{sec-3-6-2}
+
+\begin{verbatim}
+rails g controller Dashboard show
+\end{verbatim}
+
+\url{./app/controllers/dashboard_controller.rb}
+
+\begin{verbatim}
+class DashboardController < SecuredController
+  def show
+    @user = session[:userinfo]
+  end
+end
+\end{verbatim}
 
 \subsection{Models}
 \label{sec-3-7}
@@ -843,14 +1265,194 @@ class SpreadsheetPdf < Prawn::Document
   def initialize(spreadsheet, view)
     super()
     @spreadsheet = spreadsheet
+    file_path = "public/system/dragonfly/development"
+    xls_file = get_labels("#{file_path}/#{@spreadsheet.file_uid}")
     @view = view
-    logo
-    text "This is a sheet of labels for selected case jewelry, #{@spreadsheet.id}"
+
+    make_labels(xls_file)
+
+  end
+
+  def desc_box(desc)
+    formatted_text_box [
+      {
+        text: "#{desc}",
+        color: "ffffff",
+        styles: [:italic],
+        size: 11
+      }
+    ], at: [$padding,$top], width: $text_width
+  end
+
+  def size_box(gauge,size)
+    transparent(0.1) do
+      stroke_rectangle [0, $box_height+$padding], $box_width, $box_height*0.75
+    end
+
+    transparent(0.6) do
+      formatted_text_box [
+        {
+          text: "#{gauge} #{size}",
+          color: "ffffff",
+          size: 15,
+          styles: [:normal],
+          character_spacing: 0.5
+        }
+      ], at: [($box_width/2)-$padding,$mid], width: $text_width
+    end
+
+  end
+
+  def id_box(id)
+    formatted_text_box [
+      {
+        text: "#{id}",        
+        color: "ffffff",
+        align: :left
+      }
+    ], at: [$padding,$low], width: $text_width
+  end
+
+  def price_box(price)
+    formatted_text_box [
+      {
+        text: "#{price}",
+        color: "ffffff",
+        align: :right,
+        styles: [:italic]
+      }
+    ], at: [$box_width-($padding*3),$low], width: $text_width
+  end
+
+  def make_labels(file)
+
+    define_grid(:columns => 4, :rows => 8, :row_gutter => 10, :column_gutter => 0)
+    margin = 14
+
+    count = 1
+    row = 0
+    column = 0
+
+    start_new_page(:margin => margin)
+
+    file.each do |label|
+
+      grid(row, column).bounding_box do
+        #stroke_axis
+
+        fill_color "000000"
+        stroke_color "ffffff"
+
+        $box_width = 144
+        $box_height = 81
+        $padding = 12
+        $text_width = 90
+        $top = $box_height-$padding
+        $mid = $top - 30
+        $low = $mid - 20
+
+        transparent(0.9) do
+          fill_rectangle [0, $box_height], $box_width, $box_height
+
+          font "Times-Roman", :size => 10
+
+          desc_box(label.desc)
+          size_box(label.gauge, label.size)
+          id_box(label.id)
+          price_box(label.price)
+        end
+
+      end
+
+      if count%4 == 0
+        row+=1
+        column = 0
+      else
+        column+=1
+      end
+
+      if count%32 == 0
+        start_new_page(:margin => margin)
+        row = 0
+        column = 0
+      end
+
+      count+=1
+    end
+
   end
 
   def logo
     logopath = "#{Rails.root}/app/assets/images/logo.png"
     image logopath, :width => 197, :height => 197
+  end
+
+  def get_labels(file)
+
+    labels = []
+
+    xls_file = Roo::Spreadsheet.open(file, extension: :xlsx)
+
+    xls_file.sheets.each do |sheet|
+
+      sheet = xls_file.sheet(sheet)
+
+      sheet.parse[0..-1].each do |row|
+
+        zero,one,two,four,five,ten = nil_convert(row[0]),
+        nil_convert(row[1]),
+        nil_convert(row[2]),
+        nil_convert(row[4]),
+        nil_convert(row[5]),
+        nil_convert(row[10])
+
+        sizes = strip(five.to_s)
+        gauge = "#{sizes[0]}g" unless sizes[0].nil?
+        size = "#{sizes[1]}\"" unless sizes[1].nil?
+        desc = two.gsub("&", "and")
+        id = one.to_s.split(/-/)[0]
+        price = "$#{four.to_s.split(".")[0]}"
+        supply = five
+        updated = Chronic.parse(ten).to_f
+
+        label = Label.new(gauge,
+                          size,
+                          desc,
+                          id,
+                          price,
+                          supply,
+                          updated
+                         )
+
+        seconds = 60*60*24*@spreadsheet.days.to_f
+
+        if (Time.now.to_f - updated.to_f) < seconds
+          #puts label.id
+          $labelID = label.id
+          labels.push label
+        end
+
+      end
+    end
+
+    return labels
+
+  end
+
+  def nil_convert(c)
+    if c.nil? 
+      ""
+    else
+      c
+    end
+  end
+
+  def strip(s)
+    s.gsub(/"/, '').
+      gsub(/g/, '').
+      gsub(/G/, '').
+      gsub(/,/, '').
+      split(' ')
   end
 
 end
@@ -860,28 +1462,56 @@ end
 \item nb
 
 \ref{sec-3-3-2-1}
+
+\texttt{Spreadsheets}
 \end{itemize}
+
+\subsubsection{Label}
+\label{sec-3-8-2}
+
+\url{./app/pdfs/label.rb}
+
+\begin{verbatim}
+class Label
+
+  def initialize(gauge, size, desc, id, price, supply, updated)
+    @gauge = gauge
+    @size = size
+    @desc = desc
+    @id = id
+    @price = price
+    @supply = supply
+    @updated = updated
+  end
+
+  attr_reader :gauge, :size, :desc, :id, :price, :supply, :updated
+
+end
+\end{verbatim}
+
 
 \subsection{{\bfseries\sffamily TODO} }
 \label{sec-3-9}
 
 \begin{itemize}
-\item $\square$ Tests
+\item $\square$ Testing
 \item $\square$ sidekiq
 \begin{itemize}
-\item $\square$ background processes for creating pdfs
+\item $\square$ background processes for creating pdfs?
 \end{itemize}
-\item $\square$ requirements
+\item $\boxminus$ requirements
 \begin{itemize}
-\item $\square$ roo
-\item $\square$ chronic
+\item $\boxtimes$ roo
+\item $\boxtimes$ chronic
+\item $\square$ \ref{sec-3-3-2-1}
 \end{itemize}
-\item $\square$ pdflatex
-
-\ref{sec-3-3-2-1}
-
-\item $\square$ migrate code from cj-parser
+\item $\boxtimes$ migrate code from cj-parser
 \item $\square$ user authentication
+\end{itemize}
+
+
+
+\begin{itemize}
 \item $\square$ file upload
 \begin{itemize}
 \item $\square$ only xlsx file?
@@ -890,6 +1520,13 @@ end
 \item $\square$ file storage
 \begin{itemize}
 \item $\square$ archival api?
+\end{itemize}
+\item $\square$ production
+\begin{itemize}
+\item $\square$ heroku
+\begin{itemize}
+\item $\square$ secrets
+\end{itemize}
 \end{itemize}
 \end{itemize}
 % Emacs 24.5.1 (Org mode 8.2.10)

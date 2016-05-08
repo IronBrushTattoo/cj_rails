@@ -6,6 +6,8 @@ Rails.application.configure do
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
 
+  config.cachestore = :memorystore
+  
   # Do not eager load code on boot.
   config.eager_load = false
 
@@ -38,4 +40,11 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  # OmniAuth.config.on_failure = Proc.new { |env|
+  #   message_key = env['omniauth.error.type']
+  #   error_description = Rack::Utils.escape(env['omniauth.error'].error_reason)
+  #   new_path = "#{env['SCRIPT_NAME']}#{OmniAuth.config.path_prefix}/failure?message=#{message_key}&error_description=#{error_description}"
+  #   Rack::Response.new(['302 Moved'], 302, 'Location' => new_path).finish
+  # }
 end

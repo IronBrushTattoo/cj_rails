@@ -1,5 +1,6 @@
-class SpreadsheetsController < ApplicationController
+class SpreadsheetsController < SecuredController
   before_action :set_spreadsheet, only: [:show, :edit, :update, :destroy]
+  before_action :logged_in_using_omniauth?, only: [:new, :edit, :update, :destroy]
 
   def index
     @spreadsheets = Spreadsheet.all

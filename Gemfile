@@ -7,6 +7,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
 gem 'turbolinks'
+gem 'jquery-turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'dragonfly', '~> 1.0.12'
@@ -15,6 +16,9 @@ gem 'prawn'
 gem 'prawn-table', '~> 0.2.2'
 gem 'roo', '~> 2.3.2'
 gem 'chronic', '~> 0.10.2'
+gem 'omniauth', '~> 1.3.1'
+gem 'omniauth-auth0', '~> 1.4.1'
+gem 'dotenv-rails', :groups => [:development, :test]
 
 group :development, :test do
   gem 'byebug'
