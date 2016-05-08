@@ -129,36 +129,46 @@ class LabelsheetPdf < Prawn::Document
 
     labels = []
     
-    xls_file = Roo::Spreadsheet.open(file, extension: :xlsx)
+    xls_file = Roo::Spreadsheet.open(file, extension: :xls)
 
     xls_file.sheets.each do |sheet|
 
       sheet = xls_file.sheet(sheet)
       
-      sheet.parse[0..-1].each do |row|
-
-        zero,one,two,four,five,ten = nil_convert(row[0]),
-        nil_convert(row[1]),
-        nil_convert(row[2]),
-        nil_convert(row[4]),
-        nil_convert(row[5]),
-        nil_convert(row[10])
-
-        sizes = strip(five.to_s)
+      #sheet.parse[0..-1].each do |row|
+      sheet.each do |row|
+      # sheet.each(
+      #   sizes: 'Size',
+      #   desc: 'Description',
+      #   id: 'Product ID',
+      #   price: 'Retail',
+      #   updated: 'Last Edit Date') do |row|
+      #sheet.parse.each do |row|
+      #sheet.parse( header_search: [/Size/,/Description/,/Product ID/,/Retail/,/Last Edit Date/],
+      # sheet.parse(header_search: [/Size/,/Description/,/Product ID/,/Retail/,/Last Edit Date/]).each(
+      #   sizes: 'Size',
+      #   desc: 'Description',
+      #   id: 'Product ID',
+      #   price: 'Retail',
+      #   updated: 'Last Edit Date'
+      # ) do |row|
+      #).each do |row|
+        
+        id, desc, price, sizes, updated = row[6], row[2], row[3], row[4], row[12]
+        
+        sizes = strip(nil_convert(sizes).to_s)
         gauge = "#{sizes[0]}g" unless sizes[0].nil?
         size = "#{sizes[1]}\"" unless sizes[1].nil?
-        desc = two.gsub("&", "and")
-        id = one.to_s.split(/-/)[0]
-        price = "$#{four.to_s.split(".")[0]}"
-        supply = five
-        updated = Chronic.parse(ten).to_f
+        desc = nil_convert(desc).gsub("&", "and")
+        id = nil_convert(id).to_s.split(/-/)[0]
+        price = "$#{nil_convert(price).to_s.split(".")[0]}"
+        updated = Chronic.parse(nil_convert(updated)).to_f
 
         label = Label.new(gauge,
                           size,
                           desc,
                           id,
                           price,
-                          supply,
                           updated
                          )
 
