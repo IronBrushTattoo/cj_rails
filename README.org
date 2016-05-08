@@ -50,6 +50,10 @@ https://github.com/IronBrushTattoo/cj_rails.git
        gem 'web-console', '~> 2.0'
        gem 'spring'
      end
+
+     group :production do
+       gem 'rails_12factor'
+     end
    #+end_src
 
    [[./app/assets/javascripts/application.js]]
@@ -1795,7 +1799,6 @@ https://github.com/IronBrushTattoo/cj_rails.git
 
     #+end_src
 
-
 ** DEPRECATIONS
 
    http://stackoverflow.com/questions/30470333/remove-tables-from-schema
@@ -1828,4 +1831,19 @@ https://github.com/IronBrushTattoo/cj_rails.git
    - [ ] production
      - [ ] heroku
        - [ ] secrets
+
+* Production
+
+** Heroku
+
+   https://onemonth.com/courses/one-month-rails/steps/going-online-with-heroku
+
+   : heroku keys:add
+   : heroku create
+   
+   [[Gemfile]]
+   
+   : gem 'rails_12factor'
+
+   : bundle install --without production
 

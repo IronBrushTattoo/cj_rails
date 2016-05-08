@@ -67,6 +67,11 @@
 <li><a href="#sec-3-10">3.10. <span class="todo TODO">TODO</span> </a></li>
 </ul>
 </li>
+<li><a href="#sec-4">4. Production</a>
+<ul>
+<li><a href="#sec-4-1">4.1. Heroku</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -115,6 +120,10 @@
     group :development do
       gem 'web-console', '~> 2.0'
       gem 'spring'
+    end
+    
+    group :production do
+      gem 'rails_12factor'
     end
 
 <./app/assets/javascripts/application.js>
@@ -1612,3 +1621,18 @@ nb: possibly break this chunker down into other modules, classes, helpers, etc
 -   [ ] production
     -   [ ] heroku
         -   [ ] secrets
+
+# Production<a id="sec-4" name="sec-4"></a>
+
+## Heroku<a id="sec-4-1" name="sec-4-1"></a>
+
+<https://onemonth.com/courses/one-month-rails/steps/going-online-with-heroku>
+
+    heroku keys:add
+    heroku create
+
+1
+
+    gem 'rails_12factor'
+
+    bundle install --without production
