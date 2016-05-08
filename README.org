@@ -914,7 +914,7 @@ https://github.com/IronBrushTattoo/cj_rails.git
           var lock = new Auth0Lock("<%= Rails.application.secrets.auth0_client_id %>", "<%= Rails.application.secrets.auth0_domain %>");
           function signin() {
               lock.show({
-                  callbackURL: "<%= Rails.application.secrets.auth0_callback_url %>"
+                  callbackURL: "<%= Rails.application.secrets.auth0_callback_url %>",
                   responseType: 'code', 
                   authParams: {
                       scope: 'openid name email picture'
