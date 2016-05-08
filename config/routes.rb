@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
-  resources :spreadsheets
-  get "spreadsheets" => "spreadsheets#new"
+  #resources :spreadsheets
+  #get "spreadsheets" => "spreadsheets#new"
+  resources :labelsheets
+  get "labelsheets" => "labelsheets#new"
 
   get 'dashboard/show'
 

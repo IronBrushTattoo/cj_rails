@@ -1,10 +1,10 @@
-<%= form_for(@spreadsheet) do |f| %>
-  <% if @spreadsheet.errors.any? %>
+<%= form_for(@labelsheet) do |f| %>
+  <% if @labelsheet.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@spreadsheet.errors.count, "error") %> prohibited this spreadsheet from being saved:</h2>
+      <h2><%= pluralize(@labelsheet.errors.count, "error") %> prohibited this labelsheet from being saved:</h2>
 
       <ul>
-      <% @spreadsheet.errors.full_messages.each do |message| %>
+      <% @labelsheet.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
       </ul>
@@ -15,10 +15,12 @@
     <%= f.label :days %><br>
     <%= f.number_field :days %>
   </div>
+
   <div class="field">
-    <%= f.label :file %>
+    <%= f.label :file %><br>
     <%= f.file_field :file %>
   </div>
+  
   <div class="actions">
     <%= f.submit %>
   </div>

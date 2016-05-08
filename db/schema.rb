@@ -11,18 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160506075357) do
+ActiveRecord::Schema.define(version: 20160508181317) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "spreadsheets", force: :cascade do |t|
-    t.string   "index"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table "labelsheets", force: :cascade do |t|
+    t.integer  "days"
     t.string   "file_uid"
     t.string   "file_name"
-    t.integer  "days"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

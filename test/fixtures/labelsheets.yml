@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  days: 1
+  file_uid: MyString
+  file_name: MyString
+
+two:
+  days: 1
+  file_uid: MyString
+  file_name: MyString

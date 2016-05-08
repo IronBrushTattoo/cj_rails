@@ -1,0 +1,26 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Labelsheets</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Index</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @labelsheets.each do |labelsheet| %>
+      <tr>
+        <td><%= link_to 'Show', labelsheet %></td>
+        <td><%= link_to 'Edit', edit_labelsheet_path(labelsheet) %></td>
+        <td><%= link_to 'Destroy', labelsheet, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Labelsheet', new_labelsheet_path %>

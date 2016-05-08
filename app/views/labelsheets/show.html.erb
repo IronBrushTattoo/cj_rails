@@ -1,0 +1,10 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Index:</strong>
+  <%= @labelsheet.file_name if @labelsheet.file_stored? %>
+  <%= link_to 'PDF', "#{@labelsheet.id}.pdf" %>
+</p>
+
+<%= link_to 'Edit', edit_labelsheet_path(@labelsheet) %> |
+<%= link_to 'Back', labelsheets_path %>
