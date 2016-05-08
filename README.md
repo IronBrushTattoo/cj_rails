@@ -1599,15 +1599,13 @@ nb: possibly break this chunker down into other modules, classes, helpers, etc
 -   [ ] Testing
 -   [ ] sidekiq
     -   [ ] background processes for creating pdfs?
--   [-] requirements
+-   [X] requirements
     -   [X] roo
     -   [X] chronic
-    -   [ ] 3.3.2.1
+    -   [X] 3.3.2.1
 -   [X] migrate code from cj-parser
--   [ ] user authentication
-
+-   [X] user authentication
 -   [ ] file upload
-    -   [ ] only xlsx file?
     -   [ ] AWS
 -   [ ] file storage
     -   [ ] archival api?

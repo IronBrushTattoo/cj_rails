@@ -1815,17 +1815,13 @@ https://github.com/IronBrushTattoo/cj_rails.git
    - [ ] Testing
    - [ ] sidekiq
      - [ ] background processes for creating pdfs?
-   - [-] requirements
+   - [X] requirements
      - [X] roo
      - [X] chronic
-     - [ ] [[Prawn]]
+     - [X] [[Prawn]]
    - [X] migrate code from cj-parser
-   - [ ] user authentication
-     
-     
-
+   - [X] user authentication
    - [ ] file upload
-     - [ ] only xlsx file?
      - [ ] AWS
    - [ ] file storage
      - [ ] archival api?
