@@ -6,10 +6,11 @@
 <ul>
 <li><a href="#sec-1-1">1.1. Gemfile</a></li>
 <li><a href="#sec-1-2">1.2. Gems</a></li>
-<li><a href="#sec-1-3">1.3. Environments</a>
+<li><a href="#sec-1-3">1.3. Application</a></li>
+<li><a href="#sec-1-4">1.4. Environments</a>
 <ul>
-<li><a href="#sec-1-3-1">1.3.1. Development</a></li>
-<li><a href="#sec-1-3-2">1.3.2. Production</a></li>
+<li><a href="#sec-1-4-1">1.4.1. Development</a></li>
+<li><a href="#sec-1-4-2">1.4.2. Production</a></li>
 </ul>
 </li>
 </ul>
@@ -104,6 +105,9 @@
     gem 'sdoc', '~> 0.4.0', group: :doc
     gem 'dragonfly', '~> 1.0.12'
     gem 'rack-cache', :require => 'rack/cache'
+    gem "memcachier"
+    gem 'dalli'
+    gem 'kgio'
     gem 'prawn'
     gem 'prawn-table', '~> 0.2.2'
     gem 'roo', '~> 2.3.2'
@@ -151,9 +155,42 @@
 3.2.1
 3.3.2.1
 
-## Environments<a id="sec-1-3" name="sec-1-3"></a>
+## Application<a id="sec-1-3" name="sec-1-3"></a>
 
-### Development<a id="sec-1-3-1" name="sec-1-3-1"></a>
+<./config/application.rb>
+
+    require File.expand_path('../boot', __FILE__)
+    
+    require 'rails/all'
+    
+    # Require the gems listed in Gemfile, including any gems
+    # you've limited to :test, :development, or :production.
+    Bundler.require(*Rails.groups)
+    
+    module CaseJewelryRails
+      class Application < Rails::Application
+        # Settings in config/environments/* take precedence over those specified here.
+        # Application configuration should go into files in config/initializers
+        # -- all .rb files in that directory are automatically loaded.
+    
+        # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
+        # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
+        # config.time_zone = 'Central Time (US & Canada)'
+    
+        # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
+        # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
+        # config.i18n.default_locale = :de
+    
+        # Do not swallow errors in after_commit/after_rollback callbacks.
+        config.active_record.raise_in_transactional_callbacks = true
+    
+        config.cache_store = :dalli_store
+      end
+    end
+
+## Environments<a id="sec-1-4" name="sec-1-4"></a>
+
+### Development<a id="sec-1-4-1" name="sec-1-4-1"></a>
 
 <./config/environments/development.rb>
 
@@ -172,7 +209,7 @@
     
       # Show full error reports and disable caching.
       config.consider_all_requests_local       = true
-      config.action_controller.perform_caching = false
+      config.action_controller.perform_caching = true
     
       # Don't care if the mailer can't send.
       config.action_mailer.raise_delivery_errors = false
@@ -208,7 +245,7 @@
       # }
     end
 
-### Production<a id="sec-1-3-2" name="sec-1-3-2"></a>
+### Production<a id="sec-1-4-2" name="sec-1-4-2"></a>
 
 <./config/environments/production.rb>
 
@@ -237,6 +274,7 @@
       # Disable serving static files from the `/public` folder by default since
       # Apache or NGINX already handles this.
       config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?
+      config.serve_static_assets = true
     
       # Compress JavaScripts and CSS.
       config.assets.js_compressor = :uglifier
@@ -297,6 +335,19 @@
         new_path = "#{env['SCRIPT_NAME']}#{OmniAuth.config.path_prefix}/failure?message=#{message_key}&error_description=#{error_description}"
         Rack::Response.new(['302 Moved'], 302, 'Location' => new_path).finish
       }
+    
+      client = Dalli::Client.new((ENV["MEMCACHIER_SERVERS"] || "").split(","),
+                                 :username => ENV["MEMCACHIER_USERNAME"],
+                                 :password => ENV["MEMCACHIER_PASSWORD"],
+                                 :failover => true,
+                                 :socket_timeout => 1.5,
+                                 :socket_failure_delay => 0.2,
+                                 :value_max_bytes => 10485760)
+      config.action_dispatch.rack_cache = {
+        :metastore    => client,
+        :entitystore  => client
+      }
+      config.static_cache_control = "public, max-age=2592000"
     
     end
 
@@ -471,7 +522,7 @@ application.
         
         -   [X] Remodel SpreadsheetPdf to LabelsheetPdf
             
-            29
+            30
         
         -   [X] allow parameter *file* to be accepted by the controller
             
@@ -576,7 +627,7 @@ application.
         
         -   [X] bundle install
     
-    -   [X] uncomment in 1.3.2
+    -   [X] uncomment in 1.4.2
         
             config.action_dispatch.rack_cache = true
 
@@ -1089,8 +1140,8 @@ application.
             }
         
         1
-        1.3
-        1.3.2
+        1.4
+        1.4.2
 
 ### nb<a id="sec-3-4-2" name="sec-3-4-2"></a>
 
@@ -1644,3 +1695,61 @@ nb: possibly break this chunker down into other modules, classes, helpers, etc
     heroku run rake db:migrate
 
     heroku config:set SECRET_KEY_BASE=$(rake secret)
+
+-   [ ] rack cache
+    
+    <https://devcenter.heroku.com/articles/rack-cache-memcached-rails31>
+    
+    -   [ ] install memcached
+    
+    -   [ ] 1
+        
+            gem 'rack-cache'
+            gem 'dalli'
+            gem 'kgio'
+    
+    -   [ ] <./config/application.rb>
+        
+        1
+        1.3
+        
+            config.cache_store = :dalli_store
+    
+    -   [ ] configure Rack::Cache
+        -   [ ] <./config/environments/production.rb>
+            
+            4
+            
+                client = Dalli::Client.new((ENV["MEMCACHIER_SERVERS"] || "").split(","),
+                                           :username => ENV["MEMCACHIER_USERNAME"],
+                                           :password => ENV["MEMCACHIER_PASSWORD"],
+                                           :failover => true,
+                                           :socket_timeout => 1.5,
+                                           :socket_failure_delay => 0.2,
+                                           :value_max_bytes => 10485760)
+                config.action_dispatch.rack_cache = {
+                  :metastore    => client,
+                  :entitystore  => client
+                }
+                config.static_cache_control = "public, max-age=2592000"
+        
+        -   [ ] Serve static assets
+            
+            <./config/environments/production.rb>
+            
+            4
+            
+                config.serve_static_assets = true
+            
+                config.assets.digest = true
+                config.action_controller.perform_caching = true
+                heroku addons:create memcachier:dev
+            
+            1
+            
+                gem "memcachier"
+        
+        -   [ ] caching in production
+            
+                git push heroku master
+                heroku logs --ps web -t

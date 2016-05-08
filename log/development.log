@@ -13873,3 +13873,4 @@ Processing by LabelsheetsController#show as PDF
   Rendered text template (0.0ms)
 Sent data labelsheet_08/05/2016.pdf (0.5ms)
 Completed 200 OK in 136ms (Views: 0.4ms | ActiveRecord: 0.2ms)
+Dalli::Server#connect 127.0.0.1:11211

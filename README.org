@@ -33,6 +33,9 @@ https://github.com/IronBrushTattoo/cj_rails.git
      gem 'sdoc', '~> 0.4.0', group: :doc
      gem 'dragonfly', '~> 1.0.12'
      gem 'rack-cache', :require => 'rack/cache'
+     gem "memcachier"
+     gem 'dalli'
+     gem 'kgio'
      gem 'prawn'
      gem 'prawn-table', '~> 0.2.2'
      gem 'roo', '~> 2.3.2'
@@ -84,6 +87,42 @@ https://github.com/IronBrushTattoo/cj_rails.git
    [[Dragonfly]]
    [[Prawn]]
 
+** Application
+
+   [[./config/application.rb]]
+
+   #+NAME: application.rb
+   #+begin_src ruby :tangle config/application.rb :padline no
+     require File.expand_path('../boot', __FILE__)
+
+     require 'rails/all'
+
+     # Require the gems listed in Gemfile, including any gems
+     # you've limited to :test, :development, or :production.
+     Bundler.require(*Rails.groups)
+
+     module CaseJewelryRails
+       class Application < Rails::Application
+         # Settings in config/environments/* take precedence over those specified here.
+         # Application configuration should go into files in config/initializers
+         # -- all .rb files in that directory are automatically loaded.
+
+         # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
+         # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
+         # config.time_zone = 'Central Time (US & Canada)'
+
+         # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
+         # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
+         # config.i18n.default_locale = :de
+
+         # Do not swallow errors in after_commit/after_rollback callbacks.
+         config.active_record.raise_in_transactional_callbacks = true
+
+         config.cache_store = :dalli_store
+       end
+     end
+   #+end_src
+
 ** Environments
 
 *** Development
@@ -107,7 +146,7 @@ https://github.com/IronBrushTattoo/cj_rails.git
 
         # Show full error reports and disable caching.
         config.consider_all_requests_local       = true
-        config.action_controller.perform_caching = false
+        config.action_controller.perform_caching = true
 
         # Don't care if the mailer can't send.
         config.action_mailer.raise_delivery_errors = false
@@ -175,6 +214,7 @@ https://github.com/IronBrushTattoo/cj_rails.git
         # Disable serving static files from the `/public` folder by default since
         # Apache or NGINX already handles this.
         config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?
+        config.serve_static_assets = true
 
         # Compress JavaScripts and CSS.
         config.assets.js_compressor = :uglifier
@@ -236,6 +276,19 @@ https://github.com/IronBrushTattoo/cj_rails.git
           Rack::Response.new(['302 Moved'], 302, 'Location' => new_path).finish
         }
 
+        client = Dalli::Client.new((ENV["MEMCACHIER_SERVERS"] || "").split(","),
+                                   :username => ENV["MEMCACHIER_USERNAME"],
+                                   :password => ENV["MEMCACHIER_PASSWORD"],
+                                   :failover => true,
+                                   :socket_timeout => 1.5,
+                                   :socket_failure_delay => 0.2,
+                                   :value_max_bytes => 10485760)
+        config.action_dispatch.rack_cache = {
+          :metastore    => client,
+          :entitystore  => client
+        }
+        config.static_cache_control = "public, max-age=2592000"
+        
       end
     #+end_src
 
@@ -1854,3 +1907,62 @@ https://github.com/IronBrushTattoo/cj_rails.git
    : heroku run rake db:migrate
 
    : heroku config:set SECRET_KEY_BASE=$(rake secret)
+
+   - [ ] rack cache
+
+     https://devcenter.heroku.com/articles/rack-cache-memcached-rails31
+     
+     - [ ] install memcached
+
+     - [ ] [[Gemfile]]
+
+       : gem 'rack-cache'
+       : gem 'dalli'
+       : gem 'kgio'
+
+     - [ ] [[./config/application.rb]]
+
+       [[Config]]
+       [[Application]]
+
+       : config.cache_store = :dalli_store
+
+     - [ ] configure Rack::Cache
+
+       - [ ] [[./config/environments/production.rb]]
+
+         [[Production]]
+
+         : client = Dalli::Client.new((ENV["MEMCACHIER_SERVERS"] || "").split(","),
+         :                            :username => ENV["MEMCACHIER_USERNAME"],
+         :                            :password => ENV["MEMCACHIER_PASSWORD"],
+         :                            :failover => true,
+         :                            :socket_timeout => 1.5,
+         :                            :socket_failure_delay => 0.2,
+         :                            :value_max_bytes => 10485760)
+         : config.action_dispatch.rack_cache = {
+         :   :metastore    => client,
+         :   :entitystore  => client
+         : }
+         : config.static_cache_control = "public, max-age=2592000"
+
+       - [ ] Serve static assets
+
+         [[./config/environments/production.rb]]
+
+         [[Production]]
+
+         : config.serve_static_assets = true
+
+         : config.assets.digest = true
+         : config.action_controller.perform_caching = true
+         : heroku addons:create memcachier:dev
+
+         [[Gemfile]]
+
+         : gem "memcachier"
+
+       - [ ] caching in production
+
+         : git push heroku master
+         : heroku logs --ps web -t

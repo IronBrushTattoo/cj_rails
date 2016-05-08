@@ -12,6 +12,9 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'dragonfly', '~> 1.0.12'
 gem 'rack-cache', :require => 'rack/cache'
+gem "memcachier"
+gem 'dalli'
+gem 'kgio'
 gem 'prawn'
 gem 'prawn-table', '~> 0.2.2'
 gem 'roo', '~> 2.3.2'
@@ -28,4 +31,8 @@ end
 group :development do
   gem 'web-console', '~> 2.0'
   gem 'spring'
+end
+
+group :production do
+  gem 'rails_12factor'
 end
