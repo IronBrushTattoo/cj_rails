@@ -1847,3 +1847,10 @@ https://github.com/IronBrushTattoo/cj_rails.git
 
    : bundle install --without production
 
+   : git add *
+   : git commit -m "..."
+   : git push heroku master
+
+   : heroku run rake db:migrate
+
+   : heroku config:set SECRET_KEY_BASE=$(rake secret)

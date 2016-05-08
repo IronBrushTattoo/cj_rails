@@ -1636,3 +1636,11 @@ nb: possibly break this chunker down into other modules, classes, helpers, etc
     gem 'rails_12factor'
 
     bundle install --without production
+
+    git add *
+    git commit -m "..."
+    git push heroku master
+
+    heroku run rake db:migrate
+
+    heroku config:set SECRET_KEY_BASE=$(rake secret)
