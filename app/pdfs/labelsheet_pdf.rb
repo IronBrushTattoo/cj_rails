@@ -3,7 +3,13 @@ class LabelsheetPdf < Prawn::Document
   def initialize(labelsheet, view)
     super()
     @labelsheet = labelsheet
-    file_path = "public/system/dragonfly/development"
+
+    if Rails.env.development? || Rails.env.test?
+      file_path = "public/system/dragonfly/development"
+    else
+      file_path = @labelsheet.file.url
+    end
+
     xls_file = get_labels("#{file_path}/#{@labelsheet.file_uid}")
     @view = view
 

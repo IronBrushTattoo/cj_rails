@@ -53,9 +53,8 @@
 <li><a href="#sec-3-7">3.7. Models</a>
 <ul>
 <li><a href="#sec-3-7-1">3.7.1. Page</a></li>
-<li><a href="#sec-3-7-2">3.7.2. REMODEL::Labelsheet = Spreadsheet</a></li>
-<li><a href="#sec-3-7-3">3.7.3. Labelsheet</a></li>
-<li><a href="#sec-3-7-4">3.7.4. Label</a></li>
+<li><a href="#sec-3-7-2">3.7.2. Labelsheet Model</a></li>
+<li><a href="#sec-3-7-3">3.7.3. Label</a></li>
 </ul>
 </li>
 <li><a href="#sec-3-8">3.8. Classes</a>
@@ -494,7 +493,7 @@ application.
                         bucket_name: 'my-bucket'
                         access_key_id: 'blahblahblah',
                         secret_access_key: 'blublublublu'
-                    
+                        region: 'us-west-1' or whatever...
                     end
                 
                 -   [ ] need region?
@@ -505,7 +504,7 @@ application.
         
         Model: *Labelsheet*
         
-        3.7.3
+        
         
         <./db/migrate>
         
@@ -524,7 +523,7 @@ application.
         
         -   [X] add *file* attribute to Labelsheet
             
-            3.7.3
+            
             
             <./app/models/labelsheet.rb>
             
@@ -554,7 +553,7 @@ application.
         
         -   [X] Remodel SpreadsheetPdf to LabelsheetPdf
             
-            29
+            28
         
         -   [X] allow parameter *file* to be accepted by the controller
             
@@ -1347,18 +1346,7 @@ Static pages controller
 
 ### Page<a id="sec-3-7-1" name="sec-3-7-1"></a>
 
-### REMODEL::Labelsheet = Spreadsheet<a id="sec-3-7-2" name="sec-3-7-2"></a>
-
-<./app/models/spreadsheet.rb>
-
-    class Spreadsheet < ActiveRecord::Base
-      dragonfly_accessor :file  # defines a reader/writer for file
-    end
-
--   [ ] DEPRECATION
-    -   [ ] rm spreadsheet model
-
-### Labelsheet<a id="sec-3-7-3" name="sec-3-7-3"></a>
+### Labelsheet Model<a id="sec-3-7-2" name="sec-3-7-2"></a>
 
 <./app/models/labelsheet.rb>
 
@@ -1366,7 +1354,7 @@ Static pages controller
       dragonfly_accessor :file 
     end
 
-### Label<a id="sec-3-7-4" name="sec-3-7-4"></a>
+### Label<a id="sec-3-7-3" name="sec-3-7-3"></a>
 
 ## Classes<a id="sec-3-8" name="sec-3-8"></a>
 
@@ -1381,7 +1369,13 @@ nb: possibly break this chunker down into other modules, classes, helpers, etc
       def initialize(labelsheet, view)
         super()
         @labelsheet = labelsheet
-        file_path = "public/system/dragonfly/development"
+    
+        if Rails.env.development? || Rails.env.test?
+          file_path = "public/system/dragonfly/development"
+        else
+          file_path = @labelsheet.file.url
+        end
+    
         xls_file = get_labels("#{file_path}/#{@labelsheet.file_uid}")
         @view = view
     
@@ -1582,6 +1576,18 @@ nb: possibly break this chunker down into other modules, classes, helpers, etc
       end
     
     end
+
+-   [X] change file for amazon aws s3 path
+    
+        file_path = "public/system/dragonfly/development"
+    
+    to
+    
+        if Rails.env.development? || Rails.env.test?
+          file_path = "public/system/dragonfly/development"
+        else
+          file_path = @labelsheet.file.url
+        end
 
 -   nb
     

@@ -14822,3 +14822,6 @@ Cache read: _session_id:67151482c41e1cc521cd88f104dcf9bd
   Rendered labelsheets/index.html.erb within layouts/application (3.5ms)
 Completed 200 OK in 16ms (Views: 15.5ms | ActiveRecord: 0.2ms)
 Cache write: _session_id:67151482c41e1cc521cd88f104dcf9bd ({:expires_in=>nil})
+  [1m[36mLabelsheet Load (0.5ms)[0m  [1mSELECT  "labelsheets".* FROM "labelsheets"  ORDER BY "labelsheets"."id" DESC LIMIT 1[0m
+  [1m[35mLabelsheet Load (0.4ms)[0m  SELECT  "labelsheets".* FROM "labelsheets"  ORDER BY "labelsheets"."id" DESC LIMIT 1
+  [1m[36mLabelsheet Load (0.4ms)[0m  [1mSELECT  "labelsheets".* FROM "labelsheets"  ORDER BY "labelsheets"."id" DESC LIMIT 1[0m

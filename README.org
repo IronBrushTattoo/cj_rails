@@ -441,7 +441,7 @@ https://github.com/IronBrushTattoo/cj_rails.git
            :     bucket_name: 'my-bucket'
            :     access_key_id: 'blahblahblah',
            :     secret_access_key: 'blublublublu'
-           :
+           :     region: 'us-west-1' or whatever...
            : end
 
            - [ ] need region?
@@ -1545,7 +1545,7 @@ https://github.com/IronBrushTattoo/cj_rails.git
    [[Routes]]
 
 *** Page
-*** REMODEL::Labelsheet = Spreadsheet
+*** REMODEL::Labelsheet = Spreadsheet :noexport:
 
     [[./app/models/spreadsheet.rb]]
 
@@ -1560,7 +1560,7 @@ https://github.com/IronBrushTattoo/cj_rails.git
 
       - [ ] rm spreadsheet model
 
-*** Labelsheet
+*** Labelsheet Model
 
     [[./app/models/labelsheet.rb]]
 
@@ -1589,7 +1589,13 @@ https://github.com/IronBrushTattoo/cj_rails.git
         def initialize(labelsheet, view)
           super()
           @labelsheet = labelsheet
-          file_path = "public/system/dragonfly/development"
+
+          if Rails.env.development? || Rails.env.test?
+            file_path = "public/system/dragonfly/development"
+          else
+            file_path = @labelsheet.file.url
+          end
+
           xls_file = get_labels("#{file_path}/#{@labelsheet.file_uid}")
           @view = view
 
@@ -1791,6 +1797,18 @@ https://github.com/IronBrushTattoo/cj_rails.git
 
       end
     #+end_src
+
+    - [X] change file for amazon aws s3 path
+
+      : file_path = "public/system/dragonfly/development"
+ 
+      to
+     
+      : if Rails.env.development? || Rails.env.test?
+      :   file_path = "public/system/dragonfly/development"
+      : else
+      :   file_path = @labelsheet.file.url
+      : end
 
     - nb
 
