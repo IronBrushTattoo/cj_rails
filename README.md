@@ -274,7 +274,7 @@
       # Disable serving static files from the `/public` folder by default since
       # Apache or NGINX already handles this.
       config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?
-      #config.serve_static_assets = true
+      config.serve_static_assets = true
     
       # Compress JavaScripts and CSS.
       config.assets.js_compressor = :uglifier
@@ -522,86 +522,13 @@ application.
         
         -   [X] Remodel SpreadsheetPdf to LabelsheetPdf
             
-            30
+            29
         
         -   [X] allow parameter *file* to be accepted by the controller
             
             <./app/controllers/labelsheets_controller.rb>
             
             3.5.3
-            
-                class SpreadsheetsController < SecuredController
-                  before_action :set_spreadsheet, only: [:show, :edit, :update, :destroy]
-                  before_action :logged_in_using_omniauth?, only: [:new, :edit, :update, :destroy]
-                
-                  def index
-                    @spreadsheets = Spreadsheet.all
-                  end
-                
-                  def show
-                    @spreadsheet = Spreadsheet.find(params[:id])
-                    respond_to do |format|
-                      format.html
-                      format.pdf do
-                        pdf = SpreadsheetPdf.new(@spreadsheet, view_context)
-                        send_data pdf.render,
-                                  filename: "spreadsheet_#{@spreadsheet.created_at.strftime("%d/%m/%Y")}.pdf",
-                                  type: "application/pdf",
-                                  disposition: "inline"
-                      end
-                    end
-                  end
-                
-                  def new
-                    @spreadsheet = Spreadsheet.new
-                  end
-                
-                  def edit
-                  end
-                
-                  def create
-                    @spreadsheet = Spreadsheet.new(spreadsheet_params)
-                
-                    respond_to do |format|
-                      if @spreadsheet.save
-                        format.html { redirect_to @spreadsheet, notice: 'Spreadsheet was successfully created.' }
-                        format.json { render :show, status: :created, location: @spreadsheet }
-                      else
-                        format.html { render :new }
-                        format.json { render json: @spreadsheet.errors, status: :unprocessable_entity }
-                      end
-                    end
-                  end
-                
-                  def update
-                    respond_to do |format|
-                      if @spreadsheet.update(spreadsheet_params)
-                        format.html { redirect_to @spreadsheet, notice: 'Spreadsheet was successfully updated.' }
-                        format.json { render :show, status: :ok, location: @spreadsheet }
-                      else
-                        format.html { render :edit }
-                        format.json { render json: @spreadsheet.errors, status: :unprocessable_entity }
-                      end
-                    end
-                  end
-                
-                  def destroy
-                    @spreadsheet.destroy
-                    respond_to do |format|
-                      format.html { redirect_to spreadsheets_url, notice: 'Spreadsheet was successfully destroyed.' }
-                      format.json { head :no_content }
-                    end
-                  end
-                
-                  private
-                  def set_spreadsheet
-                    @spreadsheet = Spreadsheet.find(params[:id])
-                  end
-                
-                  def spreadsheet_params
-                    params.require(:spreadsheet).permit(:index, :file, :days)
-                  end
-                end
             
             -   nb
                 
@@ -981,9 +908,7 @@ application.
         
             var lock = new Auth0Lock("<%= Rails.application.secrets.auth0_client_id %>", "<%= Rails.application.secrets.auth0_domain %>");
             function signin() {
-              console.log("<%= Rails.application.secrets.auth0_callback_url %>");
               lock.show({
-                //callbackURL: "http://bacf7d22.ngrok.io/auth/auth0/callback", //"<%= Rails.application.secrets.auth0_callback_url %>",
                 callbackURL: "<%= Rails.application.secrets.auth0_callback_url %>",
                 responseType: 'code', 
                 authParams: {
