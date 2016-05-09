@@ -1376,7 +1376,8 @@ nb: possibly break this chunker down into other modules, classes, helpers, etc
           file_path = @labelsheet.file.url
         end
     
-        xls_file = get_labels("#{file_path}/#{@labelsheet.file_uid}")
+        #xls_file = get_labels("#{file_path}/#{@labelsheet.file_uid}")
+        xls_file = get_labels(file_path)
         @view = view
     
         make_labels(xls_file)
@@ -1509,22 +1510,22 @@ nb: possibly break this chunker down into other modules, classes, helpers, etc
     
           #sheet.parse[0..-1].each do |row|
           sheet.each do |row|
-          # sheet.each(
-          #   sizes: 'Size',
-          #   desc: 'Description',
-          #   id: 'Product ID',
-          #   price: 'Retail',
-          #   updated: 'Last Edit Date') do |row|
-          #sheet.parse.each do |row|
-          #sheet.parse( header_search: [/Size/,/Description/,/Product ID/,/Retail/,/Last Edit Date/],
-          # sheet.parse(header_search: [/Size/,/Description/,/Product ID/,/Retail/,/Last Edit Date/]).each(
-          #   sizes: 'Size',
-          #   desc: 'Description',
-          #   id: 'Product ID',
-          #   price: 'Retail',
-          #   updated: 'Last Edit Date'
-          # ) do |row|
-          #).each do |row|
+            # sheet.each(
+            #   sizes: 'Size',
+            #   desc: 'Description',
+            #   id: 'Product ID',
+            #   price: 'Retail',
+            #   updated: 'Last Edit Date') do |row|
+            #sheet.parse.each do |row|
+            #sheet.parse( header_search: [/Size/,/Description/,/Product ID/,/Retail/,/Last Edit Date/],
+            # sheet.parse(header_search: [/Size/,/Description/,/Product ID/,/Retail/,/Last Edit Date/]).each(
+            #   sizes: 'Size',
+            #   desc: 'Description',
+            #   id: 'Product ID',
+            #   price: 'Retail',
+            #   updated: 'Last Edit Date'
+            # ) do |row|
+            #).each do |row|
     
             id, desc, price, sizes, updated = row[6], row[2], row[3], row[4], row[12]
     
