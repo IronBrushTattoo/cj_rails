@@ -11,6 +11,7 @@ gem 'jquery-turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'dragonfly', '~> 1.0.12'
+gem 'dragonfly-s3_data_store'
 gem 'rack-cache', :require => 'rack/cache'
 gem "memcachier"
 gem 'dalli'

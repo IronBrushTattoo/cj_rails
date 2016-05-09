@@ -104,6 +104,7 @@
     gem 'jbuilder', '~> 2.0'
     gem 'sdoc', '~> 0.4.0', group: :doc
     gem 'dragonfly', '~> 1.0.12'
+    gem 'dragonfly-s3_data_store'
     gem 'rack-cache', :require => 'rack/cache'
     gem "memcachier"
     gem 'dalli'
@@ -475,12 +476,12 @@ application.
         
         -   [X] MOVE SECRET to ENV
     
-    -   [ ] Production
-        -   [ ] AWS S3 Data Store
+    -   [-] Production
+        -   [-] AWS S3 Data Store
             
             <https://github.com/markevans/dragonfly-s3_data_store>
             
-            -   [ ] 1
+            -   [X] 1
                 
                     gem 'dragonfly-s3_data_store'
             

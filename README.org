@@ -32,6 +32,7 @@ https://github.com/IronBrushTattoo/cj_rails.git
      gem 'jbuilder', '~> 2.0'
      gem 'sdoc', '~> 0.4.0', group: :doc
      gem 'dragonfly', '~> 1.0.12'
+     gem 'dragonfly-s3_data_store'
      gem 'rack-cache', :require => 'rack/cache'
      gem "memcachier"
      gem 'dalli'
@@ -420,13 +421,13 @@ https://github.com/IronBrushTattoo/cj_rails.git
 
        - [X] MOVE SECRET to ENV
 
-     - [ ] Production
+     - [-] Production
 
-       - [ ] AWS S3 Data Store
+       - [-] AWS S3 Data Store
 
          https://github.com/markevans/dragonfly-s3_data_store
 
-         - [ ] [[Gemfile]]
+         - [X] [[Gemfile]]
 
            : gem 'dragonfly-s3_data_store'
 
