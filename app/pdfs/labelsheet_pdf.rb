@@ -5,12 +5,11 @@ class LabelsheetPdf < Prawn::Document
     @labelsheet = labelsheet
 
     if Rails.env.development? || Rails.env.test?
-      file_path = "public/system/dragonfly/development"
+      file_path = "public/system/dragonfly/development/#{@labelsheet.file_uid}"
     else
-      file_path = @labelsheet.file.url
+      file_path = Dragonfly.app.remote_url_for(@labelsheet.file_uid)
     end
 
-    #xls_file = get_labels("#{file_path}/#{@labelsheet.file_uid}")
     xls_file = get_labels(file_path)
     @view = view
 
