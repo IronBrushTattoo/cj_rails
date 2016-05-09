@@ -1096,7 +1096,7 @@ https://github.com/IronBrushTattoo/cj_rails.git
 
       : http://yourUrl/auth/auth0/callback
 
-    - [X] 5. Triggering login manually or integrating the AuthOLock
+    - [-] 5. Triggering login manually or integrating the AuthOLock
 
       - [ ] modal all (see auth0 dashboard apps quickstart)
 
@@ -1282,6 +1282,17 @@ https://github.com/IronBrushTattoo/cj_rails.git
       [[Dashboard]]
       [[Pages]]
 
+    - [ ] add rules
+
+      https://manage.auth0.com/#/rules
+
+      - [ ] allow only piercing@ironbrush.com google auth
+        - [ ] include ande, tony, ethan, and tyson @ironbrush.com
+
+    - [ ] if logged_in?
+
+      - [ ] how to check user session
+
     - [ ] Troubleshooting
 
       - [ ] "We're sorry, we can't send you the email...
@@ -1344,6 +1355,7 @@ https://github.com/IronBrushTattoo/cj_rails.git
 
         get "/dashboard" => "dashboard#show"
 
+        get "/callback" => "auth0#callback"
         get "/auth/auth0/callback" => "auth0#callback"
         get "/auth/failure" => "auth0#failure"
       end
@@ -1883,7 +1895,7 @@ https://github.com/IronBrushTattoo/cj_rails.git
    - [ ] file storage
      - [ ] archival api?
    - [ ] production
-     - [ ] heroku
+     - [ ] [[Heroku]]
        - [ ] secrets
 
 * Production
@@ -1978,4 +1990,11 @@ https://github.com/IronBrushTattoo/cj_rails.git
      - [ ] setup local env 
        
        : heroku config -s | grep 'AUTH0_CLIENT_ID\|AUTH0_CLIENT_SECRET\|AUTH0_DOMAIN' | tee -a .env
+
+       #+NAME: local environment setup :results silent
+       #+begin_src sh 
+         heroku config -s | grep 'AUTH0_CLIENT_ID\|AUTH0_CLIENT_SECRET\|AUTH0_DOMAIN' | tee -a .env
+       #+end_src
+
+
          

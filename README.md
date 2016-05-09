@@ -945,7 +945,7 @@ application.
     
         http://yourUrl/auth/auth0/callback
 
--   [X] 5. Triggering login manually or integrating the AuthOLock
+-   [-] 5. Triggering login manually or integrating the AuthOLock
     -   [ ] modal all (see auth0 dashboard apps quickstart)
     
     -   [X] passwordless - Email Code
@@ -1107,6 +1107,16 @@ application.
     3.6.2
     3.6.1
 
+-   [ ] add rules
+    
+    <https://manage.auth0.com/#/rules>
+    
+    -   [ ] allow only piercing@ironbrush.com google auth
+        -   [ ] include ande, tony, ethan, and tyson @ironbrush.com
+
+-   [ ] if logged<sub>in</sub>?
+    -   [ ] how to check user session
+
 -   [ ] Troubleshooting
     -   [ ] "We're sorry, we can't send you the email&#x2026;
         
@@ -1167,6 +1177,7 @@ application.
     
       get "/dashboard" => "dashboard#show"
     
+      get "/callback" => "auth0#callback"
       get "/auth/auth0/callback" => "auth0#callback"
       get "/auth/failure" => "auth0#failure"
     end
@@ -1670,7 +1681,7 @@ nb: possibly break this chunker down into other modules, classes, helpers, etc
 -   [ ] file storage
     -   [ ] archival api?
 -   [ ] production
-    -   [ ] heroku
+    -   [ ] 4.1
         -   [ ] secrets
 
 # Production<a id="sec-4" name="sec-4"></a>
@@ -1762,5 +1773,7 @@ nb: possibly break this chunker down into other modules, classes, helpers, etc
         heroku addons:remove auth0 && heroku addons:add auth0 --subdomain=<my-super-app>
     
     -   [ ] setup local env 
+        
+            heroku config -s | grep 'AUTH0_CLIENT_ID\|AUTH0_CLIENT_SECRET\|AUTH0_DOMAIN' | tee -a .env
         
             heroku config -s | grep 'AUTH0_CLIENT_ID\|AUTH0_CLIENT_SECRET\|AUTH0_DOMAIN' | tee -a .env

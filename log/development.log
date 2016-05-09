@@ -14485,3 +14485,340 @@ Cache read: _session_id:67151482c41e1cc521cd88f104dcf9bd
 Sent data labelsheet_09/05/2016.pdf (0.5ms)
 Completed 200 OK in 1623ms (Views: 0.3ms | ActiveRecord: 0.3ms)
 Cache write: _session_id:67151482c41e1cc521cd88f104dcf9bd ({:expires_in=>nil})
+
+
+Started GET "/" for 70.121.246.174 at 2016-05-09 14:55:02 -0500
+Cannot render console from 70.121.246.174! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by HomeController#show as HTML
+Cache read: _session_id:67151482c41e1cc521cd88f104dcf9bd
+  Rendered home/show.html.erb within layouts/application (0.2ms)
+Completed 200 OK in 197ms (Views: 196.1ms | ActiveRecord: 0.0ms)
+Cache write: _session_id:67151482c41e1cc521cd88f104dcf9bd ({:expires_in=>nil})
+
+
+Started GET "/assets/home.self-2c2576cceb35dde4879eac9374187b73bc57724ee060de32b5bb40fa4b826fbe.js?body=1" for 70.121.246.174 at 2016-05-09 14:55:02 -0500
+Cannot render console from 70.121.246.174! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/auth/auth0/callback?code=qYktUcx6UibtqtIU&state=stL1QMDiOrCRW97b" for 70.121.246.174 at 2016-05-09 14:58:46 -0500
+Cannot render console from 70.121.246.174! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Cache read: _session_id:67151482c41e1cc521cd88f104dcf9bd
+Processing by Auth0Controller#callback as HTML
+  Parameters: {"code"=>"qYktUcx6UibtqtIU", "state"=>"stL1QMDiOrCRW97b"}
+Redirected to http://bacf7d22.ngrok.io/labelsheets
+Completed 302 Found in 0ms (ActiveRecord: 0.0ms)
+Cache write: _session_id:67151482c41e1cc521cd88f104dcf9bd ({:expires_in=>nil})
+
+
+Started GET "/labelsheets" for 70.121.246.174 at 2016-05-09 14:58:47 -0500
+Cannot render console from 70.121.246.174! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by LabelsheetsController#index as HTML
+Cache read: _session_id:67151482c41e1cc521cd88f104dcf9bd
+  [1m[36mLabelsheet Load (0.2ms)[0m  [1mSELECT "labelsheets".* FROM "labelsheets"[0m
+  Rendered labelsheets/index.html.erb within layouts/application (8.5ms)
+Completed 200 OK in 24ms (Views: 21.0ms | ActiveRecord: 1.6ms)
+Cache write: _session_id:67151482c41e1cc521cd88f104dcf9bd ({:expires_in=>nil})
+
+
+Started GET "/labelsheets/new" for 70.121.246.174 at 2016-05-09 14:58:51 -0500
+Cannot render console from 70.121.246.174! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by LabelsheetsController#new as HTML
+Cache read: _session_id:67151482c41e1cc521cd88f104dcf9bd
+  Rendered labelsheets/_form.html.erb (1.4ms)
+  Rendered labelsheets/new.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 30ms (Views: 29.7ms | ActiveRecord: 0.0ms)
+Cache write: _session_id:67151482c41e1cc521cd88f104dcf9bd ({:expires_in=>nil})
+
+
+Started POST "/labelsheets" for 70.121.246.174 at 2016-05-09 14:59:07 -0500
+Cannot render console from 70.121.246.174! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by LabelsheetsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"/+ORikVTFHYREq5flHfRD3IA+zbExMiqtDN/+xRchFmjQBEcR2nfONk20HUUhZAvW11M8mp+X8ZxH1/rpl8ZJw==", "labelsheet"=>{"days"=>"30", "file"=>#<ActionDispatch::Http::UploadedFile:0x007fffd4b222b8 @tempfile=#<Tempfile:/tmp/RackMultipart20160509-11405-sobauz.xls>, @original_filename="cjdb_5-8-16_updated.xls", @content_type="application/vnd.ms-excel", @headers="Content-Disposition: form-data; name=\"labelsheet[file]\"; filename=\"cjdb_5-8-16_updated.xls\"\r\nContent-Type: application/vnd.ms-excel\r\n">}, "commit"=>"Create Labelsheet"}
+Cache read: _session_id:67151482c41e1cc521cd88f104dcf9bd
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "labelsheets" ("file_name", "file_uid", "days", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["file_name", "cjdb_5-8-16_updated.xls"], ["file_uid", "2016/05/09/70z028b018_cjdb_5_8_16_updated.xls"], ["days", 30], ["created_at", "2016-05-09 19:59:07.871311"], ["updated_at", "2016-05-09 19:59:07.871311"]]
+  [1m[35m (60.6ms)[0m  COMMIT
+Redirected to http://bacf7d22.ngrok.io/labelsheets/21
+Completed 302 Found in 65ms (ActiveRecord: 60.9ms)
+Cache write: _session_id:67151482c41e1cc521cd88f104dcf9bd ({:expires_in=>nil})
+
+
+Started GET "/labelsheets/21" for 70.121.246.174 at 2016-05-09 14:59:08 -0500
+Cannot render console from 70.121.246.174! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by LabelsheetsController#show as HTML
+  Parameters: {"id"=>"21"}
+Cache read: _session_id:67151482c41e1cc521cd88f104dcf9bd
+  [1m[36mLabelsheet Load (0.2ms)[0m  [1mSELECT  "labelsheets".* FROM "labelsheets" WHERE "labelsheets"."id" = $1 LIMIT 1[0m  [["id", 21]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "labelsheets".* FROM "labelsheets" WHERE "labelsheets"."id" = $1 LIMIT 1  [["id", "21"]]
+  Rendered labelsheets/show.html.erb within layouts/application (0.6ms)
+Completed 200 OK in 15ms (Views: 13.0ms | ActiveRecord: 0.2ms)
+Cache write: _session_id:67151482c41e1cc521cd88f104dcf9bd ({:expires_in=>nil})
+
+
+Started GET "/labelsheets/21.pdf" for 70.121.246.174 at 2016-05-09 14:59:11 -0500
+Cannot render console from 70.121.246.174! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by LabelsheetsController#show as PDF
+  Parameters: {"id"=>"21"}
+Cache read: _session_id:67151482c41e1cc521cd88f104dcf9bd
+  [1m[36mLabelsheet Load (0.2ms)[0m  [1mSELECT  "labelsheets".* FROM "labelsheets" WHERE "labelsheets"."id" = $1 LIMIT 1[0m  [["id", 21]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "labelsheets".* FROM "labelsheets" WHERE "labelsheets"."id" = $1 LIMIT 1  [["id", "21"]]
+  Rendered text template (0.0ms)
+Sent data labelsheet_09/05/2016.pdf (0.4ms)
+Completed 200 OK in 1521ms (Views: 0.3ms | ActiveRecord: 0.2ms)
+Cache write: _session_id:67151482c41e1cc521cd88f104dcf9bd ({:expires_in=>nil})
+
+
+Started GET "/" for ::1 at 2016-05-09 14:59:36 -0500
+Processing by HomeController#show as HTML
+  Rendered home/show.html.erb within layouts/application (0.0ms)
+Completed 200 OK in 11ms (Views: 11.2ms | ActiveRecord: 0.0ms)
+Cache write: _session_id:80e6b4c9a07d34e23fbb8cb143ea29a1 ({:expires_in=>nil})
+
+
+Started GET "/assets/dashboard.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-05-09 14:59:36 -0500
+
+
+Started GET "/assets/labelsheets.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-05-09 14:59:36 -0500
+
+
+Started GET "/assets/home.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-05-09 14:59:36 -0500
+
+
+Started GET "/assets/secured.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-05-09 14:59:36 -0500
+
+
+Started GET "/assets/application.self-e80e8f2318043e8af94dddc2adad5a4f09739a8ebb323b3ab31cd71d45fd9113.css?body=1" for ::1 at 2016-05-09 14:59:36 -0500
+
+
+Started GET "/assets/jquery.self-660adc51e0224b731d29f575a6f1ec167ba08ad06ed5deca4f1e8654c135bf4c.js?body=1" for ::1 at 2016-05-09 14:59:36 -0500
+
+
+Started GET "/assets/jquery_ujs.self-e87806d0cf4489aeb1bb7288016024e8de67fd18db693fe026fe3907581e53cd.js?body=1" for ::1 at 2016-05-09 14:59:36 -0500
+
+
+Started GET "/assets/home.self-2c2576cceb35dde4879eac9374187b73bc57724ee060de32b5bb40fa4b826fbe.js?body=1" for ::1 at 2016-05-09 14:59:36 -0500
+
+
+Started GET "/assets/application.self-f8806224e027f3e3f0138ea9ce99319e298dfdb323304d1f1be6eae8e8c74724.js?body=1" for ::1 at 2016-05-09 14:59:36 -0500
+
+
+Started GET "/auth/auth0/callback?code=71h9On1n7c9lP9fD&state=6Buf4z4AIioHysT5" for 70.121.246.174 at 2016-05-09 15:00:09 -0500
+Cannot render console from 70.121.246.174! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Auth0Controller#callback as HTML
+  Parameters: {"code"=>"71h9On1n7c9lP9fD", "state"=>"6Buf4z4AIioHysT5"}
+Redirected to http://bacf7d22.ngrok.io/labelsheets
+Completed 302 Found in 0ms (ActiveRecord: 0.0ms)
+Cache write: _session_id:a753b2e4efbe7d7b2877d473a5d6fa6f ({:expires_in=>nil})
+
+
+Started GET "/labelsheets" for 70.121.246.174 at 2016-05-09 15:00:10 -0500
+Cannot render console from 70.121.246.174! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by LabelsheetsController#index as HTML
+Cache read: _session_id:a753b2e4efbe7d7b2877d473a5d6fa6f
+  [1m[36mLabelsheet Load (0.2ms)[0m  [1mSELECT "labelsheets".* FROM "labelsheets"[0m
+  Rendered labelsheets/index.html.erb within layouts/application (3.1ms)
+Completed 200 OK in 15ms (Views: 13.8ms | ActiveRecord: 0.2ms)
+Cache write: _session_id:a753b2e4efbe7d7b2877d473a5d6fa6f ({:expires_in=>nil})
+
+
+Started GET "/assets/dashboard.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for 70.121.246.174 at 2016-05-09 15:00:10 -0500
+Cannot render console from 70.121.246.174! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/home.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for 70.121.246.174 at 2016-05-09 15:00:10 -0500
+Cannot render console from 70.121.246.174! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/labelsheets.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for 70.121.246.174 at 2016-05-09 15:00:10 -0500
+Cannot render console from 70.121.246.174! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/secured.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for 70.121.246.174 at 2016-05-09 15:00:10 -0500
+Cannot render console from 70.121.246.174! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/application.self-e80e8f2318043e8af94dddc2adad5a4f09739a8ebb323b3ab31cd71d45fd9113.css?body=1" for 70.121.246.174 at 2016-05-09 15:00:10 -0500
+Cannot render console from 70.121.246.174! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/jquery.self-660adc51e0224b731d29f575a6f1ec167ba08ad06ed5deca4f1e8654c135bf4c.js?body=1" for 70.121.246.174 at 2016-05-09 15:00:10 -0500
+Cannot render console from 70.121.246.174! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/jquery.turbolinks.self-176b9819f30444d441e820bbccd3264fe57753aeafd54dec732b0dbc77129a2a.js?body=1" for 70.121.246.174 at 2016-05-09 15:00:10 -0500
+Cannot render console from 70.121.246.174! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/jquery_ujs.self-e87806d0cf4489aeb1bb7288016024e8de67fd18db693fe026fe3907581e53cd.js?body=1" for 70.121.246.174 at 2016-05-09 15:00:10 -0500
+Cannot render console from 70.121.246.174! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/turbolinks.self-c37727e9bd6b2735da5c311aa83fead54ed0be6cc8bd9a65309e9c5abe2cbfff.js?body=1" for 70.121.246.174 at 2016-05-09 15:00:10 -0500
+Cannot render console from 70.121.246.174! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/home.self-2c2576cceb35dde4879eac9374187b73bc57724ee060de32b5bb40fa4b826fbe.js?body=1" for 70.121.246.174 at 2016-05-09 15:00:10 -0500
+Cannot render console from 70.121.246.174! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/assets/application.self-f8806224e027f3e3f0138ea9ce99319e298dfdb323304d1f1be6eae8e8c74724.js?body=1" for 70.121.246.174 at 2016-05-09 15:00:10 -0500
+Cannot render console from 70.121.246.174! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+
+
+Started GET "/labelsheets/new" for 70.121.246.174 at 2016-05-09 15:00:14 -0500
+Cannot render console from 70.121.246.174! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by LabelsheetsController#new as HTML
+Cache read: _session_id:a753b2e4efbe7d7b2877d473a5d6fa6f
+  Rendered labelsheets/_form.html.erb (1.0ms)
+  Rendered labelsheets/new.html.erb within layouts/application (1.5ms)
+Completed 200 OK in 15ms (Views: 14.4ms | ActiveRecord: 0.0ms)
+Cache write: _session_id:a753b2e4efbe7d7b2877d473a5d6fa6f ({:expires_in=>nil})
+
+
+Started POST "/labelsheets" for 70.121.246.174 at 2016-05-09 15:00:41 -0500
+Cannot render console from 70.121.246.174! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by LabelsheetsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"0TEJ81RvtXeZqZcH+stBUiP9st2GHLJOmf4x9Sbc2wNplqKDgXEfp+2xLSOmO2u+3X+c1COPo/kbyWrIPfaOQA==", "labelsheet"=>{"days"=>"30", "file"=>#<ActionDispatch::Http::UploadedFile:0x007fffd4c38c38 @tempfile=#<Tempfile:/tmp/RackMultipart20160509-11405-6dwgf4.xls>, @original_filename="cjdb_5-8-16_updated.xls", @content_type="application/vnd.ms-excel", @headers="Content-Disposition: form-data; name=\"labelsheet[file]\"; filename=\"cjdb_5-8-16_updated.xls\"\r\nContent-Type: application/vnd.ms-excel\r\n">}, "commit"=>"Create Labelsheet"}
+Cache read: _session_id:a753b2e4efbe7d7b2877d473a5d6fa6f
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "labelsheets" ("file_name", "file_uid", "days", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["file_name", "cjdb_5-8-16_updated.xls"], ["file_uid", "2016/05/09/1ccm6hkcrv_cjdb_5_8_16_updated.xls"], ["days", 30], ["created_at", "2016-05-09 20:00:41.934472"], ["updated_at", "2016-05-09 20:00:41.934472"]]
+  [1m[35m (12.9ms)[0m  COMMIT
+Redirected to http://bacf7d22.ngrok.io/labelsheets/22
+Completed 302 Found in 16ms (ActiveRecord: 13.2ms)
+Cache write: _session_id:a753b2e4efbe7d7b2877d473a5d6fa6f ({:expires_in=>nil})
+
+
+Started GET "/labelsheets/22" for 70.121.246.174 at 2016-05-09 15:00:42 -0500
+Cannot render console from 70.121.246.174! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by LabelsheetsController#show as HTML
+  Parameters: {"id"=>"22"}
+Cache read: _session_id:a753b2e4efbe7d7b2877d473a5d6fa6f
+  [1m[36mLabelsheet Load (0.1ms)[0m  [1mSELECT  "labelsheets".* FROM "labelsheets" WHERE "labelsheets"."id" = $1 LIMIT 1[0m  [["id", 22]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "labelsheets".* FROM "labelsheets" WHERE "labelsheets"."id" = $1 LIMIT 1  [["id", "22"]]
+  Rendered labelsheets/show.html.erb within layouts/application (0.3ms)
+Completed 200 OK in 14ms (Views: 12.3ms | ActiveRecord: 0.1ms)
+Cache write: _session_id:a753b2e4efbe7d7b2877d473a5d6fa6f ({:expires_in=>nil})
+
+
+Started GET "/labelsheets/22.pdf" for 70.121.246.174 at 2016-05-09 15:00:44 -0500
+Cannot render console from 70.121.246.174! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by LabelsheetsController#show as PDF
+  Parameters: {"id"=>"22"}
+Cache read: _session_id:a753b2e4efbe7d7b2877d473a5d6fa6f
+  [1m[36mLabelsheet Load (0.1ms)[0m  [1mSELECT  "labelsheets".* FROM "labelsheets" WHERE "labelsheets"."id" = $1 LIMIT 1[0m  [["id", 22]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "labelsheets".* FROM "labelsheets" WHERE "labelsheets"."id" = $1 LIMIT 1  [["id", "22"]]
+  Rendered text template (0.0ms)
+Sent data labelsheet_09/05/2016.pdf (0.4ms)
+Completed 200 OK in 1354ms (Views: 0.3ms | ActiveRecord: 0.1ms)
+Cache write: _session_id:a753b2e4efbe7d7b2877d473a5d6fa6f ({:expires_in=>nil})
+
+
+Started GET "/" for 70.121.246.174 at 2016-05-09 15:01:20 -0500
+Cannot render console from 70.121.246.174! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by HomeController#show as HTML
+Cache read: _session_id:a753b2e4efbe7d7b2877d473a5d6fa6f
+  Rendered home/show.html.erb within layouts/application (0.0ms)
+Completed 200 OK in 12ms (Views: 11.9ms | ActiveRecord: 0.0ms)
+Cache write: _session_id:a753b2e4efbe7d7b2877d473a5d6fa6f ({:expires_in=>nil})
+
+
+Started GET "/auth/auth0/callback?code=VVVogNp23kZIm98M&state=74QZs1D2X9Wb98cN" for 70.121.246.174 at 2016-05-09 15:15:40 -0500
+Cannot render console from 70.121.246.174! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Cache read: _session_id:a753b2e4efbe7d7b2877d473a5d6fa6f
+Processing by Auth0Controller#callback as HTML
+  Parameters: {"code"=>"VVVogNp23kZIm98M", "state"=>"74QZs1D2X9Wb98cN"}
+Redirected to http://bacf7d22.ngrok.io/labelsheets
+Completed 302 Found in 0ms (ActiveRecord: 0.0ms)
+Cache write: _session_id:a753b2e4efbe7d7b2877d473a5d6fa6f ({:expires_in=>nil})
+
+
+Started GET "/labelsheets" for 70.121.246.174 at 2016-05-09 15:15:41 -0500
+Cannot render console from 70.121.246.174! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by LabelsheetsController#index as HTML
+Cache read: _session_id:a753b2e4efbe7d7b2877d473a5d6fa6f
+  [1m[36mLabelsheet Load (0.2ms)[0m  [1mSELECT "labelsheets".* FROM "labelsheets"[0m
+  Rendered labelsheets/index.html.erb within layouts/application (3.6ms)
+Completed 200 OK in 17ms (Views: 15.8ms | ActiveRecord: 0.2ms)
+Cache write: _session_id:a753b2e4efbe7d7b2877d473a5d6fa6f ({:expires_in=>nil})
+
+
+Started GET "/labelsheets/new" for 70.121.246.174 at 2016-05-09 15:15:44 -0500
+Cannot render console from 70.121.246.174! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by LabelsheetsController#new as HTML
+Cache read: _session_id:a753b2e4efbe7d7b2877d473a5d6fa6f
+  Rendered labelsheets/_form.html.erb (1.0ms)
+  Rendered labelsheets/new.html.erb within layouts/application (1.5ms)
+Completed 200 OK in 14ms (Views: 13.5ms | ActiveRecord: 0.0ms)
+Cache write: _session_id:a753b2e4efbe7d7b2877d473a5d6fa6f ({:expires_in=>nil})
+
+
+Started POST "/labelsheets" for 70.121.246.174 at 2016-05-09 15:16:08 -0500
+Cannot render console from 70.121.246.174! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by LabelsheetsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"65U/bmvj21hoNqCPAYOv4dRsFYlIADx0XuRPmWZ/O2lTMpQevv1xiBwuGqtdc4UNKu47gO2TLcPc0xSkfVVuKg==", "labelsheet"=>{"days"=>"30", "file"=>#<ActionDispatch::Http::UploadedFile:0x007fffd64b32e0 @tempfile=#<Tempfile:/tmp/RackMultipart20160509-11405-gan6qf.xls>, @original_filename="cjdb_5-8-16_updated.xls", @content_type="application/vnd.ms-excel", @headers="Content-Disposition: form-data; name=\"labelsheet[file]\"; filename=\"cjdb_5-8-16_updated.xls\"\r\nContent-Type: application/vnd.ms-excel\r\n">}, "commit"=>"Create Labelsheet"}
+Cache read: _session_id:a753b2e4efbe7d7b2877d473a5d6fa6f
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "labelsheets" ("file_name", "file_uid", "days", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["file_name", "cjdb_5-8-16_updated.xls"], ["file_uid", "2016/05/09/6d2fekcvp0_cjdb_5_8_16_updated.xls"], ["days", 30], ["created_at", "2016-05-09 20:16:08.154000"], ["updated_at", "2016-05-09 20:16:08.154000"]]
+  [1m[35m (14.9ms)[0m  COMMIT
+Redirected to http://bacf7d22.ngrok.io/labelsheets/23
+Completed 302 Found in 18ms (ActiveRecord: 15.1ms)
+Cache write: _session_id:a753b2e4efbe7d7b2877d473a5d6fa6f ({:expires_in=>nil})
+
+
+Started GET "/labelsheets/23" for 70.121.246.174 at 2016-05-09 15:16:08 -0500
+Cannot render console from 70.121.246.174! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by LabelsheetsController#show as HTML
+  Parameters: {"id"=>"23"}
+Cache read: _session_id:a753b2e4efbe7d7b2877d473a5d6fa6f
+  [1m[36mLabelsheet Load (0.1ms)[0m  [1mSELECT  "labelsheets".* FROM "labelsheets" WHERE "labelsheets"."id" = $1 LIMIT 1[0m  [["id", 23]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "labelsheets".* FROM "labelsheets" WHERE "labelsheets"."id" = $1 LIMIT 1  [["id", "23"]]
+  Rendered labelsheets/show.html.erb within layouts/application (0.3ms)
+Completed 200 OK in 13ms (Views: 12.3ms | ActiveRecord: 0.1ms)
+Cache write: _session_id:a753b2e4efbe7d7b2877d473a5d6fa6f ({:expires_in=>nil})
+
+
+Started GET "/labelsheets/23.pdf" for 70.121.246.174 at 2016-05-09 15:16:13 -0500
+Cannot render console from 70.121.246.174! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by LabelsheetsController#show as PDF
+  Parameters: {"id"=>"23"}
+Cache read: _session_id:a753b2e4efbe7d7b2877d473a5d6fa6f
+  [1m[36mLabelsheet Load (0.1ms)[0m  [1mSELECT  "labelsheets".* FROM "labelsheets" WHERE "labelsheets"."id" = $1 LIMIT 1[0m  [["id", 23]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "labelsheets".* FROM "labelsheets" WHERE "labelsheets"."id" = $1 LIMIT 1  [["id", "23"]]
+  Rendered text template (0.0ms)
+Sent data labelsheet_09/05/2016.pdf (0.3ms)
+Completed 200 OK in 1366ms (Views: 0.3ms | ActiveRecord: 0.1ms)
+Cache write: _session_id:a753b2e4efbe7d7b2877d473a5d6fa6f ({:expires_in=>nil})
+
+
+Started GET "/" for ::1 at 2016-05-09 15:22:52 -0500
+Processing by HomeController#show as HTML
+Cache read: _session_id:d301776998bd41915a35a44a789c7042
+  Rendered home/show.html.erb within layouts/application (0.0ms)
+Completed 200 OK in 17ms (Views: 16.3ms | ActiveRecord: 0.0ms)
+Cache write: _session_id:d301776998bd41915a35a44a789c7042 ({:expires_in=>nil})
+
+
+Started GET "/assets/labelsheets.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-05-09 15:22:53 -0500
+
+
+Started GET "/assets/home.self-2c2576cceb35dde4879eac9374187b73bc57724ee060de32b5bb40fa4b826fbe.js?body=1" for ::1 at 2016-05-09 15:22:53 -0500
+
+
+Started GET "/auth/auth0/callback?code=r3NBFtdg73N2vprb&state=t0usy74utCZR71w8" for 70.121.246.174 at 2016-05-09 15:23:02 -0500
+Cannot render console from 70.121.246.174! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Cache read: _session_id:67151482c41e1cc521cd88f104dcf9bd
+Processing by Auth0Controller#callback as HTML
+  Parameters: {"code"=>"r3NBFtdg73N2vprb", "state"=>"t0usy74utCZR71w8"}
+Redirected to http://bacf7d22.ngrok.io/labelsheets
+Completed 302 Found in 0ms (ActiveRecord: 0.0ms)
+Cache write: _session_id:67151482c41e1cc521cd88f104dcf9bd ({:expires_in=>nil})
+
+
+Started GET "/labelsheets" for 70.121.246.174 at 2016-05-09 15:23:03 -0500
+Cannot render console from 70.121.246.174! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by LabelsheetsController#index as HTML
+Cache read: _session_id:67151482c41e1cc521cd88f104dcf9bd
+  [1m[36mLabelsheet Load (0.2ms)[0m  [1mSELECT "labelsheets".* FROM "labelsheets"[0m
+  Rendered labelsheets/index.html.erb within layouts/application (3.5ms)
+Completed 200 OK in 16ms (Views: 15.5ms | ActiveRecord: 0.2ms)
+Cache write: _session_id:67151482c41e1cc521cd88f104dcf9bd ({:expires_in=>nil})
