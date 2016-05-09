@@ -432,7 +432,7 @@ application.
         
         -   [X] bundle install
     
-    -   [ ] rails g dragonfly
+    -   [X] rails g dragonfly
         
         generates config/initializers/dragonfly.rb
         
@@ -448,9 +448,17 @@ application.
             
               url_format "/media/:job/:name"
             
-              datastore :file,
-                root_path: Rails.root.join('public/system/dragonfly', Rails.env),
-                server_root: Rails.root.join('public')
+              if Rails.env.development? || Rails.env.test?
+                datastore :file,
+                          root_path: Rails.root.join('public/system/dragonfly', Rails.env),
+                          server_root: Rails.root.join('public')
+              else
+                datastore :s3,
+                          bucket_name: ENV['AWS_BUCKET'],
+                          access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+                          secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
+                          url_scheme: 'https'
+            
             end
             
             # Logger
@@ -465,7 +473,29 @@ application.
               ActiveRecord::Base.extend Dragonfly::Model::Validations
             end
         
-        -   [ ] MOVE SECRET to ENV
+        -   [X] MOVE SECRET to ENV
+    
+    -   [ ] Production
+        -   [ ] AWS S3 Data Store
+            
+            <https://github.com/markevans/dragonfly-s3_data_store>
+            
+            -   [ ] 1
+                
+                    gem 'dragonfly-s3_data_store'
+            
+            -   [ ] <./config/initializers/dragonfly.rb>
+                
+                    Dragonfly.app.configure do
+                      
+                      datastore :s3,
+                        bucket_name: 'my-bucket'
+                        access_key_id: 'blahblahblah',
+                        secret_access_key: 'blublublublu'
+                    
+                    end
+                
+                -   [ ] need region?
 
 2.  Handling attachments
 

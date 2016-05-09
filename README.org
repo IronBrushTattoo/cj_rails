@@ -374,12 +374,13 @@ https://github.com/IronBrushTattoo/cj_rails.git
 
        - [X] bundle install
 
-     - [ ] rails g dragonfly
+     - [X] rails g dragonfly
 
        generates config/initializers/dragonfly.rb
 
        [[./config/initializers/dragonfly.rb]]
-
+       
+       #+NAME: dragonfly initializer
        #+begin_src ruby :tangle config/initializers/dragonfly.rb :padline no
          require 'dragonfly'
 
@@ -391,9 +392,17 @@ https://github.com/IronBrushTattoo/cj_rails.git
 
            url_format "/media/:job/:name"
 
-           datastore :file,
-             root_path: Rails.root.join('public/system/dragonfly', Rails.env),
-             server_root: Rails.root.join('public')
+           if Rails.env.development? || Rails.env.test?
+             datastore :file,
+                       root_path: Rails.root.join('public/system/dragonfly', Rails.env),
+                       server_root: Rails.root.join('public')
+           else
+             datastore :s3,
+                       bucket_name: ENV['AWS_BUCKET'],
+                       access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+                       secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
+                       url_scheme: 'https'
+
          end
 
          # Logger
@@ -409,7 +418,30 @@ https://github.com/IronBrushTattoo/cj_rails.git
          end
        #+end_src
 
-       - [ ] MOVE SECRET to ENV
+       - [X] MOVE SECRET to ENV
+
+     - [ ] Production
+
+       - [ ] AWS S3 Data Store
+
+         https://github.com/markevans/dragonfly-s3_data_store
+
+         - [ ] [[Gemfile]]
+
+           : gem 'dragonfly-s3_data_store'
+
+         - [ ] [[./config/initializers/dragonfly.rb]]
+
+           : Dragonfly.app.configure do
+           :   
+           :   datastore :s3,
+           :     bucket_name: 'my-bucket'
+           :     access_key_id: 'blahblahblah',
+           :     secret_access_key: 'blublublublu'
+           :
+           : end
+
+           - [ ] need region?
 
 **** Handling attachments
 
