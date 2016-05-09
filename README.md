@@ -983,8 +983,8 @@ application.
             function signin() {
                 console.log("<%= Rails.application.secrets.auth0_callback_url %>");
                 lock.show({
-                    //callbackURL: "http://05b41f96.ngrok.io/auth/auth0/callback", //"<%= Rails.application.secrets.auth0_callback_url %>",
-                    callbackURL: "<%= Rails.application.secrets.auth0_callback_url %>",
+                    callbackURL: "http://bacf7d22.ngrok.io/auth/auth0/callback", //"<%= Rails.application.secrets.auth0_callback_url %>",
+                    //callbackURL: "<%= Rails.application.secrets.auth0_callback_url %>",
                     responseType: 'code', 
                     authParams: {
                         scope: 'openid name email picture'
@@ -1753,3 +1753,14 @@ nb: possibly break this chunker down into other modules, classes, helpers, etc
             
                 git push heroku master
                 heroku logs --ps web -t
+-   [ ] auth0
+    
+    <https://elements.heroku.com/addons/auth0>
+    
+        heroku addons:create auth0:free --subdomain=sonarch
+    
+        heroku addons:remove auth0 && heroku addons:add auth0 --subdomain=<my-super-app>
+    
+    -   [ ] setup local env 
+        
+            heroku config -s | grep 'AUTH0_CLIENT_ID\|AUTH0_CLIENT_SECRET\|AUTH0_DOMAIN' | tee -a .env

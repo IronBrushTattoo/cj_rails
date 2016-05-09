@@ -1141,8 +1141,8 @@ https://github.com/IronBrushTattoo/cj_rails.git
           function signin() {
               console.log("<%= Rails.application.secrets.auth0_callback_url %>");
               lock.show({
-                  callbackURL: "http://bacf7d22.ngrok.io/auth/auth0/callback", //"<%= Rails.application.secrets.auth0_callback_url %>",
-                  //callbackURL: "<%= Rails.application.secrets.auth0_callback_url %>",
+                  //callbackURL: "http://bacf7d22.ngrok.io/auth/auth0/callback", //"<%= Rails.application.secrets.auth0_callback_url %>",
+                  callbackURL: "<%= Rails.application.secrets.auth0_callback_url %>",
                   responseType: 'code', 
                   authParams: {
                       scope: 'openid name email picture'
