@@ -981,15 +981,15 @@ application.
         
             var lock = new Auth0Lock("<%= Rails.application.secrets.auth0_client_id %>", "<%= Rails.application.secrets.auth0_domain %>");
             function signin() {
-                console.log("<%= Rails.application.secrets.auth0_callback_url %>");
-                lock.show({
-                    callbackURL: "http://bacf7d22.ngrok.io/auth/auth0/callback", //"<%= Rails.application.secrets.auth0_callback_url %>",
-                    //callbackURL: "<%= Rails.application.secrets.auth0_callback_url %>",
-                    responseType: 'code', 
-                    authParams: {
-                        scope: 'openid name email picture'
-                    }
-                });
+              console.log("<%= Rails.application.secrets.auth0_callback_url %>");
+              lock.show({
+                //callbackURL: "http://bacf7d22.ngrok.io/auth/auth0/callback", //"<%= Rails.application.secrets.auth0_callback_url %>",
+                callbackURL: "<%= Rails.application.secrets.auth0_callback_url %>",
+                responseType: 'code', 
+                authParams: {
+                  scope: 'openid name email picture'
+                }
+              });
             }
         
         <./config/secrets.yml>
