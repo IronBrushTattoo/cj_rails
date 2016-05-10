@@ -69,7 +69,11 @@
 </li>
 <li><a href="#sec-4">4. Production</a>
 <ul>
-<li><a href="#sec-4-1">4.1. Heroku</a></li>
+<li><a href="#sec-4-1">4.1. Heroku</a>
+<ul>
+<li><a href="#sec-4-1-1">4.1.1. FORK Alpha</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1646,22 +1650,11 @@ nb: possibly break this chunker down into other modules, classes, helpers, etc
 
 ## TODO <a id="sec-3-10" name="sec-3-10"></a>
 
--   [ ] Testing
--   [ ] sidekiq
-    -   [ ] background processes for creating pdfs?
--   [X] requirements
-    -   [X] roo
-    -   [X] chronic
-    -   [X] 3.3.2.1
--   [X] migrate code from cj-parser
--   [X] user authentication
--   [ ] file upload
-    -   [ ] AWS
--   [ ] file storage
-    -   [ ] archival api?
+-   [ ] user authentication
+    -   [ ] narrow users field
 -   [ ] production
     -   [ ] 4.1
-        -   [ ] secrets
+        -   [ ] fork to alpha
 
 # Production<a id="sec-4" name="sec-4"></a>
 
@@ -1756,3 +1749,23 @@ nb: possibly break this chunker down into other modules, classes, helpers, etc
             heroku config -s | grep 'AUTH0_CLIENT_ID\|AUTH0_CLIENT_SECRET\|AUTH0_DOMAIN' | tee -a .env
         
             heroku config -s | grep 'AUTH0_CLIENT_ID\|AUTH0_CLIENT_SECRET\|AUTH0_DOMAIN' | tee -a .env
+
+### FORK Alpha<a id="sec-4-1-1" name="sec-4-1-1"></a>
+
+<https://devcenter.heroku.com/articles/fork-app>
+
+-   [X] heroku fork
+    
+        heroku fork --from radiant-shore-29024 --to cjlabeler-alpha
+
+-   [ ] deploy
+    -   [ ] add git remote named *alpha*
+        
+            git remote add alpha git@heroku.com:cjlabeler-alpha.git
+        
+            git push alpa master
+        
+        -   [ ] optional: make new app default deployment target
+            
+                git remote rename heroku old
+                git remote rename alpha heroku

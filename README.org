@@ -1871,22 +1871,11 @@ https://github.com/IronBrushTattoo/cj_rails.git
 
 ** TODO
 
-   - [ ] Testing
-   - [ ] sidekiq
-     - [ ] background processes for creating pdfs?
-   - [X] requirements
-     - [X] roo
-     - [X] chronic
-     - [X] [[Prawn]]
-   - [X] migrate code from cj-parser
-   - [X] user authentication
-   - [ ] file upload
-     - [ ] AWS
-   - [ ] file storage
-     - [ ] archival api?
+   - [ ] user authentication
+     - [ ] narrow users field
    - [ ] production
      - [ ] [[Heroku]]
-       - [ ] secrets
+       - [ ] fork to alpha
 
 * Production
 
@@ -1986,5 +1975,25 @@ https://github.com/IronBrushTattoo/cj_rails.git
          heroku config -s | grep 'AUTH0_CLIENT_ID\|AUTH0_CLIENT_SECRET\|AUTH0_DOMAIN' | tee -a .env
        #+end_src
 
+*** FORK Alpha
 
+    https://devcenter.heroku.com/articles/fork-app
+
+    - [X] heroku fork
+
+      : heroku fork --from radiant-shore-29024 --to cjlabeler-alpha
+
+    - [ ] deploy
+
+      - [ ] add git remote named /alpha/
+        
+        : git remote add alpha git@heroku.com:cjlabeler-alpha.git
+
+        : git push alpa master
+
+        - [ ] optional: make new app default deployment target
+
+          : git remote rename heroku old
+          : git remote rename alpha heroku
+    
          
