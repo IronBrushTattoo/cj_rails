@@ -1099,7 +1099,7 @@ https://github.com/IronBrushTattoo/cj_rails.git
           function signin() {
             lock.show({
                 //callbackURL: "<%= Rails.application.secrets.auth0_callback_url %>",
-                callbackURL: "<%= ENV['AUTH0_CALLBACK_URL' %>",
+                callbackURL: "<%= ENV['AUTH0_CALLBACK_URL'] %>",
                 responseType: 'code', 
                 authParams: {
                     scope: 'openid name email picture'
@@ -2030,5 +2030,7 @@ https://github.com/IronBrushTattoo/cj_rails.git
            [[HOMEJS]]
 
            : callbackURL: "<%= ENV['AUTH0_CALLBACK_URL' %>",
+
+           - [ ] compile_assets
 
 

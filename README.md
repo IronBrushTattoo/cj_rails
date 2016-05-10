@@ -950,7 +950,7 @@ application.
             function signin() {
               lock.show({
                   //callbackURL: "<%= Rails.application.secrets.auth0_callback_url %>",
-                  callbackURL: "<%= ENV['AUTH0_CALLBACK_URL' %>",
+                  callbackURL: "<%= ENV['AUTH0_CALLBACK_URL'] %>",
                   responseType: 'code', 
                   authParams: {
                       scope: 'openid name email picture'
@@ -1807,3 +1807,5 @@ nb: possibly break this chunker down into other modules, classes, helpers, etc
                 13
                 
                     callbackURL: "<%= ENV['AUTH0_CALLBACK_URL' %>",
+                
+                -   [ ] compile<sub>assets</sub>
