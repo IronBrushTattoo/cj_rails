@@ -1098,11 +1098,12 @@ https://github.com/IronBrushTattoo/cj_rails.git
           var lock = new Auth0Lock("<%= Rails.application.secrets.auth0_client_id %>", "<%= Rails.application.secrets.auth0_domain %>");
           function signin() {
             lock.show({
-              callbackURL: "<%= Rails.application.secrets.auth0_callback_url %>",
-              responseType: 'code', 
-              authParams: {
-                scope: 'openid name email picture'
-              }
+                //callbackURL: "<%= Rails.application.secrets.auth0_callback_url %>",
+                callbackURL: "<%= ENV['AUTH0_CALLBACK_URL' %>",
+                responseType: 'code', 
+                authParams: {
+                    scope: 'openid name email picture'
+                }
             });
           }
 
@@ -2022,4 +2023,12 @@ https://github.com/IronBrushTattoo/cj_rails.git
            [[./config/environments/production.rb]]
 
            [[ENV-PRODUCTION]]
+         - [ ] TRY::use ENV calls in home.js.erb instead of secrets
+
+           [[./app/assets/javascripts/home.js.erb]]
+
+           [[HOMEJS]]
+
+           : callbackURL: "<%= ENV['AUTH0_CALLBACK_URL' %>",
+
 

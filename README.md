@@ -949,11 +949,12 @@ application.
             var lock = new Auth0Lock("<%= Rails.application.secrets.auth0_client_id %>", "<%= Rails.application.secrets.auth0_domain %>");
             function signin() {
               lock.show({
-                callbackURL: "<%= Rails.application.secrets.auth0_callback_url %>",
-                responseType: 'code', 
-                authParams: {
-                  scope: 'openid name email picture'
-                }
+                  //callbackURL: "<%= Rails.application.secrets.auth0_callback_url %>",
+                  callbackURL: "<%= ENV['AUTH0_CALLBACK_URL' %>",
+                  responseType: 'code', 
+                  authParams: {
+                      scope: 'openid name email picture'
+                  }
               });
             }
         
@@ -1799,3 +1800,10 @@ nb: possibly break this chunker down into other modules, classes, helpers, etc
                 <./config/environments/production.rb>
                 
                 5
+            -   [ ] TRY::use ENV calls in home.js.erb instead of secrets
+                
+                <./app/assets/javascripts/home.js.erb>
+                
+                13
+                
+                    callbackURL: "<%= ENV['AUTH0_CALLBACK_URL' %>",
