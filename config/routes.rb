@@ -1,9 +1,14 @@
 Rails.application.routes.draw do
-  #resources :spreadsheets
-  #get "spreadsheets" => "spreadsheets#new"
-  resources :labelsheets
-  get "labelsheets" => "labelsheets#new"
+  resources :labelsheets, :except => [:show]
+  resources :labelsheets, :only => [:show], :defaults => { :format => 'pdf' }
 
+  get "labelsheets" => "labelsheets#new"
+  get "labelsheets/:id", to: "labelsheets#show", defaults: { format: 'pdf' }
+
+  constraints format: 'pdf' do
+    resources :labelsheets, only: [:show]
+  end
+  
   get 'dashboard/show'
 
   get "/" => "home#show"

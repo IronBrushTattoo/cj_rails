@@ -32,6 +32,7 @@ class LabelsheetsController < SecuredController
 
     respond_to do |format|
       if @labelsheet.save
+        format.pdf { render :pdf => "show" }
         format.html { redirect_to @labelsheet, notice: 'Labelsheet was successfully created.' }
         format.json { render :show, status: :created, location: @labelsheet }
       else

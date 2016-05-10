@@ -754,7 +754,7 @@ application.
                     # Add new mime types for use in respond_to blocks:
                     # Mime::Type.register "text/richtext", :rtf
                     
-                    Mime::Type.register "application/pdf", :pdf
+                    # Mime::Type.register "application/pdf", :pdf
             
             -   [X] <./app/controllers/spreadsheets_controller.rb>
                 
@@ -880,7 +880,7 @@ application.
             session[:userinfo] = request.env['omniauth.auth']
         
             # Redirect to the URL you want after successful auth
-            redirect_to '/labelsheets'
+            redirect_to '/labelsheets/new'
           end
         
           def failure
@@ -1122,10 +1122,15 @@ application.
 <./config/routes.rb>
 
     Rails.application.routes.draw do
-      #resources :spreadsheets
-      #get "spreadsheets" => "spreadsheets#new"
-      resources :labelsheets
+      resources :labelsheets, :except => [:show]
+      resources :labelsheets, :only => [:show], :defaults => { :format => 'pdf' }
+    
       get "labelsheets" => "labelsheets#new"
+      get "labelsheets/:id", to: "labelsheets#show", defaults: { format: 'pdf' }
+    
+      constraints format: 'pdf' do
+        resources :labelsheets, only: [:show]
+      end
     
       get 'dashboard/show'
     
@@ -1160,7 +1165,7 @@ application.
 
     <./app/views/labelsheets/_form.html.erb>
     
-        <%= form_for(@labelsheet) do |f| %>
+        <%= form_for(@labelsheet, :html => {:target => '_blank'}) do |f| %>
           <% if @labelsheet.errors.any? %>
             <div id="error_explanation">
               <h2><%= pluralize(@labelsheet.errors.count, "error") %> prohibited this labelsheet from being saved:</h2>
@@ -1174,14 +1179,15 @@ application.
           <% end %>
         
           <div class="field">
-            <%= f.label :days %><br>
-            <%= f.number_field :days %>
-          </div>
-        
-          <div class="field">
-            <%= f.label :file %><br>
             <%= f.file_field :file %>
           </div>
+          <br/>
+        
+          <div class="field">
+            <%= f.number_field :days %>
+            <%= f.label "Number of Days" %>
+          </div>
+          <br/>
         
           <div class="actions">
             <%= f.submit %>
@@ -1301,6 +1307,7 @@ Static pages controller
     
         respond_to do |format|
           if @labelsheet.save
+            format.pdf { render :pdf => "show" }
             format.html { redirect_to @labelsheet, notice: 'Labelsheet was successfully created.' }
             format.json { render :show, status: :created, location: @labelsheet }
           else
@@ -1339,6 +1346,13 @@ Static pages controller
         params.require(:labelsheet).permit(:index, :file, :days)
       end
     end
+
+-   [ ] redirect to pdf after creation
+    -   [ ] submit button open in new window
+        
+        <./app/views/labelsheets/_form.html.erb>
+        
+        3.5.3.1
 
 ## Models<a id="sec-3-7" name="sec-3-7"></a>
 

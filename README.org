@@ -892,7 +892,7 @@ https://github.com/IronBrushTattoo/cj_rails.git
            # Add new mime types for use in respond_to blocks:
            # Mime::Type.register "text/richtext", :rtf
 
-           Mime::Type.register "application/pdf", :pdf
+           # Mime::Type.register "application/pdf", :pdf
          #+end_src
 
        - [X] [[./app/controllers/spreadsheets_controller.rb]]
@@ -1030,7 +1030,7 @@ https://github.com/IronBrushTattoo/cj_rails.git
             session[:userinfo] = request.env['omniauth.auth']
 
             # Redirect to the URL you want after successful auth
-            redirect_to '/labelsheets'
+            redirect_to '/labelsheets/new'
           end
 
           def failure
@@ -1300,11 +1300,16 @@ https://github.com/IronBrushTattoo/cj_rails.git
     #+NAME: routes.rb
     #+begin_src ruby :tangle config/routes.rb :padline no
       Rails.application.routes.draw do
-        #resources :spreadsheets
-        #get "spreadsheets" => "spreadsheets#new"
-        resources :labelsheets
-        get "labelsheets" => "labelsheets#new"
+        resources :labelsheets, :except => [:show]
+        resources :labelsheets, :only => [:show], :defaults => { :format => 'pdf' }
 
+        get "labelsheets" => "labelsheets#new"
+        get "labelsheets/:id", to: "labelsheets#show", defaults: { format: 'pdf' }
+
+        constraints format: 'pdf' do
+          resources :labelsheets, only: [:show]
+        end
+        
         get 'dashboard/show'
 
         get "/" => "home#show"
@@ -1341,7 +1346,7 @@ https://github.com/IronBrushTattoo/cj_rails.git
 
      #+NAME: labelsheets/_form.html.erb
      #+begin_src html :tangle app/views/labelsheets/_form.html.erb :padline no
-       <%= form_for(@labelsheet) do |f| %>
+       <%= form_for(@labelsheet, :html => {:target => '_blank'}) do |f| %>
          <% if @labelsheet.errors.any? %>
            <div id="error_explanation">
              <h2><%= pluralize(@labelsheet.errors.count, "error") %> prohibited this labelsheet from being saved:</h2>
@@ -1355,14 +1360,15 @@ https://github.com/IronBrushTattoo/cj_rails.git
          <% end %>
 
          <div class="field">
-           <%= f.label :days %><br>
-           <%= f.number_field :days %>
-         </div>
-
-         <div class="field">
-           <%= f.label :file %><br>
            <%= f.file_field :file %>
          </div>
+         <br/>
+
+         <div class="field">
+           <%= f.number_field :days %>
+           <%= f.label "Number of Days" %>
+         </div>
+         <br/>
          
          <div class="actions">
            <%= f.submit %>
@@ -1500,6 +1506,7 @@ https://github.com/IronBrushTattoo/cj_rails.git
 
           respond_to do |format|
             if @labelsheet.save
+              format.pdf { render :pdf => "show" }
               format.html { redirect_to @labelsheet, notice: 'Labelsheet was successfully created.' }
               format.json { render :show, status: :created, location: @labelsheet }
             else
@@ -1539,6 +1546,13 @@ https://github.com/IronBrushTattoo/cj_rails.git
         end
       end
     #+end_src
+
+    - [ ] redirect to pdf after creation
+      - [ ] submit button open in new window
+
+        [[./app/views/labelsheets/_form.html.erb]]
+
+        [[Form]]
     
 ** Models
 
