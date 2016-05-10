@@ -76,6 +76,11 @@
 </li>
 </ul>
 </li>
+<li><a href="#sec-5">5. Issues</a>
+<ul>
+<li><a href="#sec-5-1">5.1. Assets</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -278,7 +283,7 @@
       # Disable serving static files from the `/public` folder by default since
       # Apache or NGINX already handles this.
       config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?
-      config.serve_static_assets = true
+      #config.serve_static_assets = true
     
       # Compress JavaScripts and CSS.
       config.assets.js_compressor = :uglifier
@@ -1769,3 +1774,28 @@ nb: possibly break this chunker down into other modules, classes, helpers, etc
             
                 git remote rename heroku old
                 git remote rename alpha heroku
+
+# Issues<a id="sec-5" name="sec-5"></a>
+
+## Assets<a id="sec-5-1" name="sec-5-1"></a>
+
+-   [ ] callbackURL not updating (defined by Rails.secrets expression)
+    
+    *Tue May 10 09:33:19 CDT 2016*
+    
+    <./app/assets/javascripts/home.js.erb>
+    
+    13
+    
+        callbackURL: "<%= Rails.application.secrets.auth0_callback_url %>",
+    
+    -   [ ] TRY::compile<sub>assets</sub>(alias.zsh)
+        
+            RAILS_ENV=production bundle exec rake assets:precompile --trace
+        
+        -   [ ] env variables now return nothing(nil or ""?) auth0
+            -   [ ] TRY::modify config..serve<sub>static</sub>..
+                
+                <./config/environments/production.rb>
+                
+                5
