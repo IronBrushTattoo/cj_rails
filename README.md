@@ -1758,14 +1758,14 @@ nb: possibly break this chunker down into other modules, classes, helpers, etc
     
         heroku fork --from radiant-shore-29024 --to cjlabeler-alpha
 
--   [ ] deploy
-    -   [ ] add git remote named *alpha*
+-   [X] deploy
+    -   [X] add git remote named *alpha*
         
             git remote add alpha git@heroku.com:cjlabeler-alpha.git
         
             git push alpa master
         
-        -   [ ] optional: make new app default deployment target
+        -   [X] optional: make new app default deployment target
             
                 git remote rename heroku old
                 git remote rename alpha heroku

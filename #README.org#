@@ -1093,7 +1093,7 @@ https://github.com/IronBrushTattoo/cj_rails.git
 
         [[./app/assets/javascripts/home.js.erb]]
 
-        #+NAME: javascripts/home.js.erb
+        #+NAME: HOMEJ
         #+begin_src js :tangle app/assets/javascripts/home.js.erb :padline no
           var lock = new Auth0Lock("<%= Rails.application.secrets.auth0_client_id %>", "<%= Rails.application.secrets.auth0_domain %>");
           function signin() {
@@ -1997,3 +1997,15 @@ https://github.com/IronBrushTattoo/cj_rails.git
           : git remote rename alpha heroku
     
          
+* Issues
+
+** Assets
+
+   - [ ] callbackURL not updating (defined by Rails.secrets expression)
+
+     /Tue May 10 09:33:19 CDT 2016/
+
+     [[./app/assets/javascripts/home.js.erb]]
+
+     
+
