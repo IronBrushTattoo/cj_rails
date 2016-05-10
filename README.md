@@ -949,7 +949,7 @@ application.
             var lock = new Auth0Lock("<%= Rails.application.secrets.auth0_client_id %>", "<%= Rails.application.secrets.auth0_domain %>");
             function signin() {
               lock.show({
-                  callbackURL: '<%= Rails.application.secrets.auth0_callback_url %>',
+                  callbackURL: "<%= Rails.application.secrets.auth0_callback_url %>",
                   responseType: 'code', 
                   authParams: {
                       scope: 'openid name email picture'
@@ -1808,3 +1808,7 @@ nb: possibly break this chunker down into other modules, classes, helpers, etc
                     callbackURL: "<%= ENV['AUTH0_CALLBACK_URL' %>",
                 
                 -   [ ] compile<sub>assets</sub>
+            
+            -   [ ] TRY::rename application.js application.js.erb
+                
+                <http://stackoverflow.com/questions/10440853/how-to-get-environment-in-javascript-file-in-rails-app>
