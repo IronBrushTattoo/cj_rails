@@ -1008,12 +1008,27 @@ application.
             
             <%= yield %>
             
+            <script>
+              var lock = new Auth0Lock("<%= Rails.application.secrets.auth0_client_id %>", "<%= Rails.application.secrets.auth0_domain %>");
+              var callback = "<%= Rails.application.secrets.auth0_callback_url %>";
+            
+              function signin() {
+                lock.show({
+                   callbackURL: "<%= Rails.application.secrets.auth0_callback_url %>",
+                   responseType: 'code', 
+                   authParams: {
+                       scope: 'openid name email picture'
+                   }
+                });
+              }
+            </script>
+            
             </body>
             </html>
         
         <./app/assets/javascripts/home.js.erb>
         
-            var lock = new Auth0Lock("<%= Rails.application.secrets.auth0_client_id %>", "<%= Rails.application.secrets.auth0_domain %>");
+            /*var lock = new Auth0Lock("<%= Rails.application.secrets.auth0_client_id %>", "<%= Rails.application.secrets.auth0_domain %>");
             var callback = "<%= Rails.application.secrets.auth0_callback_url %>";
             
             function signin() {
@@ -1025,7 +1040,9 @@ application.
                         scope: 'openid name email picture'
                     }
                 });
-            }
+                }*/
+            
+            // temporarily moving code to view level
         
         <./config/secrets.yml>
         
