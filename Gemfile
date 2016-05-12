@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
 
 gem 'rails', '4.2.6'
+gem 'dotenv-rails', :groups => [:development, :test], :require => 'dotenv/rails-now'
+
 gem 'pg', '~> 0.15'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
@@ -13,8 +15,6 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'dragonfly', '~> 1.0.12'
 gem 'dragonfly-s3_data_store'
 gem 'rack-cache', :require => 'rack/cache'
-
-gem 'dotenv-rails', :groups => [:development, :test], :require => 'dotenv/rails-now'
 gem "memcachier"
 gem 'dalli'
 gem 'kgio'

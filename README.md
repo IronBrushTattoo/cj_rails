@@ -102,6 +102,8 @@
     source 'https://rubygems.org'
     
     gem 'rails', '4.2.6'
+    gem 'dotenv-rails', :groups => [:development, :test], :require => 'dotenv/rails-now'
+    
     gem 'pg', '~> 0.15'
     gem 'sass-rails', '~> 5.0'
     gem 'uglifier', '>= 1.3.0'
@@ -114,8 +116,6 @@
     gem 'dragonfly', '~> 1.0.12'
     gem 'dragonfly-s3_data_store'
     gem 'rack-cache', :require => 'rack/cache'
-    
-    gem 'dotenv-rails', :groups => [:development, :test], :require => 'dotenv/rails-now'
     gem "memcachier"
     gem 'dalli'
     gem 'kgio'
@@ -897,6 +897,9 @@ application.
                 If you need it to be initialized sooner, you can manually call 
                 *Dotenv::Railtie.load*.
                 
+                NB: This resolved an issue I had with the correct environment variables
+                being loaded in a js.erb file&#x2026; (BLOG THIS!)
+                
                 3
                 
                     # config/application.rb
@@ -914,6 +917,14 @@ application.
                 
                     gem 'dotenv-rails', :require => 'dotenv/rails-now'
                     gem 'gem-that-requires-env-variables'
+                
+                -   [ ] PRODUCTION ISSUE : /app/config/application.rb uninitialized constant Dotenv (NameError)
+                    
+                        /app/config/application.rb:9 in `<top (required)>': uninitialized constant Dotenv (NameError)
+                    
+                    3
+                    
+                    -   [ ] move up in gemfile?
 
 -   [X] 3. Add the AuthO callback handler
     
