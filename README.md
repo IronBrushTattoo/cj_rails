@@ -929,7 +929,7 @@ application.
               <%= stylesheet_link_tag    '//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css' %>
             
               <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-              <%= javascript_include_tag '//cdn.auth0.com/js/lock-9.0.min.js' %>
+              <%= javascript_include_tag '//cdn.auth0.com/js/lock-9.1.min.js' %>
               <%#= javascript_include_tag '//use.typekit.net/iws6ohy.js' %>
               <!--<script type="text/javascript">try{Typekit.load();}catch(e){}</script>-->
             
@@ -946,15 +946,18 @@ application.
         
         <./app/assets/javascripts/home.js.erb>
         
-            var lock = new Auth0Lock("<%= Rails.application.secrets.auth0_client_id %>", "<%= Rails.application.secrets.auth0_domain %>");
             function signin() {
-              lock.show({
-                  callbackURL: "<%= Rails.application.secrets.auth0_callback_url %>",
-                  responseType: 'code', 
-                  authParams: {
-                      scope: 'openid name email picture'
-                  }
-              });
+                var lock = new Auth0Lock("<%= Rails.application.secrets.auth0_client_id %>", "<%= Rails.application.secrets.auth0_domain %>");
+                var callback = "<%= Rails.application.secrets.auth0_callback_url %>";
+            
+                lock.show({
+                    callbackURL: "<%= Rails.application.secrets.auth0_callback_url %>",
+                    //callbackURL: callback,
+                    responseType: 'code', 
+                    authParams: {
+                        scope: 'openid name email picture'
+                    }
+                });
             }
         
         <./config/secrets.yml>
@@ -1552,7 +1555,7 @@ nb: possibly break this chunker down into other modules, classes, helpers, etc
             id, desc, price, sizes, updated = row[6], row[2], row[3], row[4], row[12]
     
             sizes = strip(nil_convert(sizes).to_s)
-            gauge = "#{sizes[0]}g" unless sizes[0].nil?
+            gauge = "#{sizes[0]}g" unless sizes[0].nil? # : ""
             size = "#{sizes[1]}\"" unless sizes[1].nil?
             desc = nil_convert(desc).gsub("&", "and")
             id = nil_convert(id).to_s.split(/-/)[0]

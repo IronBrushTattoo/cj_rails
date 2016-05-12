@@ -163,7 +163,7 @@ class LabelsheetPdf < Prawn::Document
         id, desc, price, sizes, updated = row[6], row[2], row[3], row[4], row[12]
         
         sizes = strip(nil_convert(sizes).to_s)
-        gauge = "#{sizes[0]}g" unless sizes[0].nil?
+        gauge = "#{sizes[0]}g" unless sizes[0].nil? # : ""
         size = "#{sizes[1]}\"" unless sizes[1].nil?
         desc = nil_convert(desc).gsub("&", "and")
         id = nil_convert(id).to_s.split(/-/)[0]
