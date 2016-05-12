@@ -1,0 +1,1 @@
+function signin(){lock.show({callbackURL:"",responseType:"code",authParams:{scope:"openid name email picture"}})}var lock=new Auth0Lock("",""),callback="";
