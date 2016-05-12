@@ -371,6 +371,22 @@
     
     end
 
+    `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
+
+<./config/initializers/assets.rb>
+
+    # Be sure to restart your server when you modify this file.
+    
+    # Version of your assets, change this if you want to expire all your assets.
+    Rails.application.config.assets.version = '1.0'
+    
+    # Add additional assets to the asset load path
+    # Rails.application.config.assets.paths << Emoji.images_path
+    
+    # Precompile additional assets.
+    # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
+    Rails.application.config.assets.precompile += %w( home.js.erb )
+
 3.4.1
 
 # First steps<a id="sec-2" name="sec-2"></a>
@@ -573,7 +589,7 @@ application.
         
         -   [X] Remodel SpreadsheetPdf to LabelsheetPdf
             
-            28
+            29
         
         -   [X] allow parameter *file* to be accepted by the controller
             
@@ -1839,7 +1855,7 @@ nb: possibly break this chunker down into other modules, classes, helpers, etc
     
     <./app/assets/javascripts/home.js.erb>
     
-    13
+    14
     
         callbackURL: "<%= Rails.application.secrets.auth0_callback_url %>",
     
@@ -1857,7 +1873,7 @@ nb: possibly break this chunker down into other modules, classes, helpers, etc
                 
                 <./app/assets/javascripts/home.js.erb>
                 
-                13
+                14
                 
                     callbackURL: "<%= ENV['AUTH0_CALLBACK_URL' %>",
                 

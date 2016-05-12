@@ -304,6 +304,26 @@ https://github.com/IronBrushTattoo/cj_rails.git
       end
     #+end_src
 
+    : `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
+
+    [[./config/initializers/assets.rb]]
+
+    #+NAME: assets.rb
+    #+begin_src ruby :tangle config/initializers/assets.rb :padline no
+      # Be sure to restart your server when you modify this file.
+
+      # Version of your assets, change this if you want to expire all your assets.
+      Rails.application.config.assets.version = '1.0'
+
+      # Add additional assets to the asset load path
+      # Rails.application.config.assets.paths << Emoji.images_path
+
+      # Precompile additional assets.
+      # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
+      Rails.application.config.assets.precompile += %w( home.js.erb )
+
+    #+end_src
+
     [[AuthO]]
 
 * First steps :rails_template:rails:rake:
