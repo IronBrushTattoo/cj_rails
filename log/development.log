@@ -18375,3 +18375,198 @@ Started GET "/assets/jquery.self-660adc51e0224b731d29f575a6f1ec167ba08ad06ed5dec
 
 
 Started GET "/assets/jquery.self-660adc51e0224b731d29f575a6f1ec167ba08ad06ed5deca4f1e8654c135bf4c.js?body=1" for ::1 at 2016-05-10 17:52:23 -0500
+
+
+Started GET "/" for ::1 at 2016-05-11 20:09:25 -0500
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by HomeController#show as HTML
+Cache read: _session_id:98e8d04141f2aeea55e5726fbc1a19e8
+Dalli::Server#connect 127.0.0.1:11211
+127.0.0.1:11211 failed (count: 0) Errno::ECONNREFUSED: Connection refused - send
+DalliError: No server available
+  Rendered home/show.html.erb within layouts/application (0.8ms)
+Completed 200 OK in 190ms (Views: 177.5ms | ActiveRecord: 0.0ms)
+Cache write: _session_id:a36d39b680064019b49a9f8a830b2de2 ({:expires_in=>nil})
+Dalli::Server#connect 127.0.0.1:11211
+127.0.0.1:11211 failed (count: 1) Errno::ECONNREFUSED: Connection refused - send
+127.0.0.1:11211 is down
+DalliError: No server available
+
+
+Started GET "/assets/dashboard.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-05-11 20:09:25 -0500
+
+
+Started GET "/assets/labelsheets.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-05-11 20:09:25 -0500
+
+
+Started GET "/assets/secured.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-05-11 20:09:25 -0500
+
+
+Started GET "/assets/home.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-05-11 20:09:25 -0500
+
+
+Started GET "/assets/application.self-e80e8f2318043e8af94dddc2adad5a4f09739a8ebb323b3ab31cd71d45fd9113.css?body=1" for ::1 at 2016-05-11 20:09:26 -0500
+
+
+Started GET "/assets/jquery.self-660adc51e0224b731d29f575a6f1ec167ba08ad06ed5deca4f1e8654c135bf4c.js?body=1" for ::1 at 2016-05-11 20:09:26 -0500
+
+
+Started GET "/assets/jquery_ujs.self-e87806d0cf4489aeb1bb7288016024e8de67fd18db693fe026fe3907581e53cd.js?body=1" for ::1 at 2016-05-11 20:09:26 -0500
+
+
+Started GET "/assets/jquery.turbolinks.self-176b9819f30444d441e820bbccd3264fe57753aeafd54dec732b0dbc77129a2a.js?body=1" for ::1 at 2016-05-11 20:09:26 -0500
+
+
+Started GET "/assets/turbolinks.self-c37727e9bd6b2735da5c311aa83fead54ed0be6cc8bd9a65309e9c5abe2cbfff.js?body=1" for ::1 at 2016-05-11 20:09:26 -0500
+
+
+Started GET "/assets/application.self-f8806224e027f3e3f0138ea9ce99319e298dfdb323304d1f1be6eae8e8c74724.js?body=1" for ::1 at 2016-05-11 20:09:26 -0500
+
+
+Started GET "/assets/home.self-d147afcc7d5d6490b7356d8ad8af89b255872b48d7de12135a6c95b3eb9e075e.js?body=1" for ::1 at 2016-05-11 20:09:26 -0500
+
+
+Started GET "/assets/jquery.self-660adc51e0224b731d29f575a6f1ec167ba08ad06ed5deca4f1e8654c135bf4c.js?body=1" for ::1 at 2016-05-11 20:09:26 -0500
+
+
+Started GET "/assets/jquery.turbolinks.self-176b9819f30444d441e820bbccd3264fe57753aeafd54dec732b0dbc77129a2a.js?body=1" for ::1 at 2016-05-11 20:09:26 -0500
+
+
+Started GET "/assets/jquery_ujs.self-e87806d0cf4489aeb1bb7288016024e8de67fd18db693fe026fe3907581e53cd.js?body=1" for ::1 at 2016-05-11 20:09:26 -0500
+
+
+Started GET "/assets/turbolinks.self-c37727e9bd6b2735da5c311aa83fead54ed0be6cc8bd9a65309e9c5abe2cbfff.js?body=1" for ::1 at 2016-05-11 20:09:26 -0500
+
+
+Started GET "/assets/application.self-f8806224e027f3e3f0138ea9ce99319e298dfdb323304d1f1be6eae8e8c74724.js?body=1" for ::1 at 2016-05-11 20:09:26 -0500
+
+
+Started GET "/assets/home.self-d147afcc7d5d6490b7356d8ad8af89b255872b48d7de12135a6c95b3eb9e075e.js?body=1" for ::1 at 2016-05-11 20:09:26 -0500
+
+
+Started GET "/" for ::1 at 2016-05-11 20:12:44 -0500
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by HomeController#show as HTML
+Cache read: _session_id:a36d39b680064019b49a9f8a830b2de2
+Dalli::Server#connect 127.0.0.1:11211
+  Rendered home/show.html.erb within layouts/application (0.9ms)
+Completed 200 OK in 125ms (Views: 124.1ms | ActiveRecord: 0.0ms)
+Cache write: _session_id:8155686c950770942bc15a4010c47b4c ({:expires_in=>nil})
+
+
+Started GET "/assets/dashboard.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-05-11 20:12:44 -0500
+
+
+Started GET "/assets/home.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-05-11 20:12:44 -0500
+
+
+Started GET "/assets/application.self-e80e8f2318043e8af94dddc2adad5a4f09739a8ebb323b3ab31cd71d45fd9113.css?body=1" for ::1 at 2016-05-11 20:12:44 -0500
+
+
+Started GET "/assets/jquery.self-660adc51e0224b731d29f575a6f1ec167ba08ad06ed5deca4f1e8654c135bf4c.js?body=1" for ::1 at 2016-05-11 20:12:44 -0500
+
+
+Started GET "/assets/labelsheets.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-05-11 20:12:44 -0500
+
+
+Started GET "/assets/secured.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-05-11 20:12:44 -0500
+
+
+Started GET "/assets/jquery.turbolinks.self-176b9819f30444d441e820bbccd3264fe57753aeafd54dec732b0dbc77129a2a.js?body=1" for ::1 at 2016-05-11 20:12:44 -0500
+
+
+Started GET "/assets/jquery_ujs.self-e87806d0cf4489aeb1bb7288016024e8de67fd18db693fe026fe3907581e53cd.js?body=1" for ::1 at 2016-05-11 20:12:44 -0500
+
+
+Started GET "/assets/turbolinks.self-c37727e9bd6b2735da5c311aa83fead54ed0be6cc8bd9a65309e9c5abe2cbfff.js?body=1" for ::1 at 2016-05-11 20:12:44 -0500
+
+
+Started GET "/assets/application.self-f8806224e027f3e3f0138ea9ce99319e298dfdb323304d1f1be6eae8e8c74724.js?body=1" for ::1 at 2016-05-11 20:12:45 -0500
+
+
+Started GET "/assets/home.self-d147afcc7d5d6490b7356d8ad8af89b255872b48d7de12135a6c95b3eb9e075e.js?body=1" for ::1 at 2016-05-11 20:12:45 -0500
+
+
+Started GET "/" for ::1 at 2016-05-11 20:26:17 -0500
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by HomeController#show as HTML
+Cache read: _session_id:8155686c950770942bc15a4010c47b4c
+Dalli::Server#connect 127.0.0.1:11211
+  Rendered home/show.html.erb within layouts/application (0.7ms)
+Completed 200 OK in 214ms (Views: 213.2ms | ActiveRecord: 0.0ms)
+Cache write: _session_id:8155686c950770942bc15a4010c47b4c ({:expires_in=>nil})
+
+
+Started GET "/assets/dashboard.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-05-11 20:26:18 -0500
+
+
+Started GET "/assets/home.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-05-11 20:26:18 -0500
+
+
+Started GET "/assets/secured.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-05-11 20:26:18 -0500
+
+
+Started GET "/assets/labelsheets.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-05-11 20:26:18 -0500
+
+
+Started GET "/assets/application.self-e80e8f2318043e8af94dddc2adad5a4f09739a8ebb323b3ab31cd71d45fd9113.css?body=1" for ::1 at 2016-05-11 20:26:18 -0500
+
+
+Started GET "/assets/jquery.self-660adc51e0224b731d29f575a6f1ec167ba08ad06ed5deca4f1e8654c135bf4c.js?body=1" for ::1 at 2016-05-11 20:26:18 -0500
+
+
+Started GET "/assets/jquery.turbolinks.self-176b9819f30444d441e820bbccd3264fe57753aeafd54dec732b0dbc77129a2a.js?body=1" for ::1 at 2016-05-11 20:26:18 -0500
+
+
+Started GET "/assets/jquery_ujs.self-e87806d0cf4489aeb1bb7288016024e8de67fd18db693fe026fe3907581e53cd.js?body=1" for ::1 at 2016-05-11 20:26:18 -0500
+
+
+Started GET "/assets/turbolinks.self-c37727e9bd6b2735da5c311aa83fead54ed0be6cc8bd9a65309e9c5abe2cbfff.js?body=1" for ::1 at 2016-05-11 20:26:18 -0500
+
+
+Started GET "/assets/application.self-f8806224e027f3e3f0138ea9ce99319e298dfdb323304d1f1be6eae8e8c74724.js?body=1" for ::1 at 2016-05-11 20:26:18 -0500
+
+
+Started GET "/assets/home.self-87122a7faf0181dddf31645072ff2a95dd95354454ae26d7107db19754acdcc3.js?body=1" for ::1 at 2016-05-11 20:26:18 -0500
+
+
+Started GET "/auth/auth0/callback?code=aWT2LC4eXhO6EC8A&state=i5XslsbGTyz6q5jU" for ::1 at 2016-05-11 20:32:26 -0500
+Cache read: _session_id:8155686c950770942bc15a4010c47b4c
+Processing by Auth0Controller#callback as HTML
+  Parameters: {"code"=>"aWT2LC4eXhO6EC8A", "state"=>"i5XslsbGTyz6q5jU"}
+Redirected to http://localhost:3000/labelsheets/new
+Completed 302 Found in 1ms (ActiveRecord: 0.0ms)
+Cache write: _session_id:8155686c950770942bc15a4010c47b4c ({:expires_in=>nil})
+
+
+Started GET "/labelsheets/new" for ::1 at 2016-05-11 20:32:27 -0500
+Processing by LabelsheetsController#new as HTML
+Cache read: _session_id:8155686c950770942bc15a4010c47b4c
+  Rendered labelsheets/_form.html.erb (95.8ms)
+  Rendered labelsheets/new.html.erb within layouts/application (160.1ms)
+Completed 200 OK in 469ms (Views: 220.0ms | ActiveRecord: 242.9ms)
+Cache write: _session_id:8155686c950770942bc15a4010c47b4c ({:expires_in=>nil})
+
+
+Started POST "/labelsheets" for ::1 at 2016-05-11 20:32:54 -0500
+Processing by LabelsheetsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"7fLm0E1Tq9j+mrMZrEc4IXPnndr1pgznaxuMcSUGaX3E+k0SEfmozbMj3jP3lmjX5sEn5sFEQki7Tj2OVp3K1A==", "labelsheet"=>{"file"=>#<ActionDispatch::Http::UploadedFile:0x0055555a402018 @tempfile=#<Tempfile:/tmp/RackMultipart20160511-21230-pxg6m1.xls>, @original_filename="cjdb_5-8-16_updated.xls", @content_type="application/vnd.ms-excel", @headers="Content-Disposition: form-data; name=\"labelsheet[file]\"; filename=\"cjdb_5-8-16_updated.xls\"\r\nContent-Type: application/vnd.ms-excel\r\n">, "days"=>"30"}, "commit"=>"Create Labelsheet"}
+Cache read: _session_id:8155686c950770942bc15a4010c47b4c
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (29.5ms)[0m  [1mINSERT INTO "labelsheets" ("file_name", "file_uid", "days", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["file_name", "cjdb_5-8-16_updated.xls"], ["file_uid", "2016/05/11/9innvhob5w_cjdb_5_8_16_updated.xls"], ["days", 30], ["created_at", "2016-05-12 01:32:54.016200"], ["updated_at", "2016-05-12 01:32:54.016200"]]
+  [1m[35m (13.9ms)[0m  COMMIT
+Redirected to http://localhost:3000/labelsheets/52
+Completed 302 Found in 72ms (ActiveRecord: 43.6ms)
+Cache write: _session_id:8155686c950770942bc15a4010c47b4c ({:expires_in=>nil})
+
+
+Started GET "/labelsheets/52" for ::1 at 2016-05-11 20:32:54 -0500
+Processing by LabelsheetsController#show as PDF
+  Parameters: {"id"=>"52"}
+Cache read: _session_id:8155686c950770942bc15a4010c47b4c
+  [1m[36mLabelsheet Load (20.6ms)[0m  [1mSELECT  "labelsheets".* FROM "labelsheets" WHERE "labelsheets"."id" = $1 LIMIT 1[0m  [["id", 52]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "labelsheets".* FROM "labelsheets" WHERE "labelsheets"."id" = $1 LIMIT 1  [["id", "52"]]
+  Rendered text template (0.0ms)
+Sent data labelsheet_12/05/2016.pdf (38.0ms)
+Completed 200 OK in 1735ms (Views: 37.8ms | ActiveRecord: 20.6ms)
+Cache write: _session_id:8155686c950770942bc15a4010c47b4c ({:expires_in=>nil})

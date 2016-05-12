@@ -114,6 +114,8 @@
     gem 'dragonfly', '~> 1.0.12'
     gem 'dragonfly-s3_data_store'
     gem 'rack-cache', :require => 'rack/cache'
+    
+    gem 'dotenv-rails', :groups => [:development, :test], :require => 'dotenv/rails-now'
     gem "memcachier"
     gem 'dalli'
     gem 'kgio'
@@ -124,7 +126,11 @@
     gem 'chronic', '~> 0.10.2'
     gem 'omniauth', '~> 1.3.1'
     gem 'omniauth-auth0', '~> 1.4.1'
-    gem 'dotenv-rails', :groups => [:development, :test]
+    
+    
+    # gem 'dotenv-rails', :require => 'dotenv/rails-now'
+    
+    
     
     group :development, :test do
       gem 'byebug'
@@ -175,6 +181,10 @@
     # Require the gems listed in Gemfile, including any gems
     # you've limited to :test, :development, or :production.
     Bundler.require(*Rails.groups)
+    
+    Dotenv::Railtie.load
+    
+    HOSTNAME = ENV['HOSTNAME']
     
     module CaseJewelryRails
       class Application < Rails::Application
@@ -873,9 +883,37 @@ application.
         
         -   [X] dotenv
             
+            <https://github.com/bkeepers/dotenv>
+            
             1
             
                 gem 'dotenv-rails', :groups => [:development, :test]
+            
+            -   \# Note on load order
+                
+                dotenv is intialized in your Rails app during the *befor<sub>configuration</sub>*
+                callback, which is fired when the *Application* constant is defined
+                in *config/application.rb* with *class Application < Rails::Application*.
+                If you need it to be initialized sooner, you can manually call 
+                *Dotenv::Railtie.load*.
+                
+                3
+                
+                    # config/application.rb
+                    Bundler.require(*Rails.groups)
+                    
+                    Dotenv::Railtie.load
+                    
+                    HOSTNAME = ENV['HOSTNAME']
+                
+                If you use gems that require environment variables to be set before 
+                they are loaded, then list *dotenv-rails* in the *Gemfile* before 
+                those other gems and require *dotenv/rails-now*.
+                
+                1
+                
+                    gem 'dotenv-rails', :require => 'dotenv/rails-now'
+                    gem 'gem-that-requires-env-variables'
 
 -   [X] 3. Add the AuthO callback handler
     
@@ -946,10 +984,10 @@ application.
         
         <./app/assets/javascripts/home.js.erb>
         
-            function signin() {
-                var lock = new Auth0Lock("<%= Rails.application.secrets.auth0_client_id %>", "<%= Rails.application.secrets.auth0_domain %>");
-                var callback = "<%= Rails.application.secrets.auth0_callback_url %>";
+            var lock = new Auth0Lock("<%= Rails.application.secrets.auth0_client_id %>", "<%= Rails.application.secrets.auth0_domain %>");
+            var callback = "<%= Rails.application.secrets.auth0_callback_url %>";
             
+            function signin() {
                 lock.show({
                     callbackURL: "<%= Rails.application.secrets.auth0_callback_url %>",
                     //callbackURL: callback,

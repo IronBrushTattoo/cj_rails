@@ -983,7 +983,7 @@ https://github.com/IronBrushTattoo/cj_rails.git
         https://github.com/baierjan/rails-latex
         https://github.com/bruce/rtex
    
-** Authentication
+** Authentication :BLOG:troubleshooting:rails:dotenv:load_order:
 
 *** AuthO
 
@@ -1035,6 +1035,9 @@ https://github.com/IronBrushTattoo/cj_rails.git
             in /config/application.rb/ with /class Application < Rails::Application/.
             If you need it to be initialized sooner, you can manually call 
             /Dotenv::Railtie.load/.
+
+            NB: This resolved an issue I had with the correct environment variables
+            being loaded in a js.erb file... (BLOG THIS!)
 
             [[application.rb]]
 

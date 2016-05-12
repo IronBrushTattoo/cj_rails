@@ -1,7 +1,7 @@
-function signin() {
-    var lock = new Auth0Lock("<%= Rails.application.secrets.auth0_client_id %>", "<%= Rails.application.secrets.auth0_domain %>");
-    var callback = "<%= Rails.application.secrets.auth0_callback_url %>";
+var lock = new Auth0Lock("<%= Rails.application.secrets.auth0_client_id %>", "<%= Rails.application.secrets.auth0_domain %>");
+var callback = "<%= Rails.application.secrets.auth0_callback_url %>";
 
+function signin() {
     lock.show({
         callbackURL: "<%= Rails.application.secrets.auth0_callback_url %>",
         //callbackURL: callback,
