@@ -18620,3 +18620,97 @@ Cache read: _session_id:8155686c950770942bc15a4010c47b4c
 Sent data labelsheet_12/05/2016.pdf (0.5ms)
 Completed 200 OK in 1600ms (Views: 0.4ms | ActiveRecord: 0.2ms)
 Cache write: _session_id:8155686c950770942bc15a4010c47b4c ({:expires_in=>nil})
+
+
+Started GET "/labelsheets/new" for ::1 at 2016-05-11 20:58:27 -0500
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by LabelsheetsController#new as HTML
+Cache read: _session_id:8155686c950770942bc15a4010c47b4c
+Dalli::Server#connect 127.0.0.1:11211
+  Rendered labelsheets/_form.html.erb (8.9ms)
+  Rendered labelsheets/new.html.erb within layouts/application (11.2ms)
+Completed 200 OK in 139ms (Views: 131.1ms | ActiveRecord: 2.0ms)
+Cache write: _session_id:8155686c950770942bc15a4010c47b4c ({:expires_in=>nil})
+
+
+Started GET "/assets/dashboard.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-05-11 20:58:28 -0500
+
+
+Started GET "/assets/home.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-05-11 20:58:28 -0500
+
+
+Started GET "/assets/application.self-e80e8f2318043e8af94dddc2adad5a4f09739a8ebb323b3ab31cd71d45fd9113.css?body=1" for ::1 at 2016-05-11 20:58:28 -0500
+
+
+Started GET "/assets/secured.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-05-11 20:58:28 -0500
+
+
+Started GET "/assets/labelsheets.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-05-11 20:58:28 -0500
+
+
+Started GET "/assets/jquery.self-660adc51e0224b731d29f575a6f1ec167ba08ad06ed5deca4f1e8654c135bf4c.js?body=1" for ::1 at 2016-05-11 20:58:28 -0500
+
+
+Started GET "/assets/jquery.turbolinks.self-176b9819f30444d441e820bbccd3264fe57753aeafd54dec732b0dbc77129a2a.js?body=1" for ::1 at 2016-05-11 20:58:28 -0500
+
+
+Started GET "/assets/jquery_ujs.self-e87806d0cf4489aeb1bb7288016024e8de67fd18db693fe026fe3907581e53cd.js?body=1" for ::1 at 2016-05-11 20:58:28 -0500
+
+
+Started GET "/assets/turbolinks.self-c37727e9bd6b2735da5c311aa83fead54ed0be6cc8bd9a65309e9c5abe2cbfff.js?body=1" for ::1 at 2016-05-11 20:58:28 -0500
+
+
+Started GET "/assets/application.self-f8806224e027f3e3f0138ea9ce99319e298dfdb323304d1f1be6eae8e8c74724.js?body=1" for ::1 at 2016-05-11 20:58:28 -0500
+
+
+Started GET "/assets/home.self-87122a7faf0181dddf31645072ff2a95dd95354454ae26d7107db19754acdcc3.js?body=1" for ::1 at 2016-05-11 20:58:28 -0500
+
+
+Started GET "/" for ::1 at 2016-05-11 20:58:38 -0500
+Processing by HomeController#show as HTML
+Cache read: _session_id:8155686c950770942bc15a4010c47b4c
+  Rendered home/show.html.erb within layouts/application (0.3ms)
+Completed 200 OK in 23ms (Views: 22.5ms | ActiveRecord: 0.0ms)
+Cache write: _session_id:8155686c950770942bc15a4010c47b4c ({:expires_in=>nil})
+
+
+Started GET "/auth/auth0/callback?code=LvQAywZXk4ppA8B8&state=r9MFqD8eSWv9gkob" for ::1 at 2016-05-11 20:58:46 -0500
+Cache read: _session_id:8155686c950770942bc15a4010c47b4c
+Processing by Auth0Controller#callback as HTML
+  Parameters: {"code"=>"LvQAywZXk4ppA8B8", "state"=>"r9MFqD8eSWv9gkob"}
+Redirected to http://localhost:3000/labelsheets/new
+Completed 302 Found in 1ms (ActiveRecord: 0.0ms)
+Cache write: _session_id:8155686c950770942bc15a4010c47b4c ({:expires_in=>nil})
+
+
+Started GET "/labelsheets/new" for ::1 at 2016-05-11 20:58:47 -0500
+Processing by LabelsheetsController#new as HTML
+Cache read: _session_id:8155686c950770942bc15a4010c47b4c
+  Rendered labelsheets/_form.html.erb (1.2ms)
+  Rendered labelsheets/new.html.erb within layouts/application (1.8ms)
+Completed 200 OK in 21ms (Views: 19.6ms | ActiveRecord: 0.0ms)
+Cache write: _session_id:8155686c950770942bc15a4010c47b4c ({:expires_in=>nil})
+
+
+Started POST "/labelsheets" for ::1 at 2016-05-11 20:59:00 -0500
+Processing by LabelsheetsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"POMwJMJhBP+XWwuosABbdTO9oisldE+5WVed3InWeuUV65vmnssH6triZoLr0QuDppsYFxGWARaJAiwj+k3ZTA==", "labelsheet"=>{"file"=>#<ActionDispatch::Http::UploadedFile:0x00555556f98fc0 @tempfile=#<Tempfile:/tmp/RackMultipart20160511-19636-pt302t.xls>, @original_filename="cjdb_5-8-16_updated.xls", @content_type="application/vnd.ms-excel", @headers="Content-Disposition: form-data; name=\"labelsheet[file]\"; filename=\"cjdb_5-8-16_updated.xls\"\r\nContent-Type: application/vnd.ms-excel\r\n">, "days"=>"40"}, "commit"=>"Create Labelsheet"}
+Cache read: _session_id:8155686c950770942bc15a4010c47b4c
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "labelsheets" ("file_name", "file_uid", "days", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["file_name", "cjdb_5-8-16_updated.xls"], ["file_uid", "2016/05/11/9nypdsm0u5_cjdb_5_8_16_updated.xls"], ["days", 40], ["created_at", "2016-05-12 01:59:00.355297"], ["updated_at", "2016-05-12 01:59:00.355297"]]
+  [1m[35m (18.7ms)[0m  COMMIT
+Redirected to http://localhost:3000/labelsheets/54
+Completed 302 Found in 38ms (ActiveRecord: 19.4ms)
+Cache write: _session_id:8155686c950770942bc15a4010c47b4c ({:expires_in=>nil})
+
+
+Started GET "/labelsheets/54" for ::1 at 2016-05-11 20:59:00 -0500
+Processing by LabelsheetsController#show as PDF
+  Parameters: {"id"=>"54"}
+Cache read: _session_id:8155686c950770942bc15a4010c47b4c
+  [1m[36mLabelsheet Load (0.3ms)[0m  [1mSELECT  "labelsheets".* FROM "labelsheets" WHERE "labelsheets"."id" = $1 LIMIT 1[0m  [["id", 54]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "labelsheets".* FROM "labelsheets" WHERE "labelsheets"."id" = $1 LIMIT 1  [["id", "54"]]
+  Rendered text template (0.0ms)
+Sent data labelsheet_12/05/2016.pdf (1.0ms)
+Completed 200 OK in 1708ms (Views: 0.9ms | ActiveRecord: 0.3ms)
+Cache write: _session_id:8155686c950770942bc15a4010c47b4c ({:expires_in=>nil})
