@@ -18570,3 +18570,53 @@ Cache read: _session_id:8155686c950770942bc15a4010c47b4c
 Sent data labelsheet_12/05/2016.pdf (38.0ms)
 Completed 200 OK in 1735ms (Views: 37.8ms | ActiveRecord: 20.6ms)
 Cache write: _session_id:8155686c950770942bc15a4010c47b4c ({:expires_in=>nil})
+
+
+Started GET "/" for ::1 at 2016-05-11 20:45:33 -0500
+Processing by HomeController#show as HTML
+Cache read: _session_id:8155686c950770942bc15a4010c47b4c
+  Rendered home/show.html.erb within layouts/application (0.3ms)
+Completed 200 OK in 19ms (Views: 18.2ms | ActiveRecord: 0.0ms)
+Cache write: _session_id:8155686c950770942bc15a4010c47b4c ({:expires_in=>nil})
+
+
+Started GET "/auth/auth0/callback?code=ZyDjfcAVhzF6UhYW&state=KtBKEM4zBwscLBwU" for ::1 at 2016-05-11 20:45:44 -0500
+Cache read: _session_id:8155686c950770942bc15a4010c47b4c
+Processing by Auth0Controller#callback as HTML
+  Parameters: {"code"=>"ZyDjfcAVhzF6UhYW", "state"=>"KtBKEM4zBwscLBwU"}
+Redirected to http://localhost:3000/labelsheets/new
+Completed 302 Found in 0ms (ActiveRecord: 0.0ms)
+Cache write: _session_id:8155686c950770942bc15a4010c47b4c ({:expires_in=>nil})
+
+
+Started GET "/labelsheets/new" for ::1 at 2016-05-11 20:45:45 -0500
+Processing by LabelsheetsController#new as HTML
+Cache read: _session_id:8155686c950770942bc15a4010c47b4c
+  Rendered labelsheets/_form.html.erb (1.6ms)
+  Rendered labelsheets/new.html.erb within layouts/application (2.1ms)
+Completed 200 OK in 22ms (Views: 17.0ms | ActiveRecord: 1.3ms)
+Cache write: _session_id:8155686c950770942bc15a4010c47b4c ({:expires_in=>nil})
+
+
+Started POST "/labelsheets" for ::1 at 2016-05-11 20:45:58 -0500
+Processing by LabelsheetsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"qPn2JJ7nPxdWq0jzPwC94X/6qPpPYilyoEjqw5W4BcKB8V3mwk08AhsSJdlk0e0X6twSxnuAZ91wHVs85iOmaw==", "labelsheet"=>{"file"=>#<ActionDispatch::Http::UploadedFile:0x00555558bdb3e0 @tempfile=#<Tempfile:/tmp/RackMultipart20160511-21230-115erm5.xls>, @original_filename="cjdb_5-8-16_updated.xls", @content_type="application/vnd.ms-excel", @headers="Content-Disposition: form-data; name=\"labelsheet[file]\"; filename=\"cjdb_5-8-16_updated.xls\"\r\nContent-Type: application/vnd.ms-excel\r\n">, "days"=>"30"}, "commit"=>"Create Labelsheet"}
+Cache read: _session_id:8155686c950770942bc15a4010c47b4c
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "labelsheets" ("file_name", "file_uid", "days", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["file_name", "cjdb_5-8-16_updated.xls"], ["file_uid", "2016/05/11/9fxlkmxv8b_cjdb_5_8_16_updated.xls"], ["days", 30], ["created_at", "2016-05-12 01:45:58.962376"], ["updated_at", "2016-05-12 01:45:58.962376"]]
+  [1m[36m (36.0ms)[0m  [1mCOMMIT[0m
+Redirected to http://localhost:3000/labelsheets/53
+Completed 302 Found in 43ms (ActiveRecord: 36.6ms)
+Cache write: _session_id:8155686c950770942bc15a4010c47b4c ({:expires_in=>nil})
+
+
+Started GET "/labelsheets/53" for ::1 at 2016-05-11 20:45:59 -0500
+Processing by LabelsheetsController#show as PDF
+  Parameters: {"id"=>"53"}
+Cache read: _session_id:8155686c950770942bc15a4010c47b4c
+  [1m[35mLabelsheet Load (0.2ms)[0m  SELECT  "labelsheets".* FROM "labelsheets" WHERE "labelsheets"."id" = $1 LIMIT 1  [["id", 53]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "labelsheets".* FROM "labelsheets" WHERE "labelsheets"."id" = $1 LIMIT 1[0m  [["id", "53"]]
+  Rendered text template (0.0ms)
+Sent data labelsheet_12/05/2016.pdf (0.5ms)
+Completed 200 OK in 1600ms (Views: 0.4ms | ActiveRecord: 0.2ms)
+Cache write: _session_id:8155686c950770942bc15a4010c47b4c ({:expires_in=>nil})

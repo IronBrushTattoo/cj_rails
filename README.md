@@ -182,7 +182,7 @@
     # you've limited to :test, :development, or :production.
     Bundler.require(*Rails.groups)
     
-    Dotenv::Railtie.load
+    #Dotenv::Railtie.load
     
     HOSTNAME = ENV['HOSTNAME']
     
@@ -924,7 +924,8 @@ application.
                     
                     3
                     
-                    -   [ ] move up in gemfile?
+                    -   [ ] dotenv gem is in development and test groups
+                        -   [ ] remove Dotenv refrence from application.rb?
 
 -   [X] 3. Add the AuthO callback handler
     
