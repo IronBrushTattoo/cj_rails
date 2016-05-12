@@ -41,6 +41,8 @@
 <li><a href="#sec-3-5-1">3.5.1. Routes</a></li>
 <li><a href="#sec-3-5-2">3.5.2. Static Pages</a></li>
 <li><a href="#sec-3-5-3">3.5.3. Labelsheets</a></li>
+<li><a href="#sec-3-5-4">3.5.4. Layouts</a></li>
+<li><a href="#sec-3-5-5">3.5.5. Styles</a></li>
 </ul>
 </li>
 <li><a href="#sec-3-6">3.6. Controllers</a>
@@ -107,6 +109,7 @@
     
     gem 'pg', '~> 0.15'
     gem 'sass-rails', '~> 5.0'
+    gem "pure-css-rails"
     gem 'uglifier', '>= 1.3.0'
     gem 'coffee-rails', '~> 4.1.0'
     gem 'jquery-rails'
@@ -589,7 +592,7 @@ application.
         
         -   [X] Remodel SpreadsheetPdf to LabelsheetPdf
             
-            29
+            32
         
         -   [X] allow parameter *file* to be accepted by the controller
             
@@ -983,106 +986,64 @@ application.
     -   [ ] modal all (see auth0 dashboard apps quickstart)
     
     -   [X] passwordless - Email Code
-        
-        <./app/views/layouts/application.html.erb>
-        
-            <!DOCTYPE html>
-            <html>
-            <head>
-              <title>CaseJewelryRails</title>
-              <meta name="viewport" content="width=device-width, initial-scale=1">
-              <%= yield :cdn_code %>
-              <%= stylesheet_link_tag    '//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css' %>
-              <%= stylesheet_link_tag    '//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css' %>
-            
-              <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-              <%= javascript_include_tag '//cdn.auth0.com/js/lock-9.1.min.js' %>
-              <%#= javascript_include_tag '//use.typekit.net/iws6ohy.js' %>
-              <!--<script type="text/javascript">try{Typekit.load();}catch(e){}</script>-->
-            
-              <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-              <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-              <%= csrf_meta_tags %>
-            </head>
-            <body>
-            
-            <%= yield %>
-            
-            <script>
-              var lock = new Auth0Lock("<%= Rails.application.secrets.auth0_client_id %>", "<%= Rails.application.secrets.auth0_domain %>");
-              var callback = "<%= Rails.application.secrets.auth0_callback_url %>";
-            
-              function signin() {
-                lock.show({
-                   callbackURL: "<%= Rails.application.secrets.auth0_callback_url %>",
-                   responseType: 'code', 
-                   authParams: {
-                       scope: 'openid name email picture'
-                   }
-                });
-              }
-            </script>
-            
-            </body>
-            </html>
-        
-        <./app/assets/javascripts/home.js.erb>
-        
-            /*var lock = new Auth0Lock("<%= Rails.application.secrets.auth0_client_id %>", "<%= Rails.application.secrets.auth0_domain %>");
-            var callback = "<%= Rails.application.secrets.auth0_callback_url %>";
-            
-            function signin() {
-                lock.show({
-                    callbackURL: "<%= Rails.application.secrets.auth0_callback_url %>",
-                    //callbackURL: callback,
-                    responseType: 'code', 
-                    authParams: {
-                        scope: 'openid name email picture'
-                    }
-                });
-                }*/
-            
-            // temporarily moving code to view level
-        
-        <./config/secrets.yml>
-        
-            # Be sure to restart your server when you modify this file.
-            
-            # Your secret key is used for verifying the integrity of signed cookies.
-            # If you change this key, all old signed cookies will become invalid!
-            
-            # Make sure the secret is at least 30 characters and all random,
-            # no regular words or you'll be exposed to dictionary attacks.
-            # You can use `rake secret` to generate a secure secret key.
-            
-            # Make sure the secrets in this file are kept private
-            # if you're sharing your code publicly.
-            
-            development:
-              secret_key_base: bea023fad0c0803893cde72b419aa08fc9d7456bedeaf9b5490c4c2ef34de64bd1eee9ca4583a19f5f206a36b750bd41a85dcf95567718099ae827ee1d1fcc18
-              auth0_client_id: <%= ENV["AUTH0_CLIENT_ID"] %>
-              auth0_client_secret: <%= ENV["AUTH0_CLIENT_SECRET"] %>
-              auth0_domain: <%= ENV["AUTH0_DOMAIN"] %>
-              auth0_callback_url: <%= ENV["AUTH0_CALLBACK_URL"] %>
-            
-            
-            test:
-              secret_key_base: 932c75a9b0d799c43e825634b7c2a94fc48ca57bc02db62353a6a51211f9818c4b84105cb15e815de487c59106cc25982c31f95238fd184af8a97003a55c08b4
-              auth0_client_id: <%= ENV["AUTH0_CLIENT_ID"] %>
-              auth0_client_secret: <%= ENV["AUTH0_CLIENT_SECRET"] %>
-              auth0_domain: <%= ENV["AUTH0_DOMAIN"] %>
-              auth0_callback_url: <%= ENV["AUTH0_CALLBACK_URL"] %>
-            
-            # Do not keep production secrets in the repository,
-            # instead read values from the environment.
-            production:
-              secret_key_base: <%= ENV["SECRET_KEY_BASE"] %>
-              auth0_client_id: <%= ENV["AUTH0_CLIENT_ID"] %>
-              auth0_client_secret: <%= ENV["AUTH0_CLIENT_SECRET"] %>
-              auth0_domain: <%= ENV["AUTH0_DOMAIN"] %>
-              auth0_callback_url: <%= ENV["AUTH0_CALLBACK_URL"] %>
-        
-        update 3.5.1
+
+<./app/assets/javascripts/home.js.erb>
+
+    /*var lock = new Auth0Lock("<%= Rails.application.secrets.auth0_client_id %>", "<%= Rails.application.secrets.auth0_domain %>");
+    var callback = "<%= Rails.application.secrets.auth0_callback_url %>";
+    
+    function signin() {
+        lock.show({
+            callbackURL: "<%= Rails.application.secrets.auth0_callback_url %>",
+            //callbackURL: callback,
+            responseType: 'code', 
+            authParams: {
+                scope: 'openid name email picture'
+            }
+        });
+        }*/
+    
+    // temporarily moving code to view level
+
+<./config/secrets.yml>
+
+    # Be sure to restart your server when you modify this file.
+    
+    # Your secret key is used for verifying the integrity of signed cookies.
+    # If you change this key, all old signed cookies will become invalid!
+    
+    # Make sure the secret is at least 30 characters and all random,
+    # no regular words or you'll be exposed to dictionary attacks.
+    # You can use `rake secret` to generate a secure secret key.
+    
+    # Make sure the secrets in this file are kept private
+    # if you're sharing your code publicly.
+    
+    development:
+      secret_key_base: bea023fad0c0803893cde72b419aa08fc9d7456bedeaf9b5490c4c2ef34de64bd1eee9ca4583a19f5f206a36b750bd41a85dcf95567718099ae827ee1d1fcc18
+      auth0_client_id: <%= ENV["AUTH0_CLIENT_ID"] %>
+      auth0_client_secret: <%= ENV["AUTH0_CLIENT_SECRET"] %>
+      auth0_domain: <%= ENV["AUTH0_DOMAIN"] %>
+      auth0_callback_url: <%= ENV["AUTH0_CALLBACK_URL"] %>
+    
+    
+    test:
+      secret_key_base: 932c75a9b0d799c43e825634b7c2a94fc48ca57bc02db62353a6a51211f9818c4b84105cb15e815de487c59106cc25982c31f95238fd184af8a97003a55c08b4
+      auth0_client_id: <%= ENV["AUTH0_CLIENT_ID"] %>
+      auth0_client_secret: <%= ENV["AUTH0_CLIENT_SECRET"] %>
+      auth0_domain: <%= ENV["AUTH0_DOMAIN"] %>
+      auth0_callback_url: <%= ENV["AUTH0_CALLBACK_URL"] %>
+    
+    # Do not keep production secrets in the repository,
+    # instead read values from the environment.
+    production:
+      secret_key_base: <%= ENV["SECRET_KEY_BASE"] %>
+      auth0_client_id: <%= ENV["AUTH0_CLIENT_ID"] %>
+      auth0_client_secret: <%= ENV["AUTH0_CLIENT_SECRET"] %>
+      auth0_domain: <%= ENV["AUTH0_DOMAIN"] %>
+      auth0_callback_url: <%= ENV["AUTH0_CALLBACK_URL"] %>
+
+update 3.5.1
 
 -   [ ] 6. Accessing user information
     
@@ -1257,7 +1218,16 @@ application.
 
 <./app/views/labelsheets/>
 
-1.  Form
+1.  New
+
+    <./app/views/labelsheets/new.html.erb>
+    
+        <%= render 'form' %>
+        <br/>
+        
+        <%#= link_to 'Sheets', labelsheets_path, class: 'pure-button pure-button-primary' %>
+
+2.  Form
 
     <./app/views/labelsheets/_form.html.erb>
     
@@ -1286,11 +1256,11 @@ application.
           <br/>
         
           <div class="actions">
-            <%= f.submit %>
+            <%= f.submit 'Make Sheet', class: 'pure-button pure-button-primary' %>
           </div>
         <% end %>
 
-2.  Show
+3.  Show
 
     <./app/views/labelsheets/show.html.erb>
     
@@ -1305,8 +1275,10 @@ application.
         <%= link_to 'Edit', edit_labelsheet_path(@labelsheet) %> |
         <%= link_to 'Back', labelsheets_path %>
 
-3.  Index
+4.  Index
 
+    24
+    
     <./app/views/labelsheets/index.html.erb>
     
         <p id="notice"><%= notice %></p>
@@ -1335,6 +1307,105 @@ application.
         <br>
         
         <%= link_to 'New Labelsheet', new_labelsheet_path %>
+
+### Layouts<a id="sec-3-5-4" name="sec-3-5-4"></a>
+
+24
+
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>CaseJewelryRails</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <%= yield :cdn_code %>
+        <%= stylesheet_link_tag    '//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css' %>
+        <%= stylesheet_link_tag    '//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css' %>
+    
+        <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+        <%= javascript_include_tag '//cdn.auth0.com/js/lock-9.1.min.js' %>
+        <%#= javascript_include_tag '//use.typekit.net/iws6ohy.js' %>
+        <!--<script type="text/javascript">try{Typekit.load();}catch(e){}</script>-->
+    
+        <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+        <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+        <%= csrf_meta_tags %>
+    
+      </head>
+      <body>
+    
+        <%= render 'layouts/header' %>
+    
+        <div class="pure-g">
+          <div class="pure-u-1-3"></div>
+          <div class="pure-u-1-3"><%= yield %></div>
+          <div class="pure-u-1-3"></div>
+        </div>
+    
+        <script>
+          var lock = new Auth0Lock("<%= Rails.application.secrets.auth0_client_id %>", "<%= Rails.application.secrets.auth0_domain %>");
+          var callback = "<%= Rails.application.secrets.auth0_callback_url %>";
+    
+          function signin() {
+          lock.show({
+          callbackURL: "<%= Rails.application.secrets.auth0_callback_url %>",
+          responseType: 'code', 
+          authParams: {
+          scope: 'openid name email picture'
+          }
+          });
+          }
+        </script>
+    
+      </body>
+    </html>
+
+<./app/views/layouts/_header.html.erb>
+
+    <div class="pure-g">
+      <div class="pure-u-1-3"><%= image_tag 'logo.png', class: 'pure-img' %></div>
+      <div class="pure-u-1-3"></div>
+      <div class="pure-u-1-3"><h1>Case Jewelry Labeler</h1></div>
+    </div>
+
+### Styles<a id="sec-3-5-5" name="sec-3-5-5"></a>
+
+<./app/assets/stylesheets/application.css.scss>
+
+    /*
+     * This is a manifest file that'll be compiled into application.css, which will include all the files
+     * listed below.
+     *
+     * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+     * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+     *
+     * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+     * compiled file so the styles you add here take precedence over styles defined in any styles
+     * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+     * file per style scope.
+     *
+     *= require_tree .
+     *= require_self
+     */
+    
+    //= require pure
+    //= require grids-responsive
+
+1.  Pure CSS
+
+    <https://github.com/bkutil/pure-css-rails>
+    
+    1
+    
+        gem "pure-css-rails"
+    
+    26
+    
+        //= require pure
+        //= require grids-responsive
+    
+    24
+    
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
 ## Controllers<a id="sec-3-6" name="sec-3-6"></a>
 
@@ -1448,7 +1519,7 @@ Static pages controller
         
         <./app/views/labelsheets/_form.html.erb>
         
-        3.5.3.1
+        3.5.3.2
 
 ## Models<a id="sec-3-7" name="sec-3-7"></a>
 
@@ -1505,9 +1576,9 @@ nb: possibly break this chunker down into other modules, classes, helpers, etc
       end
     
       def size_box(gauge,size)
-        transparent(0.1) do
-          stroke_rectangle [0, $box_height+$padding], $box_width, $box_height*0.75
-        end
+        #transparent(0.1) do
+         # stroke_rectangle [0, $box_height+$padding], $box_width, $box_height*0.75
+        #end
     
         transparent(0.6) do
           formatted_text_box [
@@ -1872,7 +1943,7 @@ nb: possibly break this chunker down into other modules, classes, helpers, etc
     
     <./app/assets/javascripts/home.js.erb>
     
-    14
+    13
     
         callbackURL: "<%= Rails.application.secrets.auth0_callback_url %>",
     
@@ -1890,7 +1961,7 @@ nb: possibly break this chunker down into other modules, classes, helpers, etc
                 
                 <./app/assets/javascripts/home.js.erb>
                 
-                14
+                13
                 
                     callbackURL: "<%= ENV['AUTH0_CALLBACK_URL' %>",
                 

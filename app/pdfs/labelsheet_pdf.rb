@@ -29,9 +29,9 @@ class LabelsheetPdf < Prawn::Document
   end
 
   def size_box(gauge,size)
-    transparent(0.1) do
-      stroke_rectangle [0, $box_height+$padding], $box_width, $box_height*0.75
-    end
+    #transparent(0.1) do
+     # stroke_rectangle [0, $box_height+$padding], $box_width, $box_height*0.75
+    #end
 
     transparent(0.6) do
       formatted_text_box [

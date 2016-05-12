@@ -27,6 +27,7 @@ https://github.com/IronBrushTattoo/cj_rails.git
 
      gem 'pg', '~> 0.15'
      gem 'sass-rails', '~> 5.0'
+     gem "pure-css-rails"
      gem 'uglifier', '>= 1.3.0'
      gem 'coffee-rails', '~> 4.1.0'
      gem 'jquery-rails'
@@ -1131,51 +1132,6 @@ https://github.com/IronBrushTattoo/cj_rails.git
 
       - [X] passwordless - Email Code
 
-        [[./app/views/layouts/application.html.erb]]
-    
-        #+NAME: application.html.erb
-        #+begin_src html :tangle app/views/layouts/application.html.erb :padline no
-          <!DOCTYPE html>
-          <html>
-          <head>
-            <title>CaseJewelryRails</title>
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <%= yield :cdn_code %>
-            <%= stylesheet_link_tag    '//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css' %>
-            <%= stylesheet_link_tag    '//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css' %>
-
-            <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-            <%= javascript_include_tag '//cdn.auth0.com/js/lock-9.1.min.js' %>
-            <%#= javascript_include_tag '//use.typekit.net/iws6ohy.js' %>
-            <!--<script type="text/javascript">try{Typekit.load();}catch(e){}</script>-->
-
-            <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-            <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-            <%= csrf_meta_tags %>
-          </head>
-          <body>
-
-          <%= yield %>
-
-          <script>
-            var lock = new Auth0Lock("<%= Rails.application.secrets.auth0_client_id %>", "<%= Rails.application.secrets.auth0_domain %>");
-            var callback = "<%= Rails.application.secrets.auth0_callback_url %>";
-
-            function signin() {
-              lock.show({
-                 callbackURL: "<%= Rails.application.secrets.auth0_callback_url %>",
-                 responseType: 'code', 
-                 authParams: {
-                     scope: 'openid name email picture'
-                 }
-              });
-            }
-          </script>
-
-          </body>
-          </html>
-
-        #+end_src
 
         [[./app/assets/javascripts/home.js.erb]]
 
@@ -1430,6 +1386,18 @@ https://github.com/IronBrushTattoo/cj_rails.git
     
     [[./app/views/labelsheets/]]
 
+**** New
+     
+     [[./app/views/labelsheets/new.html.erb]]
+
+     #+NAME: LabelsheetNew
+     #+begin_src web :tangle app/views/labelsheets/new.html.erb :padline no
+       <%= render 'form' %>
+       <br/>
+
+       <%#= link_to 'Sheets', labelsheets_path, class: 'pure-button pure-button-primary' %>
+     #+end_src
+
 **** Form
 
      [[./app/views/labelsheets/_form.html.erb]]
@@ -1461,7 +1429,7 @@ https://github.com/IronBrushTattoo/cj_rails.git
          <br/>
          
          <div class="actions">
-           <%= f.submit %>
+           <%= f.submit 'Make Sheet', class: 'pure-button pure-button-primary' %>
          </div>
        <% end %>
 
@@ -1486,6 +1454,8 @@ https://github.com/IronBrushTattoo/cj_rails.git
      #+end_src
 
 **** Index
+
+     [[application.html.erb]]
 
      [[./app/views/labelsheets/index.html.erb]]
 
@@ -1518,6 +1488,116 @@ https://github.com/IronBrushTattoo/cj_rails.git
 
        <%= link_to 'New Labelsheet', new_labelsheet_path %>
      #+end_src
+
+*** Layouts
+
+    [[application.html.erb]]
+
+    #+NAME: application.html.erb
+    #+begin_src web :tangle app/views/layouts/application.html.erb :padline no
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>CaseJewelryRails</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <%= yield :cdn_code %>
+          <%= stylesheet_link_tag    '//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css' %>
+          <%= stylesheet_link_tag    '//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css' %>
+
+          <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+          <%= javascript_include_tag '//cdn.auth0.com/js/lock-9.1.min.js' %>
+          <%#= javascript_include_tag '//use.typekit.net/iws6ohy.js' %>
+          <!--<script type="text/javascript">try{Typekit.load();}catch(e){}</script>-->
+
+          <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+          <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+          <%= csrf_meta_tags %>
+
+        </head>
+        <body>
+
+          <%= render 'layouts/header' %>
+          
+          <div class="pure-g">
+            <div class="pure-u-1-3"></div>
+            <div class="pure-u-1-3"><%= yield %></div>
+            <div class="pure-u-1-3"></div>
+          </div>
+
+          <script>
+            var lock = new Auth0Lock("<%= Rails.application.secrets.auth0_client_id %>", "<%= Rails.application.secrets.auth0_domain %>");
+            var callback = "<%= Rails.application.secrets.auth0_callback_url %>";
+
+            function signin() {
+            lock.show({
+            callbackURL: "<%= Rails.application.secrets.auth0_callback_url %>",
+            responseType: 'code', 
+            authParams: {
+            scope: 'openid name email picture'
+            }
+            });
+            }
+          </script>
+
+        </body>
+      </html>
+    #+end_src
+    
+    [[./app/views/layouts/_header.html.erb]]
+    
+    #+NAME: _header.html.erb
+    #+begin_src web :tangle app/views/layouts/_header.html.erb :padline no
+      <div class="pure-g">
+        <div class="pure-u-1-3"><%= image_tag 'logo.png', class: 'pure-img' %></div>
+        <div class="pure-u-1-3"></div>
+        <div class="pure-u-1-3"><h1>Case Jewelry Labeler</h1></div>
+      </div>
+    #+end_src
+     
+*** Styles
+
+    [[./app/assets/stylesheets/application.css.scss]]
+
+    #+NAME: application.css.scss
+    #+begin_src css :tangle app/assets/stylesheets/application.css.scss :padline no
+      /*
+       ,* This is a manifest file that'll be compiled into application.css, which will include all the files
+       ,* listed below.
+       ,*
+       ,* Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+       ,* or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+       ,*
+       ,* You're free to add application-wide styles to this file and they'll appear at the bottom of the
+       ,* compiled file so the styles you add here take precedence over styles defined in any styles
+       ,* defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+       ,* file per style scope.
+       ,*
+       ,*= require_tree .
+       ,*= require_self
+       ,*/
+
+      //= require pure
+      //= require grids-responsive
+    #+end_src
+
+**** Pure CSS
+
+     https://github.com/bkutil/pure-css-rails
+
+     [[Gemfile]]
+
+     : gem "pure-css-rails"
+
+     [[application.css.scss]]
+
+     : //= require pure
+     : //= require grids-responsive
+
+     [[application.html.erb]]
+
+     : <meta name="viewport" content="width=device-width, initial-scale=1">
+
+     
 
 ** Controllers
 
@@ -1719,9 +1799,9 @@ https://github.com/IronBrushTattoo/cj_rails.git
         end
 
         def size_box(gauge,size)
-          transparent(0.1) do
-            stroke_rectangle [0, $box_height+$padding], $box_width, $box_height*0.75
-          end
+          #transparent(0.1) do
+           # stroke_rectangle [0, $box_height+$padding], $box_width, $box_height*0.75
+          #end
 
           transparent(0.6) do
             formatted_text_box [
@@ -2086,7 +2166,6 @@ https://github.com/IronBrushTattoo/cj_rails.git
           : git remote rename heroku old
           : git remote rename alpha heroku
     
-         
 * Issues
 
 ** Assets
